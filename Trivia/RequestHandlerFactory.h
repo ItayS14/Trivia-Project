@@ -4,7 +4,7 @@
 #include "LoginManager.h"
 #include "LoginRequestHandler.h"
 
-// every handler the factory makes is allocated on the heap therefore need to be deleted later
+// every handler the factory makes is allocated on the heap therefore needs to be deleted later
 class RequestHandlerFactory
 {
 public:

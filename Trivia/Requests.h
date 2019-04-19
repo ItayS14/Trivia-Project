@@ -3,6 +3,11 @@
 #include <ctime>
 #include <vector>
 
+enum RequestCodes
+{
+	SIGNUP = 100,
+	LOGIN
+};
 
 class IRequestHandler
 {
