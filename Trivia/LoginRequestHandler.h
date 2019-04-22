@@ -15,9 +15,7 @@ public:
 	virtual RequestResult handleRequest(const Request& request);
 
 private:
-	RequestResult signup(const Request& request);
-	RequestResult login(const Request& request);
-
+	//removed login and signup function becuase while i wrote them there was a code duplication that code easily be avoided when merging the functions
 	LoginManager* _login_manager;
 	RequestHandlerFactory* _handler_factory; 
 };

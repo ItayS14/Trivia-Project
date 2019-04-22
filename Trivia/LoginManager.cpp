@@ -11,7 +11,7 @@ void LoginManager::signup(const std::string& username, const std::string& passwo
 
 void LoginManager::login(const std::string& username, const std::string& password)
 {
-	if (_database->doesUserExist(username) && _database->isCorrectPassword(username, password))
+	if (_database->isCorrectPassword(username, password)) // isCorrectPassword also checks if there is a user with the specified username
 		throw std::string("Invalid username or password");
 	if (std::find(_logged_users.begin(), _logged_users.end(), username) != _logged_users.end())
 		throw "Username: " + username + "is already logged to the server";
