@@ -2,6 +2,10 @@
 
 #include <ctime>
 #include <vector>
+#include <cstdint>
+
+struct RequestResult;
+struct Request;
 
 enum RequestCodes
 {
@@ -23,11 +27,11 @@ struct Request
 {
 	int _request_code;
 	std::time_t _recival_time;
-	std::string _buffer; // decided to work with strings instead of byte vector as buffer becuase it is easier for the comunicator
+	std::vector<std::uint8_t> _buffer; // the buffer holds only the json
 };
 
 struct RequestResult
 {
-	std::string _buffer; // will also include the msg code in it
+	std::vector<std::uint8_t> _buffer; // will also include the msg code in it
 	IRequestHandler* _new_handler;
 }; 

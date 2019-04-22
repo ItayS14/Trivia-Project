@@ -3,7 +3,9 @@
 #include "Requests.h"
 #include "RequestHandlerFactory.h"
 
-class LoginRequestHandler  : IRequestHandler
+class RequestHandlerFactory;
+
+class LoginRequestHandler : IRequestHandler
 {
 public:
 	LoginRequestHandler(LoginManager* login_manager, RequestHandlerFactory* handler_factory) : _login_manager(login_manager), _handler_factory(handler_factory) {}
@@ -17,5 +19,5 @@ private:
 	RequestResult login(const Request& request);
 
 	LoginManager* _login_manager;
-	RequestHandlerFactory* _handler_factory; // no need for this
+	RequestHandlerFactory* _handler_factory; 
 };
