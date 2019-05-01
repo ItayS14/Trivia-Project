@@ -4,6 +4,8 @@
 
 #define NAME "Trivia.sqlite"
 
+std::string SQLiteDatabase::default_error_msg = "Error accessing database!";
+
 //SQLite database constructor. Creates a new database if it doesn't exist already.
 SQLiteDatabase::SQLiteDatabase()
 {
@@ -16,28 +18,25 @@ SQLiteDatabase::SQLiteDatabase()
 }
 
 //A log-in function, checks if there's a user with the specified username.
-bool SQLiteDatabase::doesUserExist(const std::string & username)
+bool SQLiteDatabase::doesUserExist(const std::string& username, const std::string& password)
 {
-	std::string command = "SELECT * FROM users WHERE username = \"" + username + "\"";
+	std::string command = "SELECT * FROM users WHERE username = \"" + username + "\" AND password = \"" + password + "\"";
 	bool b = false;
-	executeSQL(command.c_str(), objectExistsCallBack, &b);
+	executeSQL(command,default_error_msg, objectExistsCallBack, &b);
 	return b;
 }
 
 //Signup function
-void SQLiteDatabase::addUser(const std::string & username, const std::string & password, const std::string & email)
+void SQLiteDatabase::addUser(const std::string& username, const std::string& password, const std::string& email)
 {
 	std::string command = "INSERT INTO users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
-	executeSQL(command);
+	executeSQL(command, "Username: '" + username + "' already used!");
 }
 
-bool SQLiteDatabase::isCorrectPassword(const std::string & username, const std::string & password)
+/*bool SQLiteDatabase::isCorrectPassword(const std::string& username, const std::string& password)
 {
-	std::string command = "SELECT * FROM users WHERE username = \"" + username + "\" AND password = \"" + password + "\"";
-	bool b = false;
-	executeSQL(command, objectExistsCallBack, &b);
-	return b;
-}
+
+}*/
 
 //Create the tables and check that the database was created successfully
 void SQLiteDatabase::initNewDatabase()
@@ -55,8 +54,8 @@ int SQLiteDatabase::objectExistsCallBack(void* data, int argc, char** argv, char
 	return 0;
 }
 
-void SQLiteDatabase::executeSQL(const std::string& sql_code, int(handler)(void*, int, char**, char**), void* argument_for_handler)
+void SQLiteDatabase::executeSQL(const std::string& sql_code, const std::string& error_msg, int(handler)(void*, int, char**, char**), void* argument_for_handler)
 {
 	if (sqlite3_exec(_db, sql_code.c_str(), handler, argument_for_handler, nullptr) != SQLITE_OK)
-		throw std::string("Error while connecting to database!");
+		throw std::string(error_msg);
 }
