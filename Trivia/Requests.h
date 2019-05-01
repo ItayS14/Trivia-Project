@@ -4,13 +4,16 @@
 #include <vector>
 #include <cstdint>
 
+
 struct RequestResult;
 struct Request;
 
-enum RequestCodes
+enum Codes
 {
 	SIGNUP = 100,
-	LOGIN
+	LOGIN,
+	SUCCESS = 200,
+	ERROR = 300
 };
 
 class IRequestHandler
