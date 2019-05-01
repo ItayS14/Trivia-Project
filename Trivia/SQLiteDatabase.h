@@ -10,9 +10,7 @@ public:
 
 	virtual bool doesUserExist(const std::string& username, const std::string& password);
 	virtual void addUser(const std::string& username, const std::string& password, const std::string& email);
-	//virtual bool isCorrectPassword(const std::string& username, const std::string& password);
 
-	
 private:
 	sqlite3* _db;
 	
