@@ -14,7 +14,6 @@ SQLiteDatabase::SQLiteDatabase()
 		initNewDatabase();
 	else if (res != SQLITE_OK)
 		throw std::exception("Failed to open database!");
-
 }
 
 //A log-in function, checks if there's a user with the specified username.
@@ -56,6 +55,7 @@ int SQLiteDatabase::objectExistsCallBack(void* data, int argc, char** argv, char
 
 void SQLiteDatabase::executeSQL(const std::string& sql_code, const std::string& error_msg, int(handler)(void*, int, char**, char**), void* argument_for_handler)
 {
+	std::lock_guard<std::mutex> lock_guard(mtx);
 	if (sqlite3_exec(_db, sql_code.c_str(), handler, argument_for_handler, nullptr) != SQLITE_OK)
 		throw std::string(error_msg);
 }
