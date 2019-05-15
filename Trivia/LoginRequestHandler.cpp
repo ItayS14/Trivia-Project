@@ -1,7 +1,9 @@
 #include "LoginRequestHandler.h"
 #include "json.hpp"
+#include "Helper.h"
 
 using json = nlohmann::json;
+
 
 bool LoginRequestHandler::isRequestRelevant(const Request& request)
 {
@@ -25,12 +27,12 @@ RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 			_login_manager->signup(j["username"], j["password"], j["email"]);
 			break;
 		}
-		r_msg = std::to_string(SUCCESS) + "0";
+		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
 		r._new_handler = _handler_factory->createLoginRequestHandler(); // later will be swapped with menu handler
 	}
 	catch (const std::string& err)
 	{
-		r_msg = std::to_string(ERROR) + std::to_string(err.length()) + err;
+		r_msg = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(err.length(), SIZE_DIGIT_COUNT) + err;
 		r._new_handler = nullptr;
 	}
 	r._buffer = std::vector<std::uint8_t>(r_msg.begin(), r_msg.end());
