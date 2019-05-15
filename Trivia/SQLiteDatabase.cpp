@@ -32,11 +32,6 @@ void SQLiteDatabase::addUser(const std::string& username, const std::string& pas
 	executeSQL(command, "Username: '" + username + "' already used!");
 }
 
-/*bool SQLiteDatabase::isCorrectPassword(const std::string& username, const std::string& password)
-{
-
-}*/
-
 //Create the tables and check that the database was created successfully
 void SQLiteDatabase::initNewDatabase()
 {
