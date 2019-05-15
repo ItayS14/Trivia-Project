@@ -5,10 +5,11 @@
 
 class RequestHandlerFactory;
 
-class LoginRequestHandler : IRequestHandler
+class LoginRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler(LoginManager* login_manager, RequestHandlerFactory* handler_factory) : _login_manager(login_manager), _handler_factory(handler_factory) {}
+	LoginRequestHandler(LoginManager* login_manager, RequestHandlerFactory* handler_factory) 
+		: _login_manager(login_manager), _handler_factory(handler_factory) {}
 	virtual ~LoginRequestHandler() = default;
 
 	virtual bool isRequestRelevant(const Request& request);

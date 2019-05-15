@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+
+#define SIZE_DIGIT_COUNT 4
+
 class Helper
 {
 public:

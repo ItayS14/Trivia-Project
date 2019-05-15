@@ -13,7 +13,7 @@ enum Codes
 	SIGNUP = 100,
 	LOGIN,
 	SUCCESS = 200,
-	ERROR = 300
+	ERROR_MSG = 300
 };
 
 class IRequestHandler
