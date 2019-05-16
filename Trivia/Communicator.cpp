@@ -31,7 +31,7 @@ std::string Communicator::getStringPartFromSocket(int bytesNum)
 {
 	char* s  = getPartFromSocket(bytesNum);
 	std::string res(s);
-	delete s;
+	//delete[] s;
 	return res;
 }
 
@@ -41,29 +41,47 @@ void Communicator::handleRequests()
 	while (true)
 	{
 		Request request;
-		
-		int code = getIntPartFromSocket(3); //This will wait until a new message is recieved anyway
-		request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
-		int size = getIntPartFromSocket(4);
-		std::string msg = getStringPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+		int code, size;
+		std::string msg;
+		try
+		{
+			code = getIntPartFromSocket(3); //This will wait until a new message is recieved anyway
+			request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
+			size = getIntPartFromSocket(4);
+			msg = getStringPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+		}
+		catch (...) //Client has closed connection
+		{
+			std::cout << "Error while recieving from user!" << std::endl;
+			closesocket(clientSoc);
+			return;
+		}
 		
 		request._buffer = std::vector<std::uint8_t>(msg.begin(), msg.end());
 		request._request_code = code;
 
-		if (_state->isRequestRelevant(request))
+		try
 		{
-			RequestResult request_result = _state->handleRequest(request);
-			if (request_result._new_handler != nullptr)
+			if (_state->isRequestRelevant(request))
 			{
-				delete _state;
-				_state = request_result._new_handler;
+				RequestResult request_result = _state->handleRequest(request);
+				if (request_result._new_handler != nullptr)
+				{
+					delete _state;
+					_state = request_result._new_handler;
+				}
+				sendData(request_result);
 			}
-			sendData(request_result);
+			else
+				sendErrorMsg();
 		}
-		else
-			sendErrorMsg();
+		catch (...) //Client has closed connection
+		{
+			std::cout << "Error while sending to user!" << std::endl;
+			closesocket(clientSoc);
+			return;
+		}		
 	}
-
 }
 
 char* Communicator::getPartFromSocket(int bytesNum)
