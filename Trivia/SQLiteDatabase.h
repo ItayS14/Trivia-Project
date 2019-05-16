@@ -1,6 +1,7 @@
 #pragma once
 #include "IDatabase.h"
 #include "sqlite3.h"
+#include <mutex>
 
 class SQLiteDatabase : public IDatabase
 {
@@ -13,7 +14,7 @@ public:
 
 private:
 	sqlite3* _db;
-	
+	std::mutex mtx;
 	static std::string default_error_msg;
 
 	void initNewDatabase();
