@@ -3,12 +3,12 @@
 #include <vector>
 #include "IDatabase.h"
 #include "Communicator.h"
-
+#include "RequestHandlerFactory.h"
 
 class Server
 {
 public:
-	Server(IDatabase* db) { _factory = new RequestHandlerFactory(db); }
+	Server(IDatabase* db);
 	~Server();
 
 	void bindAndListen(int port);
