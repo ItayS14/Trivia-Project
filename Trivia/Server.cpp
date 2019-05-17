@@ -3,6 +3,14 @@
 #include <iostream>
 #include <thread>
 
+Server::Server(IDatabase * db)
+{
+	_factory = new RequestHandlerFactory(db);
+	_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (_server_socket == INVALID_SOCKET)
+		throw std::exception("Error initing server!");
+}
+
 Server::~Server()
 {
 	for (Communicator* client : _clients)
