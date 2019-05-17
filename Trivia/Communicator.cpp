@@ -14,22 +14,10 @@ Communicator::~Communicator()
 
 int Communicator::getIntPartFromSocket(int bytes_num)
 {
-	char* s = getPartFromSocket(bytes_num);
-	int res = atoi(s);
-	delete s;
+	std::string s = getPartFromSocket(bytes_num);
+	int res = std::stoi(s);
 	return res;
 }
-
-// recieve data from socket according byteSize
-// returns the data as string
-std::string Communicator::getStringPartFromSocket(int bytes_num)
-{
-	char* s  = getPartFromSocket(bytes_num);
-	std::string res(s);
-	//delete[] s;
-	return res;
-}
-
 
 void Communicator::handleRequests()
 {
@@ -43,7 +31,7 @@ void Communicator::handleRequests()
 			code = getIntPartFromSocket(3); //This will wait until a new message is recieved anyway
 			request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
 			size = getIntPartFromSocket(4);
-			msg = getStringPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+			msg = getPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
 		}
 		catch (...) //Client has closed connection
 		{
@@ -80,7 +68,7 @@ void Communicator::handleRequests()
 	}
 }
 
-char* Communicator::getPartFromSocket(int bytes_num)
+std::string Communicator::getPartFromSocket(int bytes_num)
 {
 	if (bytes_num == 0)
 		return (char*)"";
@@ -93,7 +81,9 @@ char* Communicator::getPartFromSocket(int bytes_num)
 		throw std::exception(s.c_str());
 	}
 	data[bytes_num] = 0;
-	return data;
+	std::string s = std::string(data);
+	delete[] data;
+	return s;
 }
 
 void Communicator::sendData(const RequestResult& request_result)
