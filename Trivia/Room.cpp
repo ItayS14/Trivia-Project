@@ -15,7 +15,3 @@ void Room::removeUser(const std::string& name)
 	_users.erase(iterator);
 }
 
-std::vector<std::string> Room::getAllUsers()
-{
-	return _users;
-}

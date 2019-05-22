@@ -8,9 +8,11 @@ public:
 	Room(const unsigned int id, const unsigned int max_players, const unsigned int time_per_question, const std::string& name, const bool is_active)
 		: _id(id), _max_players(max_players), _time_per_question(time_per_question), _name(name), _is_active(is_active) {}
 
+	bool getState() { return _is_active; }
+	std::vector<std::string> getAllUsers() { return _users; }
+
 	void addUser(const std::string& name);
 	void removeUser(const std::string& name);
-	std::vector<std::string> getAllUsers();
 
 private:
 	unsigned int _id; 
