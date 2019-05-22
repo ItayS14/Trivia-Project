@@ -12,6 +12,9 @@ enum Codes
 {
 	SIGNUP = 100,
 	LOGIN,
+	LOGOUT,
+	CREATE_ROOM,
+	JOIN_ROOM,
 	SUCCESS = 200,
 	ERROR_MSG = 300
 };

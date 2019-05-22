@@ -13,9 +13,9 @@ public:
 	
 	std::vector<Room> getRooms();
 
-	void createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const bool is_active);
+	void createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count);
 	void deleteRoom(const unsigned int id);
-	bool getRoomState(const unsigned int id);
+	Room& getRoom(const unsigned int id);
 
 private:
 	int _isn; // Number that states the id that will be for a new created room (Inited as random number)
