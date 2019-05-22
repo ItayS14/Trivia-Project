@@ -12,7 +12,7 @@ bool LoginRequestHandler::isRequestRelevant(const Request& request)
 
 RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 	
-	json j = json::from_msgpack(request._buffer);
+	json j = json::from_bson(request._buffer);
 	RequestResult r;
 	std::string r_msg;
 	//check invalid request parameters
