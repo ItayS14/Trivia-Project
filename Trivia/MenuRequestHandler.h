@@ -19,5 +19,5 @@ private:
 	//high score - manager
 	LoginManager* _login_manager; // for signing out
 	RoomManager* _room_manager;
-	RequestHandlerFactory* _factory;
+	RequestHandlerFactory* _handler_factory;
 };

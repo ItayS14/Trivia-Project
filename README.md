@@ -20,16 +20,35 @@ Code List:
 100 - signup 
 json:
 {
-	"username" : ""
-	"password" : ""
-	"email" : ""
+	"username" : *string*
+	"password" : *string*
+	"email" : *string*
 }	
-
 
 101 - login
 json:
 {
-	"username" : ""
-	"password" : ""
+	"username" : *string*
+	"password" : *string*
 }
+
+102 - logout
+*no data needed*
+
+103 - create room
+json:
+{
+	"room_name" : *string*
+	"max_players" : *unsigned int*
+	"question_count" : *unsigned int*
+	"time_per_question" : *unsigned int*
+	"type" : *unsigned int*
+}
+
+104 - join room
+json:
+{
+	"room_id" : *unsigned int*
+}
+
 
