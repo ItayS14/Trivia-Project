@@ -37,9 +37,9 @@ void SQLiteDatabase::addUser(const std::string& username, const std::string& pas
 void SQLiteDatabase::initNewDatabase()
 {
 	sqlite3_open(NAME, &_db);
-	executeSQL("CREATE TABLE \"Users\" ( 'username' TEXT NOT NULL, 'password' TEXT NOT NULL, 'email' TEXT NOT NULL, PRIMARY KEY('username') )");
-	executeSQL("CREATE TABLE \"Questions\" ( 'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 'question' TEXT NOT NULL, 'correct_ans' TEXT NOT NULL, 'ans2' TEXT NOT NULL, 'ans3' TEXT NOT NULL, 'ans4' TEXT NOT NULL )");
-	executeSQL("CREATE TABLE \"Games\" ( 'game_id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 'status' INTEGER NOT NULL, 'start_time' TEXT NOT NULL, 'end_time' TEXT NOT NULL )");
+	executeSQL("CREATE TABLE 'Users' ( 'username' TEXT NOT NULL, 'password' TEXT NOT NULL, 'email' TEXT NOT NULL, PRIMARY KEY('username') )");
+	executeSQL("CREATE TABLE 'Questions' ('id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'question' TEXT NOT NULL,'type' INTEGER NOT NULL,'correct_ans' TEXT NOT NULL,'ans2'	TEXT NOT NULL,'ans3' TEXT NOT NULL,'ans4' TEXT NOT NULL); ");
+	executeSQL("CREATE TABLE 'Games' ( 'game_id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 'status' INTEGER NOT NULL, 'start_time' TEXT NOT NULL, 'end_time' TEXT NOT NULL )");
 }
 
 //If this callback is called, it means sqlite have found a user with the specified username
