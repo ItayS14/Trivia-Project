@@ -42,7 +42,7 @@ json:
 	"max_players" : *unsigned int*
 	"question_count" : *unsigned int*
 	"time_per_question" : *unsigned int*
-	"type" : *unsigned int*
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
 104 - join room
@@ -51,4 +51,18 @@ json:
 	"room_id" : *unsigned int*
 }
 
+105 - get rooms
+response json:
+{
 
+}
+
+106 - get players in room
+json:
+{
+	"room_id" : *unsigned int*
+}
+response json:
+{
+	"players" : *list of strings*
+}

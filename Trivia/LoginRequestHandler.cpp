@@ -12,10 +12,9 @@ bool LoginRequestHandler::isRequestRelevant(const Request& request)
 
 RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 	
-	json j = json::from_bson(request._buffer);
+	json j = json::parse(request._buffer);
 	RequestResult r;
 	std::string r_msg;
-	//check invalid request parameters
 	try
 	{
 		switch (request._request_code)
@@ -28,7 +27,7 @@ RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 			break;
 		}
 		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
-		r._new_handler = _handler_factory->createLoginRequestHandler(); // later will be swapped with menu handler
+		r._new_handler = _handler_factory->createMenuRequestHandler(j["username"]); // later will be swapped with menu handler
 	}
 	catch (const std::string& err)
 	{
