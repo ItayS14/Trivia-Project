@@ -6,87 +6,91 @@
 #include <thread>
 #include "Helper.h"
 
-Communicator::Communicator(SOCKET clientSoc, IRequestHandler* state)
-{
-	this->clientSoc = clientSoc;
-	this->_state = state; //This will always be login state since it's the first request
-}
-
 Communicator::~Communicator()
 {
-	closesocket(clientSoc);
+	if (!_is_closed)
+		closesocket(_client_soc);
 }
 
-int Communicator::getIntPartFromSocket(int bytesNum)
+int Communicator::getIntPartFromSocket(int bytes_num)
 {
-	char* s = getPartFromSocket(bytesNum);
-	int res = atoi(s);
-	delete s;
+	std::string s = getPartFromSocket(bytes_num);
+	int res = std::stoi(s);
 	return res;
 }
-
-// recieve data from socket according byteSize
-// returns the data as string
-std::string Communicator::getStringPartFromSocket(int bytesNum)
-{
-	char* s  = getPartFromSocket(bytesNum);
-	std::string res(s);
-	delete s;
-	return res;
-}
-
 
 void Communicator::handleRequests()
 {
 	while (true)
 	{
 		Request request;
-		
-		int code = getIntPartFromSocket(3); //This will wait until a new message is recieved anyway
-		request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
-		int size = getIntPartFromSocket(4);
-		std::string msg = getStringPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+		int code, size;
+		std::string msg;
+		try
+		{
+			code = getIntPartFromSocket(3); //This will wait until a new message is recieved anyway
+			request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
+			size = getIntPartFromSocket(4);
+			msg = getPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+		}
+		catch (...) //Client has closed connection
+		{
+			std::cerr << "Socket error" << std::endl;
+			closesocket(_client_soc);
+			_is_closed = true;
+			return;
+		}
 		
 		request._buffer = std::vector<std::uint8_t>(msg.begin(), msg.end());
 		request._request_code = code;
 
-		if (_state->isRequestRelevant(request))
+		try
 		{
-			RequestResult request_result = _state->handleRequest(request);
-			if (request_result._new_handler != nullptr && request_result._new_handler != _state) // doesn't delete the current state in case of error or in case of staying in the same state.
+			if (_state->isRequestRelevant(request))
 			{
-				delete _state;
-				_state = request_result._new_handler;
+				RequestResult request_result = _state->handleRequest(request);
+				if (request_result._new_handler != nullptr)
+				{
+					delete _state;
+					_state = request_result._new_handler;
+				}
+				sendData(request_result);
 			}
-			sendData(request_result);
+			else
+				sendErrorMsg();
 		}
-		else
-			sendErrorMsg();
+		catch (...) //Client has closed connection
+		{
+			std::cerr << "Error while sending to user!" << std::endl;
+			closesocket(_client_soc);
+			return;
+		}		
 	}
-
 }
 
-char* Communicator::getPartFromSocket(int bytesNum)
+std::string Communicator::getPartFromSocket(int bytes_num)
 {
-	if (bytesNum == 0)
+	if (bytes_num == 0)
 		return (char*)"";
-	char* data = new char[bytesNum + 1];
-	int res = recv(clientSoc, data, bytesNum,0);
+	char* data = new char[bytes_num + 1];
+	int res = recv(_client_soc, data, bytes_num,0);
 	if (res == INVALID_SOCKET)
 	{
 		std::string s = "Error while recieving from socket: ";
-		s += std::to_string(clientSoc);
+		s += std::to_string(_client_soc);
 		throw std::exception(s.c_str());
 	}
-	data[bytesNum] = 0;
-	return data;
+	data[bytes_num] = 0;
+	std::string s = std::string(data);
+	delete[] data;
+	return s;
 }
 
 void Communicator::sendData(const RequestResult& request_result)
 {
 	std::string msg = std::string(request_result._buffer.begin(), request_result._buffer.end());
 	const char* data = msg.c_str();
-	if (send(clientSoc, data, msg.size(), 0) == INVALID_SOCKET)
+	if (send(_client_soc, data, msg.size(), 0) == INVALID_SOCKET)
 		throw std::exception("Error while sending message to client");
 }
 
@@ -96,6 +100,6 @@ void Communicator::sendErrorMsg()
 	std::string msg = "Error: Request does not fit current state!";
 	std::string all = code + Helper::getPaddedNumber(msg.size(),4) + msg;
 	const char* data = all.c_str();
-	if (send(clientSoc, data, msg.size(), 0) == INVALID_SOCKET)
+	if (send(_client_soc, data, msg.size(), 0) == INVALID_SOCKET)
 		throw std::exception("Error while sending message to client");
 }

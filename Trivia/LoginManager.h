@@ -6,7 +6,6 @@
 class LoginManager
 {
 public:
-
 	LoginManager(IDatabase* database) : _database(database) {}
 	~LoginManager() = default;
 	
