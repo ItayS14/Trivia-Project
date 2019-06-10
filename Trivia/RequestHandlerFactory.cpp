@@ -1,9 +1,14 @@
 #include "RequestHandlerFactory.h"
 
+#define MIN_ISN_VAL 100
+#define MAX_ISN_VAL 10000	
+
 RequestHandlerFactory::RequestHandlerFactory(IDatabase* database)
 {
+	std::srand(std::time(0)); // constructor will be only once in the program so this line is here.
+
 	_login_manager = new LoginManager(database);
-	_room_manager = new RoomManager();
+	_room_manager = new RoomManager(std::rand() % MAX_ISN_VAL + MIN_ISN_VAL);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()

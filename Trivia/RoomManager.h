@@ -9,7 +9,7 @@
 class RoomManager
 {
 public:
-	RoomManager() : _isn(0) {} // todo: get random isn
+	RoomManager(const unsigned int isn) : _isn(isn) {} 
 	
 	std::vector<Room> getRooms();
 
@@ -18,6 +18,6 @@ public:
 	Room& getRoom(const unsigned int id);
 
 private:
-	int _isn; // Number that states the id that will be for a new created room (Inited as random number)
+	unsigned int _isn; // Number that states the id that will be for a new created room (Inited as random number)
 	std::map<unsigned int, Room> _rooms;
 };
