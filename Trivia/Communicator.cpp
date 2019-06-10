@@ -49,7 +49,7 @@ void Communicator::handleRequests()
 			if (_state->isRequestRelevant(request))
 			{
 				RequestResult request_result = _state->handleRequest(request);
-				if (request_result._new_handler != nullptr)
+				if (request_result._new_handler != nullptr && request_result._new_handler != _state) // doesn't delete the current state in case of error or in case of staying in the same state.
 				{
 					delete _state;
 					_state = request_result._new_handler;
