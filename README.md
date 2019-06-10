@@ -53,8 +53,15 @@ json:
 
 105 - get rooms
 response json:
+*list of dict*
+inner dict:
 {
-
+	"room_id" : *unsigned int*
+	"room_name" : *string*
+	"max_players" : *unsigned int*
+	"logger_players" : *unsigned int*
+	"state" : *unsigned int*
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
 106 - get players in room
@@ -63,6 +70,4 @@ json:
 	"room_id" : *unsigned int*
 }
 response json:
-{
-	"players" : *list of strings*
-}
+*list of strings*
