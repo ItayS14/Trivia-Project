@@ -21,13 +21,14 @@ RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 		{
 		case LOGIN:
 			_login_manager->login(j["username"], j["password"]);
+			r._new_handler = _handler_factory->createMenuRequestHandler(j["username"]);
 			break;
 		case SIGNUP:
 			_login_manager->signup(j["username"], j["password"], j["email"]);
+			r._new_handler = this;
 			break;
 		}
 		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
-		r._new_handler = _handler_factory->createMenuRequestHandler(j["username"]); // later will be swapped with menu handler
 	}
 	catch (const std::string& err)
 	{

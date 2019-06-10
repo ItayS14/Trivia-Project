@@ -41,7 +41,7 @@ json:
 	"room_name" : *string*
 	"max_players" : *unsigned int*
 	"question_count" : *unsigned int*
-	"time_per_question" : *unsigned int*
+	"time_per_question" : *unsigned int* (Seconds)
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
@@ -59,7 +59,7 @@ inner dict:
 	"room_id" : *unsigned int*
 	"room_name" : *string*
 	"max_players" : *unsigned int*
-	"logger_players" : *unsigned int*
+	"logged_players" : *unsigned int*
 	"state" : *unsigned int*
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
