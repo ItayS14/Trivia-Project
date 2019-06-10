@@ -14,7 +14,8 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 {
 	json j = json::parse(request._buffer);
 	RequestResult r;
-	std::string r_msg;
+	std::string r_msg = std::to_string(SUCCESS);
+	std::string data = "";
 	try
 	{
 		switch (request._request_code)
@@ -22,19 +23,16 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		case LOGOUT:
 		{
 			_login_manager->logout(_logged_user);
-			r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
 			break;
 		}
 		case CREATE_ROOM:
 		{
 			_room_manager->createRoom(j["room_name"], j["max_players"], j["time_per_question"], j["question_count"], j["type"]);
-			r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
 			break;
 		}
 		case JOIN_ROOM:
 		{
 			_room_manager->getRoom(j["room_id"]).addUser(_logged_user);
-			r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
 			break;
 		}
 		case GET_ROOMS:
@@ -46,23 +44,22 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 				inner_j["room_id"] = room._id;
 				inner_j["room_name"] = room._name;
 				inner_j["max_players"] = room._max_players;
-				inner_j["logger_players"] = room.getNumberOfLoggedUsers();
+				inner_j["logged_players"] = room.getNumberOfLoggedUsers();
 				inner_j["state"] = room.getState();
 				inner_j["type"] = room._questions_type;
 				result_j.push_back(inner_j);
 			}
-			std::string j_as_string = result_j.dump();
-			r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(j_as_string.length(), SIZE_DIGIT_COUNT) + j_as_string;
+			data = result_j.dump();
 			break;
 		}
 		case GET_PLAYERS_IN_ROOM:
 		{
 			json result_j(_room_manager->getRoom(j["room_id"]).getAllUsers());
-			std::string j_as_string = result_j.dump();
-			r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(j_as_string.length(), SIZE_DIGIT_COUNT) + j_as_string;
+			data = result_j.dump();
 			break;
 		}
 		}
+		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT) + data;
 		r._new_handler = this; 
 	}
 	catch (const std::string& err)
