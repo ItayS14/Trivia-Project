@@ -1,9 +1,9 @@
 #include "RoomManager.h"
 
-void RoomManager::createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type)
+int RoomManager::createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type)
 {
 	_rooms[_isn] = Room(_isn, max_players, time_per_question, name, question_count, questions_type);
-	_isn++;
+	return _isn++;
 }
 
 void RoomManager::deleteRoom(const unsigned int id)

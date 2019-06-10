@@ -13,7 +13,7 @@ public:
 	
 	std::vector<Room> getRooms();
 
-	void createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type);
+	int createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type);
 	void deleteRoom(const unsigned int id);
 	Room& getRoom(const unsigned int id);
 

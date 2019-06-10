@@ -14,6 +14,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 {
 	json j = json::parse(request._buffer);
 	RequestResult r;
+	json result_j;
 	std::string r_msg = std::to_string(SUCCESS);
 	std::string data = "";
 	try
@@ -21,23 +22,16 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		switch (request._request_code)
 		{
 		case LOGOUT:
-		{
 			_login_manager->logout(_logged_user);
 			break;
-		}
 		case CREATE_ROOM:
-		{
-			_room_manager->createRoom(j["room_name"], j["max_players"], j["time_per_question"], j["question_count"], j["type"]);
+			result_j["room_id"] = _room_manager->createRoom(j["room_name"], j["max_players"], j["time_per_question"], j["question_count"], j["type"]);
+			data = result_j.dump();
 			break;
-		}
 		case JOIN_ROOM:
-		{
 			_room_manager->getRoom(j["room_id"]).addUser(_logged_user);
 			break;
-		}
 		case GET_ROOMS:
-		{
-			json result_j;
 			for (Room& room : _room_manager->getRooms())
 			{
 				json inner_j;
@@ -51,16 +45,16 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 			}
 			data = result_j.dump();
 			break;
-		}
 		case GET_PLAYERS_IN_ROOM:
-		{
-			json result_j(_room_manager->getRoom(j["room_id"]).getAllUsers());
+			result_j = _room_manager->getRoom(j["room_id"]).getAllUsers();
 			data = result_j.dump();
 			break;
 		}
-		}
 		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT) + data;
-		r._new_handler = this; 
+		if (request._request_code == LOGOUT)
+			r._new_handler = _handler_factory->createLoginRequestHandler();
+		else
+			r._new_handler = this; 
 	}
 	catch (const std::string& err)
 	{

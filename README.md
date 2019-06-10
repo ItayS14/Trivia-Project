@@ -44,6 +44,10 @@ json:
 	"time_per_question" : *unsigned int* (Seconds)
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
+response json:
+{
+	"room_id" : *unsigned int*
+}
 
 104 - join room
 json:
