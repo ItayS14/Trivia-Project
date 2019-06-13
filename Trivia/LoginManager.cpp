@@ -4,7 +4,6 @@
 void LoginManager::signup(const std::string& username, const std::string& password, const std::string& email)
 {
 	_database->addUser(username, password, email);
-	login(username, password); // signing up will automatically log user in
 }
 
 void LoginManager::login(const std::string& username, const std::string& password)

@@ -20,16 +20,58 @@ Code List:
 100 - signup 
 json:
 {
-	"username" : ""
-	"password" : ""
-	"email" : ""
+	"username" : *string*
+	"password" : *string*
+	"email" : *string*
 }	
-
 
 101 - login
 json:
 {
-	"username" : ""
-	"password" : ""
+	"username" : *string*
+	"password" : *string*
 }
 
+102 - logout
+*no data needed*
+
+103 - create room
+json:
+{
+	"room_name" : *string*
+	"max_players" : *unsigned int*
+	"question_count" : *unsigned int*
+	"time_per_question" : *unsigned int* (Seconds)
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
+}
+response json:
+{
+	"room_id" : *unsigned int*
+}
+
+104 - join room
+json:
+{
+	"room_id" : *unsigned int*
+}
+
+105 - get rooms
+response json:
+*list of dict*
+inner dict:
+{
+	"room_id" : *unsigned int*
+	"room_name" : *string*
+	"max_players" : *unsigned int*
+	"logged_players" : *unsigned int*
+	"state" : *unsigned int*
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
+}
+
+106 - get players in room
+json:
+{
+	"room_id" : *unsigned int*
+}
+response json:
+*list of strings*
