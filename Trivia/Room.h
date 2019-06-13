@@ -33,7 +33,7 @@ public:
 	unsigned int getState() { return _state; }
 	size_t getNumberOfLoggedUsers() { return _users.size(); }
 
-	unsigned int _id; 
+	unsigned int _id; // those members are public becuase it's useless to set them as private and set getters and setters for each one of them.
 	unsigned int _max_players;
 	unsigned int _time_per_question;
 	unsigned int _question_count;

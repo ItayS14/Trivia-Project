@@ -14,8 +14,8 @@ public:
 	MenuRequestHandler(const std::string& logged_user, LoginManager* login_manager, RoomManager* room_manager)
 		: _logged_user(logged_user), _login_manager(login_manager), _room_manager(room_manager) {}
 
-	bool isRequestRelevant(const Request& request);
-	RequestResult handleRequest(const Request& request);
+	bool isRequestRelevant(const Request& request) override;
+	RequestResult handleRequest(const Request& request) override;
 
 private:	
 	std::string _logged_user;

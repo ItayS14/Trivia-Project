@@ -12,24 +12,24 @@ bool MenuRequestHandler::isRequestRelevant(const Request& request)
 
 RequestResult MenuRequestHandler::handleRequest(const Request& request)
 {
-	json j = json::parse(request._buffer);
 	RequestResult r;
-	json result_j;
 	std::string r_msg = std::to_string(SUCCESS);
-	std::string data = "";
 	try
 	{
+		json result_j;
+		json j = json::parse(request._buffer);
+		std::string data;
 		switch (request._request_code)
 		{
 		case LOGOUT:
 			_login_manager->logout(_logged_user);
 			break;
 		case CREATE_ROOM:
-			result_j["room_id"] = _room_manager->createRoom(j["room_name"], j["max_players"], j["time_per_question"], j["question_count"], j["type"]);
+			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"));
 			data = result_j.dump();
 			break;
 		case JOIN_ROOM:
-			_room_manager->getRoom(j["room_id"]).addUser(_logged_user);
+			_room_manager->getRoom(j.at("room_id")).addUser(_logged_user);
 			break;
 		case GET_ROOMS:
 			for (Room& room : _room_manager->getRooms())
@@ -46,7 +46,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 			data = result_j.dump();
 			break;
 		case GET_PLAYERS_IN_ROOM:
-			result_j = _room_manager->getRoom(j["room_id"]).getAllUsers();
+			result_j = _room_manager->getRoom(j.at("room_id")).getAllUsers();
 			data = result_j.dump();
 			break;
 		}
@@ -61,6 +61,12 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		r_msg = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(err.length(), SIZE_DIGIT_COUNT) + err;
 		r._new_handler = nullptr;
 	}
+	catch (const std::exception& err)
+	{
+		std::string err_msg = err.what();
+		r_msg = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(err_msg.length(), SIZE_DIGIT_COUNT) + err_msg;
+	}
+
 	r._buffer = std::vector<std::uint8_t>(r_msg.begin(), r_msg.end());
 	return r;
 }

@@ -12,19 +12,19 @@ bool LoginRequestHandler::isRequestRelevant(const Request& request)
 
 RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 	
-	json j = json::parse(request._buffer);
 	RequestResult r;
 	std::string r_msg;
 	try
 	{
+		json j = json::parse(request._buffer);
 		switch (request._request_code)
 		{
 		case LOGIN:
-			_login_manager->login(j["username"], j["password"]);
+			_login_manager->login(j.at("username"), j.at("password"));
 			r._new_handler = _handler_factory->createMenuRequestHandler(j["username"]);
 			break;
 		case SIGNUP:
-			_login_manager->signup(j["username"], j["password"], j["email"]);
+			_login_manager->signup(j.at("username"), j.at("password"), j.at("email"));
 			r._new_handler = this;
 			break;
 		}
@@ -34,6 +34,11 @@ RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 	{
 		r_msg = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(err.length(), SIZE_DIGIT_COUNT) + err;
 		r._new_handler = nullptr;
+	}
+	catch (const std::exception& err)
+	{
+		std::string err_msg = err.what();
+		r_msg = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(err_msg.length(), SIZE_DIGIT_COUNT) + err_msg;
 	}
 	r._buffer = std::vector<std::uint8_t>(r_msg.begin(), r_msg.end());
 	return r;
