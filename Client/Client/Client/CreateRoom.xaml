@@ -9,7 +9,7 @@
         Title="CreateRoom" Height="720" Width="1280">
     <Grid Background="DimGray">
         <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" RenderTransformOrigin="9.336,7.81" Margin="1062,568,0,0" Height="38"/>
-        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="88" Margin="39,189,968,412" RenderTransformOrigin="0.568,1.753" FontSize="24" SelectionChanged="ComboBox_SelectionChanged">
+        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="88" Margin="39,189,968,412" RenderTransformOrigin="0.568,1.753" FontSize="24" SelectionChanged="ComboBox_SelectionChanged" Name="RoomType">
             <ComboBoxItem>All</ComboBoxItem>
             <ComboBoxItem>General knowledge</ComboBoxItem>
             <ComboBoxItem>Sport</ComboBoxItem>
@@ -17,6 +17,6 @@
             <ComboBoxItem>Geography</ComboBoxItem>
             <ComboBoxItem>Math</ComboBoxItem>
         </ComboBox>
-        <TextBox materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="39,81,808,546" FontSize="24" />
+        <TextBox materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="39,81,808,546" FontSize="24" Name="NameTextBox" />
     </Grid>
 </Window>

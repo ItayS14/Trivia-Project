@@ -20,21 +20,48 @@ namespace Client
     /// </summary>
     public partial class RoomsMenu : Window
     {
+        //Don't understand what you were trying to do, please remove the function if not neccesairy (added a 2nd c-tor anyway)
         public RoomsMenu()
         {
             InitializeComponent();
             //List<Room> rooms = new List<Room>() { new Room(3, "itay", (int)Types.SPORT, 3, 2) };
-            SocketHandler
-            Rooms.ItemsSource = rooms;
+            // SocketHandler
+            // Rooms.ItemsSource = rooms;
+        }
+        public RoomsMenu(SocketHandler s)
+        {
+            try
+            {
+                //Get the list in JSON
+                List<Dictionary<string, object>> roomsJson = s.GetRooms();
+
+                //Convert the JSON to a list of rooms
+                List<Room> rooms = new List<Room>();
+                foreach (Dictionary<string, object> dict in roomsJson)
+                    rooms.Add(new Room((int)dict["room_id"],(string) dict["room_name"], (int)dict["type"], (int)dict["max_players"], (int)dict["logged_players"]));
+
+                //Display all the rooms in the table
+                Rooms.ItemsSource = rooms;
+            }
+            catch
+            {
+                //Open an error window with a message
+            }
+
+            //Connect the join room function once the user chooses a room
+            
         }
     
 
         private void NewRoomButton(object sender, RoutedEventArgs e)
         {
-            CreateRoom create = new CreateRoom();
-            App.Current.MainWindow = create;
-            this.Close();
-            create.Show();
+            //Remember to change
+            //Remember to change
+            //Remember to change
+            //The line should be
+            //Main.Content = new CreateRoomPage();
+
+            CreateRoom create = new CreateRoom(); 
         }
 
 

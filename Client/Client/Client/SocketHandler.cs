@@ -36,13 +36,15 @@ namespace Client
             socket = client.GetStream();
         }
 
-        public string SignIn(string username, string password)
+        public void SignIn(string username, string password) 
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("username", username);
             dict.Add("password", password);
             SendToServer("101", dict);
-            return ReceiveFromServer();
+            //Irrelevant to return a string, 
+            //If the function succeeds it has no meaning and if it fails it is caught in the exception
+            ReceiveFromServer();
         }
 
         public string SignUp(string username, string password, string email)

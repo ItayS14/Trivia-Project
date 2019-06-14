@@ -23,7 +23,19 @@ namespace Client
         {
             InitializeComponent();
         }
-
+        public CreateRoom(SocketHandler s)
+        {
+            try
+            {
+                //CHANGE THIS
+                //CHANGE THIS
+                //CHANGE THIS
+                //CHANGE THIS
+                s.CreateRoom(NameTextBox.Text, 10, 10, 10, RoomType.Text); //not sure if RoomType.Text is the right property, need to check
+            }
+            
+            //Now open the window of the new room
+        }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }

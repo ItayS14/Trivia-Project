@@ -23,21 +23,34 @@ namespace Client
     /// </summary>
     public partial class SignIn : Window
     {
+        private SocketHandler s;
         public SignIn()
         {
             InitializeComponent();
-            //Application.Current.Properties["socket"] = new SocketHandler("127.0.0.1",4422);
-            //SocketHandler socket = new SocketHandler("127.0.0.1", 4422);
-           
+            try
+            {
+                s = new SocketHandler("127.0.0.1", 4422);
+            }
+            catch
+            {
+                //Open error window telling the user he has no internet probably
+            }
         }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                s.SignIn(UsernameTextBox.Text, PasswordBox.Password);
+            }
+            catch
+            {
+                //Open error window or tell the user to try to relog and return
+            }
+            Main.Content = new RoomsMenu(s);
         }
     }
 }
