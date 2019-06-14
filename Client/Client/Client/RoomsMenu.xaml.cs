@@ -59,7 +59,7 @@ namespace Client
             //Remember to change
             //Remember to change
             //The line should be
-            //Main.Content = new CreateRoomPage();
+            //NavigationService.Navigate(new CreateRoomPage());
 
             CreateRoom create = new CreateRoom(); 
         }
