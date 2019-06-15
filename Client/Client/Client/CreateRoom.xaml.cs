@@ -19,25 +19,37 @@ namespace Client
     /// </summary>
     public partial class CreateRoom : Window
     {
-        public CreateRoom()
+        private SocketHandler s;
+
+        public CreateRoom() // when you are transfering to page make sure the code in here will be in the new constructor
         {
             InitializeComponent();
+            for (int i = 1; i < 6; i++) // check for a better way to init the combo box
+                MaxPlayers.Items.Add(i);
+            for (int i = 5; i <= 20; i++)
+                QuestionCount.Items.Add(i);
+            for (int i = 10; i <= 60; i += 5)
+                TimePerQuestion.Items.Add(i);
         }
         public CreateRoom(SocketHandler s)
         {
-            try
-            {
-                //CHANGE THIS
-                //CHANGE THIS
-                //CHANGE THIS
-                //CHANGE THIS
-                s.CreateRoom(NameTextBox.Text, 10, 10, 10, int.Parse(RoomType.Text)); //not sure if RoomType.Text is the right property, need to check
-            }
-            
-            //Now open the window of the new room
+            this.s = s;
         }
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void CreateButton(object sender, RoutedEventArgs e)
         {
+            try //check for a better way to get the elements
+            {
+                Types type;
+                Enum.TryParse(RoomType.SelectedItem.ToString(), out type);
+                s.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
+                    int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type); 
+            }
+            catch
+            {
+                //socket error
+            }
+            //Now open the window of the new room
         }
     }
 }

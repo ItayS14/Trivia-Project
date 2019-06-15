@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="CreateRoom" Height="720" Width="1280">
     <Grid Background="DimGray">
-        <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" RenderTransformOrigin="9.336,7.81" Margin="1062,568,0,0" Height="38"/>
-        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="88" Margin="39,189,968,412" RenderTransformOrigin="0.568,1.753" FontSize="24" SelectionChanged="ComboBox_SelectionChanged" Name="RoomType">
+        <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" RenderTransformOrigin="9.336,7.81" Margin="1062,568,0,0" Height="38" Click="CreateButton"/>
+        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,173,968,456" RenderTransformOrigin="0.568,1.753" FontSize="24" Name="RoomType">
             <ComboBoxItem>All</ComboBoxItem>
             <ComboBoxItem>General knowledge</ComboBoxItem>
             <ComboBoxItem>Sport</ComboBoxItem>
@@ -18,5 +18,9 @@
             <ComboBoxItem>Math</ComboBoxItem>
         </ComboBox>
         <TextBox materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="39,81,808,546" FontSize="24" Name="NameTextBox" />
+        <ComboBox materialDesign:HintAssist.Hint="Question count" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,265,968,364" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="QuestionCount" />
+        <ComboBox materialDesign:HintAssist.Hint="Time per question" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,355,968,274" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="TimePerQuestion" />
+        <ComboBox materialDesign:HintAssist.Hint="Max players" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,447,1082,182" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="MaxPlayers" />
+
     </Grid>
 </Window>
