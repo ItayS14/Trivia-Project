@@ -31,7 +31,7 @@ namespace Client
                 //CHANGE THIS
                 //CHANGE THIS
                 //CHANGE THIS
-                s.CreateRoom(NameTextBox.Text, 10, 10, 10, int.Parse(RoomType.Text)); //not sure if RoomType.Text is the right property, need to check
+                s.CreateRoom(NameTextBox.Text, 10, 10, 10, RoomType.Text); //not sure if RoomType.Text is the right property, need to check
             }
             
             //Now open the window of the new room

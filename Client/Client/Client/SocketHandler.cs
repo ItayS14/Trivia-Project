@@ -47,15 +47,14 @@ namespace Client
             ReceiveFromServer();
         }
 
-        public void SignUp(string username, string password, string email)
+        public string SignUp(string username, string password, string email)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("username", username);
             dict.Add("password", password);
             dict.Add("email", email);
             SendToServer("100", dict);
-            //Again, no point to return a string
-            ReceiveFromServer();
+            return ReceiveFromServer();
         }
 
         public string SignOut()
