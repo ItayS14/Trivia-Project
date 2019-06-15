@@ -20,7 +20,8 @@ namespace Client
     /// </summary>
     public partial class RoomsMenu : Window
     {
-        //Don't understand what you were trying to do, please remove the function if not neccesairy (added a 2nd c-tor anyway)
+        private SocketHandler s;
+
         public RoomsMenu()
         {
             InitializeComponent();
@@ -28,8 +29,10 @@ namespace Client
             // SocketHandler
             // Rooms.ItemsSource = rooms;
         }
+
         public RoomsMenu(SocketHandler s)
         {
+            this.s = s;
             try
             {
                 //Get the list in JSON
@@ -52,7 +55,6 @@ namespace Client
             
         }
     
-
         private void NewRoomButton(object sender, RoutedEventArgs e)
         {
             //Remember to change
@@ -70,53 +72,36 @@ namespace Client
 
         }
 
-        public enum Types
+        private void LogoutButton(object sender, RoutedEventArgs e)
         {
-            //	Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
-            ALL = 0,
-            SPORT,
-            GENERAL,
-            MATH,
-            TV,
-            GEOGRAPHY
+            s.SignOut();
         }
-        
-        public class Room
-        {
-            public Room(int id, string name, int type, int max_players, int logged_players)
-            {
-                ID = id;
-                Name = name;
-                Players = logged_players + "/" + max_players;
-                switch ((Types)type)
-                {
-                    case Types.ALL:
-                        Type = "All";
-                        break;
-                    case Types.SPORT:
-                        Type = "Sport";
-                        break;
-                    case Types.GENERAL:
-                        Type = "General Knowledge";
-                        break;
-                    case Types.MATH:
-                        Type = "Math";
-                        break;
-                    case Types.TV:
-                        Type = "Tv";
-                        break;
-                    case Types.GEOGRAPHY:
-                        Type = "Geography";
-                        break;
-                }
-            }
-
-            public int ID { set; get; }
-            public string Name { set; get; }
-            public string Type { set; get; }
-            public string Players { set; get; }
-        }
-
     }
 
+    public enum Types
+    {
+        //	Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
+        All = 0,
+        Sport,
+        General_Knowledge,
+        Math,
+        TV,
+        Geography
+    }
+
+    public class Room
+    {
+        public Room(int id, string name, int type, int max_players, int logged_players)
+        {
+            ID = id;
+            Name = name;
+            Players = logged_players + "/" + max_players;
+            Type = Enum.GetName(typeof(Types), type).Replace('_', ' ');
+        }
+
+        public int ID { set; get; }
+        public string Name { set; get; }
+        public string Type { set; get; }
+        public string Players { set; get; }
+    }
 }
