@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Client
@@ -17,11 +18,15 @@ namespace Client
     /// <summary>
     /// Interaction logic for CreateRoom.xaml
     /// </summary>
-    public partial class CreateRoom : Window
+    public partial class CreateRoom : Page
     {
         private SocketHandler s;
 
-        public CreateRoom() // when you are transfering to page make sure the code in here will be in the new constructor
+        public CreateRoom()
+        {
+          
+        }
+        public CreateRoom(SocketHandler s)
         {
             InitializeComponent();
             for (int i = 1; i < 6; i++) // check for a better way to init the combo box
@@ -30,9 +35,6 @@ namespace Client
                 QuestionCount.Items.Add(i);
             for (int i = 10; i <= 60; i += 5)
                 TimePerQuestion.Items.Add(i);
-        }
-        public CreateRoom(SocketHandler s)
-        {
             this.s = s;
         }
 
@@ -43,7 +45,7 @@ namespace Client
                 Types type;
                 Enum.TryParse(RoomType.SelectedItem.ToString(), out type);
                 s.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
-                    int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type); 
+                    int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type);
             }
             catch
             {
