@@ -36,19 +36,19 @@ namespace Client
             try
             {
                 socket.SignIn(UsernameTextBox.Text, PasswordBox.Password);
+                NavigationService.Navigate(new RoomsMenu(socket));
             }
-            catch
+            catch(Exception excep)
             {
                 //Open error window or tell the user to try to relog and return
+                ErrorWindow errWindow = new ErrorWindow(excep.Message);
+                errWindow.Show();
             }
-            //Main.Content = new RoomsMenu(s);
-            //Main.Navigate(new RoomsMenu(s));
-            NavigationService.Navigate(new RoomsMenu(socket));
+            
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            //Main.Navigate(new SignUp(s));
             NavigationService.Navigate(new SignUp(socket));
         }
     }
