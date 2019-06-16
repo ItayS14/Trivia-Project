@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RoomsMenu.xaml
     /// </summary>
-    public partial class RoomsMenu : Window
+    public partial class RoomsMenu : Page
     {
         private SocketHandler s;
 
@@ -41,7 +41,7 @@ namespace Client
                 //Convert the JSON to a list of rooms
                 List<Room> rooms = new List<Room>();
                 foreach (Dictionary<string, object> dict in roomsJson)
-                    rooms.Add(new Room((int)dict["room_id"],(string) dict["room_name"], (int)dict["type"], (int)dict["max_players"], (int)dict["logged_players"]));
+                    rooms.Add(new Room((int)dict["room_id"], (string)dict["room_name"], (int)dict["type"], (int)dict["max_players"], (int)dict["logged_players"]));
 
                 //Display all the rooms in the table
                 Rooms.ItemsSource = rooms;
@@ -52,9 +52,8 @@ namespace Client
             }
 
             //Connect the join room function once the user chooses a room
-            
+
         }
-    
         private void NewRoomButton(object sender, RoutedEventArgs e)
         {
             //Remember to change
@@ -63,7 +62,7 @@ namespace Client
             //The line should be
             //NavigationService.Navigate(new CreateRoomPage());
 
-            CreateRoom create = new CreateRoom(); 
+            CreateRoom create = new CreateRoom();
         }
 
 
@@ -77,7 +76,6 @@ namespace Client
             s.SignOut();
         }
     }
-
     public enum Types
     {
         //	Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
@@ -88,7 +86,6 @@ namespace Client
         TV,
         Geography
     }
-
     public class Room
     {
         public Room(int id, string name, int type, int max_players, int logged_players)

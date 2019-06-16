@@ -45,5 +45,9 @@ namespace Client
             //Go to rooms menu after sign up is successful
             NavigationService.Navigate(new RoomsMenu(s));
         }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
