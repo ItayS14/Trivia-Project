@@ -27,6 +27,7 @@ namespace Client
         }
         public SignUp(SocketHandler s)
         {
+            InitializeComponent();
             this.s = s;
         }
 

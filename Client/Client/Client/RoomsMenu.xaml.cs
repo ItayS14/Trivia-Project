@@ -32,6 +32,7 @@ namespace Client
 
         public RoomsMenu(SocketHandler s)
         {
+            InitializeComponent();
             this.s = s;
             try
             {
