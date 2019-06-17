@@ -19,20 +19,35 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SocketHandler socket;
         public MainWindow()
         {
             InitializeComponent();
             SocketHandler socket = null;
+            string ipAddress = "127.0.0.1";
+            int port = 4422;
             try
             {
-                socket = new SocketHandler("127.0.0.1", 4422);
+                socket = new SocketHandler(ipAddress,port);
+                this.socket = socket;
+                Main.Navigate(new SignIn(socket));
             }
-            catch
+            catch(Exception excep)
             {
-                //Open error window telling the user he has no internet probably
+                //Can't use the ShowErrorMessage function in the SocketHandler class because socket isn't initialized
+                MessageBox.Show("Error!\nInfo: Couldn't connect to server at " + ipAddress + " at port " + port, "Error Message");
+                //Don't continue to use the program because the user isn't connected
+                Close();
+                return;
             }
-            Main.Navigate(new SignIn(socket));
-            
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Let the server know the user is closing.
+            //Need to check: What if the user loses connection when is closing the window?
+            if (socket != null)
+                socket.SignOut();
         }
     }
 }
