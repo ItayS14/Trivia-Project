@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows;
 
 namespace Client
 {
@@ -131,7 +132,13 @@ namespace Client
                 throw new Exception(msg);
             return msg;
         }
+        public void ShowErrorMessage(string info)
+        {
+            string msg = "Error!\nInfo: " + info;
+            MessageBox.Show(msg, "Error Message");
+        }
     }
+    
     class Rooms
     {
         public List<Dictionary<string, object>> list;

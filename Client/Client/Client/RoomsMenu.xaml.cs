@@ -20,7 +20,7 @@ namespace Client
     /// </summary>
     public partial class RoomsMenu : Page
     {
-        private SocketHandler s;
+        private SocketHandler socket;
 
         public RoomsMenu()
         {
@@ -30,14 +30,14 @@ namespace Client
             // Rooms.ItemsSource = rooms;
         }
 
-        public RoomsMenu(SocketHandler s)
+        public RoomsMenu(SocketHandler socket)
         {
             InitializeComponent();
-            this.s = s;
+            this.socket = socket;
             try
             {
                 //Get the list in JSON
-                List<Dictionary<string, object>> roomsJson = s.GetRooms();
+                List<Dictionary<string, object>> roomsJson = socket.GetRooms();
 
                 //Convert the JSON to a list of rooms
                 List<Room> rooms = new List<Room>();
@@ -47,9 +47,9 @@ namespace Client
                 //Display all the rooms in the table
                 Rooms.ItemsSource = rooms;
             }
-            catch
+            catch(Exception excep)
             {
-                //Open an error window with a message
+                socket.ShowErrorMessage(excep.Message);
             }
 
             //Connect the join room function once the user chooses a room
@@ -74,7 +74,7 @@ namespace Client
 
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
-            s.SignOut();
+            socket.SignOut();
         }
     }
     public enum Types

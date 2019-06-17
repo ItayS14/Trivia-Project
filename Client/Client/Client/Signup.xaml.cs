@@ -20,31 +20,31 @@ namespace Client
     /// </summary>
     public partial class SignUp : Page
     {
-        private SocketHandler s;
+        private SocketHandler socket;
         public SignUp()
         {
             InitializeComponent();
         }
-        public SignUp(SocketHandler s)
+        public SignUp(SocketHandler socket)
         {
             InitializeComponent();
-            this.s = s;
+            this.socket = socket;
         }
 
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                s.SignUp(UsernameTextBox.Text, PasswordBox.Password, EmailTextBox.Text);
-
+                socket.SignUp(UsernameTextBox.Text, PasswordBox.Password, EmailTextBox.Text);
+                //Go to rooms menu after sign up is successful
+                NavigationService.Navigate(new RoomsMenu(socket));
             }
-            catch
+            catch(Exception excep)
             {
-                //Display error message, couldn't sign up
+                socket.ShowErrorMessage(excep.Message);
             }
 
-            //Go to rooms menu after sign up is successful
-            NavigationService.Navigate(new RoomsMenu(s));
+            
         }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

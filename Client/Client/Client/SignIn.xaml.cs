@@ -40,9 +40,7 @@ namespace Client
             }
             catch(Exception excep)
             {
-                //Open error window or tell the user to try to relog and return
-                ErrorWindow errWindow = new ErrorWindow(excep.Message);
-                errWindow.Show();
+                socket.ShowErrorMessage(excep.Message);
             }
             
         }
