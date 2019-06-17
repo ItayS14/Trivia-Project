@@ -65,7 +65,7 @@ namespace Client
             return ReceiveFromServer();
         }
 
-        public string CreateRoom(string roomName, int maxPlayers, int questionCount, int timePerQuestion, int type)
+        public void CreateRoom(string roomName, int maxPlayers, int questionCount, int timePerQuestion, int type)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_name", roomName);
@@ -74,15 +74,13 @@ namespace Client
             dict.Add("time_per_question", timePerQuestion);
             dict.Add("type", type);
             SendToServer("103", dict);
-            return ReceiveFromServer();
         }
 
-        public string JoinRoom(int roomId)
+        public void JoinRoom(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
             SendToServer("104", dict);
-            return ReceiveFromServer();
         }
 
         public List<Dictionary<string,object>> GetRooms()
@@ -94,12 +92,12 @@ namespace Client
             return list;
         }
 
-        public string GetPlayersInRoom(int roomId)
+        public List<string> GetPlayersInRoom(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
             SendToServer("106", dict);
-            return ReceiveFromServer();
+            return JsonConvert.DeserializeObject<List<string>>(ReceiveFromServer());
         }
 
         private void SendToServer(string code, Dictionary<string, object> data)
@@ -113,6 +111,7 @@ namespace Client
             socket.Write(bytes, 0, bytes.Length);
             socket.Flush();
         }
+
         private string ReceiveFromServer()
         {
             string msg = "";
@@ -139,8 +138,4 @@ namespace Client
         }
     }
     
-    class Rooms
-    {
-        public List<Dictionary<string, object>> list;
-    }
 }
