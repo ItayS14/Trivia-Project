@@ -53,5 +53,15 @@ namespace Client
             }
             //Now open the window of the new room
         }
+
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new RoomsMenu(s));
+        }
+
+        private void LogoutButton(object sender, RoutedEventArgs e)
+        {
+            s.SignOut();
+        }
     }
 }

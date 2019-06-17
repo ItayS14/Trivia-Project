@@ -22,14 +22,6 @@ namespace Client
     {
         private SocketHandler socket;
 
-        public RoomsMenu()
-        {
-            InitializeComponent();
-            //List<Room> rooms = new List<Room>() { new Room(3, "itay", (int)Types.SPORT, 3, 2) };
-            // SocketHandler
-            // Rooms.ItemsSource = rooms;
-        }
-
         public RoomsMenu(SocketHandler socket)
         {
             InitializeComponent();
@@ -56,27 +48,17 @@ namespace Client
 
         }
         private void NewRoomButton(object sender, RoutedEventArgs e)
-        {
-            //Remember to change
-            //Remember to change
-            //Remember to change
-            //The line should be
-            //NavigationService.Navigate(new CreateRoomPage());
-
-            CreateRoom create = new CreateRoom();
+        { 
+           NavigationService.Navigate(new CreateRoom(socket));
         }
-
-
-        private void ListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
+        
+  
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
             socket.SignOut();
         }
     }
+
     public enum Types
     {
         //	Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
@@ -87,13 +69,14 @@ namespace Client
         TV,
         Geography
     }
+
     public class Room
     {
-        public Room(int id, string name, int type, int max_players, int logged_players)
+        public Room(int id, string name, int type, int maxPlayers, int loggedPlayers)
         {
             ID = id;
             Name = name;
-            Players = logged_players + "/" + max_players;
+            Players = loggedPlayers + "/" + maxPlayers;
             Type = Enum.GetName(typeof(Types), type).Replace('_', ' ');
         }
 

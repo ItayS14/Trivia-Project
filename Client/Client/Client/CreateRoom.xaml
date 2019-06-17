@@ -10,8 +10,8 @@
       Title="CreateRoom">
 
     <Grid Background="DimGray">
-        <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103" RenderTransformOrigin="9.336,7.81" Margin="1062,568,0,0" Height="38" Click="CreateButton"/>
-        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,173,968,456" RenderTransformOrigin="0.568,1.753" FontSize="24" Name="RoomType">
+        <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" RenderTransformOrigin="9.336,7.81" Margin="1014,516,0,0" Height="55" Click="CreateButton"/>
+        <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,237,968,423" RenderTransformOrigin="0.568,1.753" FontSize="24" Name="RoomType">
             <ComboBoxItem>All</ComboBoxItem>
             <ComboBoxItem>General knowledge</ComboBoxItem>
             <ComboBoxItem>Sport</ComboBoxItem>
@@ -19,10 +19,17 @@
             <ComboBoxItem>Geography</ComboBoxItem>
             <ComboBoxItem>Math</ComboBoxItem>
         </ComboBox>
-        <TextBox materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="39,81,808,546" FontSize="24" Name="NameTextBox" />
-        <ComboBox materialDesign:HintAssist.Hint="Question count" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,265,968,364" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="QuestionCount" />
-        <ComboBox materialDesign:HintAssist.Hint="Time per question" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,355,968,274" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="TimePerQuestion" />
-        <ComboBox materialDesign:HintAssist.Hint="Max players" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,447,1082,182" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="MaxPlayers" />
+        <TextBox materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="39,126,808,501" FontSize="24" Name="NameTextBox" />
+        <ComboBox materialDesign:HintAssist.Hint="Question count" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,329,968,331" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="QuestionCount" />
+        <ComboBox materialDesign:HintAssist.Hint="Time per question" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,419,968,241" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="TimePerQuestion" />
+        <ComboBox materialDesign:HintAssist.Hint="Max players" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,511,1082,149" RenderTransformOrigin="0.568,1.753" FontSize="24" x:Name="MaxPlayers" />
+        <Button VerticalAlignment="Top" Margin="1014,69,0,0" Height="60" Click="BackButton" RenderTransformOrigin="2.177,0.699" HorizontalAlignment="Left" Width="61">
+            <materialDesign:PackIcon Kind="KeyboardBackspace" Height="33" Width="35" RenderTransformOrigin="3.559,1.302" />
+        </Button>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Create Room" VerticalAlignment="Top" Height="76" Width="510" Margin="39,53,0,0" FontSize="48" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        <Button HorizontalAlignment="Left" Width="84" Margin="1083,69,0,591" Height="Auto" Click= "LogoutButton">
+            <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
+        </Button>
 
     </Grid>
 </Page>
