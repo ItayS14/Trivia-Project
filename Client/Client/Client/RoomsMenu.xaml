@@ -15,7 +15,7 @@
             <ColumnDefinition Width="51*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <ListView Name ="Rooms" Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="#DDFFFFFF" Background="#FF169917" Grid.ColumnSpan="4">
+        <ListView Name ="Rooms" MouseDoubleClick="DoubleClickHandler"  Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="#DDFFFFFF" Background="#FF169917" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID" />

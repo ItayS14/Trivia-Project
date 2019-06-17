@@ -57,6 +57,11 @@ namespace Client
         {
             socket.SignOut();
         }
+
+        private void DoubleClickHandler(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            NavigationService.Navigate(new JoinRoom(socket, (Room)Rooms.SelectedItem));
+        }
     }
 
     public enum Types
