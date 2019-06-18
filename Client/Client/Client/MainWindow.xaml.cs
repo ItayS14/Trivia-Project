@@ -23,8 +23,8 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-            SocketHandler socket = null;
-            string ipAddress = "127.0.0.1";
+            SocketHandler socket;
+            string ipAddress = "192.168.43.237";
             int port = 4422;
             try
             {

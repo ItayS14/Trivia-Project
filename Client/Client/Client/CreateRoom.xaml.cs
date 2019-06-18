@@ -43,9 +43,10 @@ namespace Client
             try //check for a better way to get the elements
             {
                 Types type;
-                Enum.TryParse(RoomType.SelectedItem.ToString(), out type);
-                s.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
+                Enum.TryParse(RoomType.Text.Replace(' ', '_'), out type);
+                int roomId = s.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
                     int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type);
+                s.JoinRoom(roomId);
             }
             catch
             {
@@ -62,6 +63,7 @@ namespace Client
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
             s.SignOut();
+            NavigationService.Navigate(new SignIn(s));
         }
     }
 }

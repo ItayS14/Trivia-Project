@@ -33,8 +33,12 @@ namespace Client
 
                 //Convert the JSON to a list of rooms
                 List<Room> rooms = new List<Room>();
-                foreach (Dictionary<string, object> dict in roomsJson)
-                    rooms.Add(new Room((int)dict["room_id"], (string)dict["room_name"], (int)dict["type"], (int)dict["max_players"], (int)dict["logged_players"]));
+                if(roomsJson != null)
+                {
+                    foreach (Dictionary<string, object> dict in roomsJson)
+                        rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
+                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"])));
+                }      
 
                 //Display all the rooms in the table
                 Rooms.ItemsSource = rooms;
@@ -56,11 +60,17 @@ namespace Client
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
             socket.SignOut();
+            NavigationService.Navigate(new SignIn(socket));
         }
 
         private void DoubleClickHandler(object sender, System.Windows.Input.MouseEventArgs e)
         {
             NavigationService.Navigate(new JoinRoom(socket, (Room)Rooms.SelectedItem));
+        }
+
+        private void ListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 
@@ -77,6 +87,7 @@ namespace Client
 
     public class Room
     {
+        public Room() { }
         public Room(int id, string name, int type, int maxPlayers, int loggedPlayers)
         {
             ID = id;

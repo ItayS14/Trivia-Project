@@ -65,7 +65,7 @@ namespace Client
             return ReceiveFromServer();
         }
 
-        public void CreateRoom(string roomName, int maxPlayers, int questionCount, int timePerQuestion, int type)
+        public int CreateRoom(string roomName, int maxPlayers, int questionCount, int timePerQuestion, int type)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_name", roomName);
@@ -74,6 +74,7 @@ namespace Client
             dict.Add("time_per_question", timePerQuestion);
             dict.Add("type", type);
             SendToServer("103", dict);
+            return JsonConvert.DeserializeObject<Dictionary<string, int>>(ReceiveFromServer())["room_id"];
         }
 
         public void JoinRoom(int roomId)
@@ -81,15 +82,17 @@ namespace Client
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
             SendToServer("104", dict);
+            ReceiveFromServer();
         }
 
         public List<Dictionary<string,object>> GetRooms()
         {
             SendToServer("105", null);
-            string buffer = ReceiveFromServer();
-            JArray jsonList = (JArray)JsonConvert.DeserializeObject(buffer);
-            List<Dictionary<string, object>> list = jsonList.ToObject<List<Dictionary<string, object>>>();
-            return list;
+            //string buffer = ReceiveFromServer();
+            //JArray jsonList = (JArray)JsonConvert.DeserializeObject(buffer);
+            //List<Dictionary<string, object>> list = jsonList.ToObject<List<Dictionary<string, object>>>();
+           // return list; 
+            return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(ReceiveFromServer());
         }
 
         public List<string> GetPlayersInRoom(int roomId)
@@ -129,7 +132,7 @@ namespace Client
             }
             if (code == (int)Codes.ERROR_MSG) //If there's an error, throw an exception, if not, the code is 200 for sure, so we only need to return the message.
                 throw new Exception(msg);
-            return msg;
+            return msg == "null" ? "" : msg;
         }
         public void ShowErrorMessage(string info)
         {
