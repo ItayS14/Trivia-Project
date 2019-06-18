@@ -36,6 +36,8 @@ namespace Client
             try
             {
                 socket.SignUp(UsernameTextBox.Text, PasswordBox.Password, EmailTextBox.Text);
+                //Sign in after the sign up automatically
+                socket.SignIn(UsernameTextBox.Text, PasswordBox.Password);
                 //Go to rooms menu after sign up is successful
                 NavigationService.Navigate(new RoomsMenu(socket));
             }

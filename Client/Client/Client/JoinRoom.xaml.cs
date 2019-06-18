@@ -31,7 +31,7 @@ namespace Client
             this.room = room;
             try
             {
-                foreach (string player in s.GetPlayersInRoom(room.ID)) // Consider better way to insert into the listbox
+                foreach (string player in socket.GetPlayersInRoom(room.ID)) // Consider better way to insert into the listbox
                     Players.Items.Add(player);
             }
             catch (Exception excep)

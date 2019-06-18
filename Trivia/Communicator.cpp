@@ -96,10 +96,9 @@ void Communicator::sendData(const RequestResult& request_result)
 
 void Communicator::sendErrorMsg()
 {
-	std::string code = "400";
 	std::string msg = "Error: Request does not fit current state!";
-	std::string all = code + Helper::getPaddedNumber(msg.size(),4) + msg;
+	std::string all = std::to_string(ERROR_MSG) + Helper::getPaddedNumber(msg.size(),4) + msg;
 	const char* data = all.c_str();
-	if (send(_client_soc, data, msg.size(), 0) == INVALID_SOCKET)
+	if (send(_client_soc, data, all.size(), 0) == INVALID_SOCKET)
 		throw std::exception("Error while sending message to client");
 }
