@@ -59,8 +59,15 @@ namespace Client
   
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
-            socket.SignOut();
-            NavigationService.Navigate(new SignIn(socket));
+            try
+            {
+                socket.SignOut();
+                NavigationService.Navigate(new SignIn(socket));
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
         }
 
         private void DoubleClickHandler(object sender, System.Windows.Input.MouseEventArgs e)

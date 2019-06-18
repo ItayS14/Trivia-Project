@@ -20,33 +20,54 @@ namespace Client
     /// </summary>
     public partial class JoinRoom : Page
     {
-        private SocketHandler s;
+        private SocketHandler socket;
         private Room room;
 
 
-        public JoinRoom(SocketHandler s, Room room) // Should i also display other stuff that belongs to the room?
+        public JoinRoom(SocketHandler socket, Room room) // Should i also display other stuff that belongs to the room?
         {
             InitializeComponent();
-            this.s = s;
+            this.socket = socket;
             this.room = room;
-            foreach (string player in s.GetPlayersInRoom(room.ID)) // Consider better way to insert into the listbox
-                Players.Items.Add(player);
+            try
+            {
+                foreach (string player in s.GetPlayersInRoom(room.ID)) // Consider better way to insert into the listbox
+                    Players.Items.Add(player);
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
             InitializeComponent();
         }
 
         private void JoinRoomButton(object sender, RoutedEventArgs e)
         {
-            s.JoinRoom(room.ID);
+            try
+            {
+                socket.JoinRoom(room.ID);
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new RoomsMenu(s));
+            NavigationService.Navigate(new RoomsMenu(socket));
         }
 
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
-            s.SignOut();
+            try
+            {
+                socket.SignOut();
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
         }
     }
 }

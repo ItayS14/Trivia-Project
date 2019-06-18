@@ -20,13 +20,9 @@ namespace Client
     /// </summary>
     public partial class CreateRoom : Page
     {
-        private SocketHandler s;
+        private SocketHandler socket;
 
-        public CreateRoom()
-        {
-          
-        }
-        public CreateRoom(SocketHandler s)
+        public CreateRoom(SocketHandler socket)
         {
             InitializeComponent();
             for (int i = 1; i < 6; i++) // check for a better way to init the combo box
@@ -35,35 +31,44 @@ namespace Client
                 QuestionCount.Items.Add(i);
             for (int i = 10; i <= 60; i += 5)
                 TimePerQuestion.Items.Add(i);
-            this.s = s;
+            this.socket = socket;
         }
 
         private void CreateButton(object sender, RoutedEventArgs e)
         {
-            try //check for a better way to get the elements
+           
+            Types type;
+            try
             {
-                Types type;
                 Enum.TryParse(RoomType.Text.Replace(' ', '_'), out type);
-                int roomId = s.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
+                int roomId = socket.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
                     int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type);
-                s.JoinRoom(roomId);
+                socket.JoinRoom(roomId);
             }
-            catch
+            catch (Exception excep)
             {
-                //socket error
+                socket.ShowErrorMessage(excep.Message);
             }
+
             //Now open the window of the new room
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new RoomsMenu(s));
+            NavigationService.Navigate(new RoomsMenu(socket));
         }
 
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
-            s.SignOut();
-            NavigationService.Navigate(new SignIn(s));
+            try
+            {
+                socket.SignOut();
+                NavigationService.Navigate(new SignIn(socket));
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
         }
     }
 }
