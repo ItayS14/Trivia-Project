@@ -20,6 +20,8 @@ namespace Client
         JOIN_ROOM,
         GET_ROOMS,
         GET_PLAYERS_IN_ROOM,
+        LEAVE_ROOM,
+        START_GAME,
         SUCCESS = 200,
         ERROR_MSG = 400
     }
@@ -42,7 +44,7 @@ namespace Client
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("username", username);
             dict.Add("password", password);
-            SendToServer("101", dict);
+            SendToServer(((int)Codes.LOGIN).ToString(), dict);
             //Irrelevant to return a string, 
             //If the function succeeds it has no meaning and if it fails it is caught in the exception
             ReceiveFromServer();
@@ -54,14 +56,14 @@ namespace Client
             dict.Add("username", username);
             dict.Add("password", password);
             dict.Add("email", email);
-            SendToServer("100", dict);
+            SendToServer(((int)Codes.SIGNUP).ToString(), dict);
             //Again, no point to return a string
             ReceiveFromServer();
         }
 
         public string SignOut()
         {
-            SendToServer("102", null);
+            SendToServer(((int)Codes.LOGOUT).ToString(), null);
             return ReceiveFromServer();
         }
 
@@ -73,7 +75,7 @@ namespace Client
             dict.Add("question_count", questionCount);
             dict.Add("time_per_question", timePerQuestion);
             dict.Add("type", type);
-            SendToServer("103", dict);
+            SendToServer(((int)Codes.CREATE_ROOM).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string, int>>(ReceiveFromServer())["room_id"];
         }
 
@@ -81,13 +83,13 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer("104", dict);
+            SendToServer(((int)Codes.JOIN_ROOM).ToString(), dict);
             ReceiveFromServer();
         }
 
         public List<Dictionary<string,object>> GetRooms()
         {
-            SendToServer("105", null);
+            SendToServer(((int)Codes.GET_ROOMS).ToString(), null);
             return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(ReceiveFromServer());
         }
 
@@ -95,10 +97,23 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer("106", dict);
+            SendToServer(((int)Codes.GET_PLAYERS_IN_ROOM).ToString(), dict);
             return JsonConvert.DeserializeObject<List<string>>(ReceiveFromServer());
         }
-
+        public void LeaveRoom(int roomId)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("room_id", roomId);
+            SendToServer(((int)Codes.LEAVE_ROOM).ToString(), dict);
+            ReceiveFromServer();
+        }
+        public void StartGame(int roomId)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("room_id", roomId);
+            SendToServer(((int)Codes.LOGIN).ToString(), dict);
+            ReceiveFromServer();
+        }
         private void SendToServer(string code, Dictionary<string, object> data)
         {
             
@@ -134,12 +149,6 @@ namespace Client
         public void Close()
         {
             socket.Close();
-        }
-
-        public void ShowErrorMessage(string info)
-        {
-            string msg = "Error!\nInfo: " + info;
-            MessageBox.Show(msg, "Error Message");
         }
     }
    
