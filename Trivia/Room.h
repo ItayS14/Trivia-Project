@@ -23,7 +23,7 @@ class Room
 {
 public:
 	Room(const unsigned int id, const unsigned int max_players, const unsigned int time_per_question, const std::string& name, unsigned int question_count, const unsigned int questions_type)
-		: _id(id), _max_players(max_players), _time_per_question(time_per_question), _name(name), _question_count(question_count), _state(START), _questions_type(questions_type) {}
+		: _id(id), _max_players(max_players), _time_per_question(time_per_question), _name(name), _question_count(question_count), _state(JOINABLE), _questions_type(questions_type) {}
 	Room() = default;
 
 	void addUser(const std::string& name);

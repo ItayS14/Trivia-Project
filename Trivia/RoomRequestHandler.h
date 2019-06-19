@@ -5,10 +5,10 @@
 #include "RoomManager.h"
 #include "RequestHandlerFactory.h"
 
-class RoomRequestHandler : IRequestHandler
+class RoomRequestHandler : public IRequestHandler
 {
 public:
-	RoomRequestHandler(Room& room, RoomManager* room_manager, RequestHandlerFactory* factory, const std::string& logged_user, const bool is_admin) :
+	RoomRequestHandler(Room& room, RoomManager* room_manager, const std::string& logged_user, const bool is_admin, RequestHandlerFactory* factory) :
 		_room(room), _room_manager(room_manager), _factory(factory), _logged_user(logged_user), _is_admin(is_admin) {}
 
 	bool isRequestRelevant(const Request& request) override;
@@ -16,6 +16,8 @@ public:
 	void handleSocketError() override;
 
 private:
+	void leaveRoom();
+
 	Room& _room;
 	RoomManager* _room_manager;
 	RequestHandlerFactory* _factory;
