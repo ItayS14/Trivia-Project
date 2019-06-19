@@ -63,6 +63,7 @@ namespace Client
             try
             {
                 socket.SignOut();
+                NavigationService.Navigate(new SignIn(socket));
             }
             catch (Exception excep)
             {

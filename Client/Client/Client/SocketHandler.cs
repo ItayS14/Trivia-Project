@@ -130,11 +130,17 @@ namespace Client
                 throw new Exception(msg);
             return msg == "null" ? "" : msg;
         }
+
+        public void Close()
+        {
+            socket.Close();
+        }
+
         public void ShowErrorMessage(string info)
         {
             string msg = "Error!\nInfo: " + info;
             MessageBox.Show(msg, "Error Message");
         }
     }
-    
+   
 }

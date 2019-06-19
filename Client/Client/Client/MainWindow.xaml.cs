@@ -24,7 +24,7 @@ namespace Client
         {
             InitializeComponent();
             SocketHandler socket;
-            string ipAddress = "192.168.43.237";
+            string ipAddress = "172.19.4.139";
             int port = 4422;
             try
             {
@@ -46,8 +46,7 @@ namespace Client
         {
             //Let the server know the user is closing.
             //Need to check: What if the user loses connection when is closing the window?
-            if (socket != null)
-                socket.SignOut();
+            socket.Close();
         }
     }
 }
