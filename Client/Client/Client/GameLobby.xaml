@@ -1,0 +1,23 @@
+﻿<Page x:Class="Client.GameLobby"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Client"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="GameLobby">
+
+    <Grid Background="White">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Lobby" VerticalAlignment="Top" Height="103" Width="520" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        <Button Content="Leave Room" FontSize="36" HorizontalAlignment="Left" Height="144" Margin="904,530,0,0" VerticalAlignment="Top" Width="334" Click="Leave_Button_Click"/>
+        <ListBox x:Name="Players" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="763" Margin="36,134,0,0" FontSize="36">
+        </ListBox>
+        <Grid Margin="904,68,42,338">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for answer" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0"/>
+        </Grid>
+
+    </Grid>
+</Page>
