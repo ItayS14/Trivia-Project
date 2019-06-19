@@ -17,7 +17,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 	try
 	{
 		json result_j;
-		json j = json::parse(request._buffer);
+		json j = request._buffer.size() == 0 ? nullptr: json::parse(request._buffer);
 		std::string data;
 		switch (request._request_code)
 		{
@@ -52,7 +52,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT) + data;
 		if (request._request_code == LOGOUT)
-			r._new_handler = _handler_factory->createLoginRequestHandler();
+			r._new_handler = _factory->createLoginRequestHandler();
 		else
 			r._new_handler = this; 
 	}

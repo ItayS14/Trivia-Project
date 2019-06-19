@@ -19,7 +19,7 @@ RequestHandlerFactory::~RequestHandlerFactory()
 
 MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(const std::string& username)
 {
-	return new MenuRequestHandler(username, _login_manager, _room_manager);
+	return new MenuRequestHandler(username, _login_manager, _room_manager, this);
 }
 
 LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()

@@ -18,7 +18,7 @@ enum Codes
 	GET_ROOMS,
 	GET_PLAYERS_IN_ROOM,
 	SUCCESS = 200,
-	ERROR_MSG = 300
+	ERROR_MSG = 400
 };
 
 class IRequestHandler

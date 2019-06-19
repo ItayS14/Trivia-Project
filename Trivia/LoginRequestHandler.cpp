@@ -16,7 +16,7 @@ RequestResult LoginRequestHandler::handleRequest(const Request& request) {
 	std::string r_msg;
 	try
 	{
-		json j = json::parse(request._buffer);
+		json j = request._buffer.size() == 0 ? nullptr : json::parse(request._buffer);
 		switch (request._request_code)
 		{
 		case LOGIN:

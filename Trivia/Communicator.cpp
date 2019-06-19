@@ -5,6 +5,7 @@
 #include <sstream>
 #include <thread>
 #include "Helper.h"
+#include "Requests.h"
 
 Communicator::~Communicator()
 {
@@ -32,6 +33,7 @@ void Communicator::handleRequests()
 			request._recival_time = std::time(nullptr); //The time won't be really accurate but it's not relevant anyway
 			size = getIntPartFromSocket(4);
 			msg = getPartFromSocket(size); //And this will clean the socket buffer (unless the sent size is incorrect)
+			std::cout << code << " " << size << " " << msg << std::endl;
 		}
 		catch (...) //Client has closed connection
 		{
@@ -89,6 +91,7 @@ std::string Communicator::getPartFromSocket(int bytes_num)
 void Communicator::sendData(const RequestResult& request_result)
 {
 	std::string msg = std::string(request_result._buffer.begin(), request_result._buffer.end());
+	std::cout << msg << std::endl;
 	const char* data = msg.c_str();
 	if (send(_client_soc, data, msg.size(), 0) == INVALID_SOCKET)
 		throw std::exception("Error while sending message to client");
