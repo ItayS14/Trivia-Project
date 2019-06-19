@@ -41,16 +41,21 @@ namespace Client
             try
             {
                 Enum.TryParse(RoomType.Text.Replace(' ', '_'), out type);
-                int roomId = socket.CreateRoom(NameTextBox.Text, int.Parse(MaxPlayers.SelectedValue.ToString()), int.Parse(QuestionCount.SelectedItem.ToString()),
-                    int.Parse(TimePerQuestion.SelectedItem.ToString()), (int)type);
+                string name = NameTextBox.Text;
+                int maxPlayers = int.Parse(MaxPlayers.SelectedValue.ToString());
+                int questionCount = int.Parse(QuestionCount.SelectedItem.ToString());
+                int timePerQuestion = int.Parse(TimePerQuestion.SelectedItem.ToString());
+                int roomId = socket.CreateRoom(name, maxPlayers, questionCount, timePerQuestion, (int)type);
+
                 socket.JoinRoom(roomId);
+                NavigationService.Navigate(new AdminGameLobby(socket, new Room(roomId, name, (int)type, maxPlayers, 1)));
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
 
-            //Now open the window of the new room
+            
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
@@ -67,7 +72,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
     }

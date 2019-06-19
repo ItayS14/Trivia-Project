@@ -35,7 +35,7 @@ namespace Client
             catch(Exception excep)
             {
                 //Can't use the ShowErrorMessage function in the SocketHandler class because socket isn't initialized
-                MessageBox.Show("Error!\nInfo: Couldn't connect to server at " + ipAddress + " at port " + port, "Error Message");
+                Utlis.ShowErrorMessage("Error!\nInfo: Couldn't connect to server at " + ipAddress + " at port " + port);
                 //Don't continue to use the program because the user isn't connected
                 Close();
                 return;

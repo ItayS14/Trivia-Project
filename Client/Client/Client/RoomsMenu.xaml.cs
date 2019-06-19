@@ -44,7 +44,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
 

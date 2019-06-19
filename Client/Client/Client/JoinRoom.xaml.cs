@@ -36,7 +36,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
             InitializeComponent();
         }
@@ -46,10 +46,11 @@ namespace Client
             try
             {
                 socket.JoinRoom(room.ID);
+                NavigationService.Navigate(new GameLobby(socket, room));
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
 
@@ -67,7 +68,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
     }
