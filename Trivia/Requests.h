@@ -18,7 +18,7 @@ enum Codes
 	GET_ROOMS,
 	GET_PLAYERS_IN_ROOM,
 	SUCCESS = 200,
-	ERROR_MSG = 300
+	ERROR_MSG = 400
 };
 
 class IRequestHandler
@@ -29,6 +29,7 @@ public:
 
 	virtual bool isRequestRelevant(const Request& request) = 0;
 	virtual RequestResult handleRequest(const Request& request) = 0;
+	virtual void handleSocketError() = 0;
 };
 
 struct Request
