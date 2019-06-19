@@ -75,3 +75,16 @@ json:
 }
 response json:
 *list of strings*
+
+107 - leave (and close if admin) room
+{
+	"room_id" : *unsigned int*
+}
+
+108 - start game
+json:
+{
+	"room_id" : *unsigned int*
+}
+
+

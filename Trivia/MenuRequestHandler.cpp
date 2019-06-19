@@ -39,7 +39,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 				inner_j["room_name"] = room._name;
 				inner_j["max_players"] = room._max_players;
 				inner_j["logged_players"] = room.getNumberOfLoggedUsers();
-				inner_j["state"] = room.getState();
+				inner_j["state"] = room._state;
 				inner_j["type"] = room._questions_type;
 				result_j.push_back(inner_j);
 			}

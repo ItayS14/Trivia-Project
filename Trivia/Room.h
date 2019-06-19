@@ -4,9 +4,9 @@
 
 enum RoomStates
 {
-	START = 0,
-	RUN,
-	END
+	JOINABLE = 0,
+	IN_GAME,
+	FINISHED
 };
 
 enum QuestionType
@@ -30,7 +30,6 @@ public:
 	void removeUser(const std::string& name);
 
 	const std::vector<std::string>& getAllUsers() { return _users; }
-	unsigned int getState() { return _state; }
 	size_t getNumberOfLoggedUsers() { return _users.size(); }
 
 	unsigned int _id; // those members are public becuase it's useless to set them as private and set getters and setters for each one of them.
@@ -38,9 +37,9 @@ public:
 	unsigned int _time_per_question;
 	unsigned int _question_count;
 	unsigned int _questions_type;
+	unsigned int _state;
 	std::string _name;
 
 private:
-	unsigned int _state;
 	std::vector<std::string> _users;
 };
