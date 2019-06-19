@@ -70,3 +70,8 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 	r._buffer = std::vector<std::uint8_t>(r_msg.begin(), r_msg.end());
 	return r;
 }
+
+void MenuRequestHandler::handleSocketError()
+{
+	_login_manager->logout(_logged_user);
+}

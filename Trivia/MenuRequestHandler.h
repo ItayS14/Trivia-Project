@@ -16,7 +16,7 @@ public:
 
 	bool isRequestRelevant(const Request& request) override;
 	RequestResult handleRequest(const Request& request) override;
-
+	void handleSocketError() override;
 private:	
 	std::string _logged_user;
 	//high score - manager

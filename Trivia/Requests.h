@@ -29,6 +29,7 @@ public:
 
 	virtual bool isRequestRelevant(const Request& request) = 0;
 	virtual RequestResult handleRequest(const Request& request) = 0;
+	virtual void handleSocketError() = 0;
 };
 
 struct Request

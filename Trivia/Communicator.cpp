@@ -38,6 +38,7 @@ void Communicator::handleRequests()
 		catch (...) //Client has closed connection
 		{
 			std::cerr << "Socket error" << std::endl;
+			_state->handleSocketError();
 			closesocket(_client_soc);
 			_is_closed = true;
 			return;
@@ -64,6 +65,7 @@ void Communicator::handleRequests()
 		catch (...) //Client has closed connection
 		{
 			std::cerr << "Error while sending to user!" << std::endl;
+			_state->handleSocketError();
 			closesocket(_client_soc);
 			return;
 		}		
