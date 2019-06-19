@@ -88,10 +88,6 @@ namespace Client
         public List<Dictionary<string,object>> GetRooms()
         {
             SendToServer("105", null);
-            //string buffer = ReceiveFromServer();
-            //JArray jsonList = (JArray)JsonConvert.DeserializeObject(buffer);
-            //List<Dictionary<string, object>> list = jsonList.ToObject<List<Dictionary<string, object>>>();
-           // return list; 
             return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(ReceiveFromServer());
         }
 

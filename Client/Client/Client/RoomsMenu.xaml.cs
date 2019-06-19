@@ -26,31 +26,9 @@ namespace Client
         {
             InitializeComponent();
             this.socket = socket;
-            try
-            {
-                //Get the list in JSON
-                List<Dictionary<string, object>> roomsJson = socket.GetRooms();
-
-                //Convert the JSON to a list of rooms
-                List<Room> rooms = new List<Room>();
-                if(roomsJson != null)
-                {
-                    foreach (Dictionary<string, object> dict in roomsJson)
-                        rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
-                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"])));
-                }      
-
-                //Display all the rooms in the table
-                Rooms.ItemsSource = rooms;
-            }
-            catch(Exception excep)
-            {
-                socket.ShowErrorMessage(excep.Message);
-            }
-
-            //Connect the join room function once the user chooses a room
-
+            UpdateRoomsList();
         }
+
         private void NewRoomButton(object sender, RoutedEventArgs e)
         { 
            NavigationService.Navigate(new CreateRoom(socket));
@@ -75,9 +53,40 @@ namespace Client
             NavigationService.Navigate(new JoinRoom(socket, (Room)Rooms.SelectedItem));
         }
 
+        //The function will update the list of rooms by sending request to the server
+        private void UpdateRoomsList()
+        {
+            try
+            {
+                //Get the list in JSON
+                List<Dictionary<string, object>> roomsJson = socket.GetRooms();
+
+                //Convert the JSON to a list of rooms
+                List<Room> rooms = new List<Room>();
+                if (roomsJson != null)
+                {
+                    foreach (Dictionary<string, object> dict in roomsJson)
+                        rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
+                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"])));
+                }
+
+                //Display all the rooms in the table
+                Rooms.ItemsSource = rooms;
+            }
+            catch (Exception excep)
+            {
+                socket.ShowErrorMessage(excep.Message);
+            }
+        }
+
         private void ListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void RefreshButton(object sender, RoutedEventArgs e)
+        {
+            UpdateRoomsList();
         }
     }
 
