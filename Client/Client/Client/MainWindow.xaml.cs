@@ -46,7 +46,8 @@ namespace Client
         {
             //Let the server know the user is closing.
             //Need to check: What if the user loses connection when is closing the window?
-            socket.Close();
+            if(socket != null)
+                socket.Close();
         }
     }
 }
