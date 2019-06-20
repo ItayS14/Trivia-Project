@@ -47,7 +47,6 @@ namespace Client
                 int timePerQuestion = int.Parse(TimePerQuestion.SelectedItem.ToString());
                 int roomId = socket.CreateRoom(name, maxPlayers, questionCount, timePerQuestion, (int)type);
 
-                socket.JoinRoom(roomId);
                 NavigationService.Navigate(new AdminGameLobby(socket, new Room(roomId, name, (int)type, maxPlayers, 1)));
             }
             catch (Exception excep)

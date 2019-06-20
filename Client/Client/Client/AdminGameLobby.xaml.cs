@@ -46,6 +46,7 @@ namespace Client
             try
             {
                 socket.LeaveRoom(room.ID);
+                NavigationService.Navigate(new RoomsMenu(socket));
             }
             catch (Exception excep)
             {
