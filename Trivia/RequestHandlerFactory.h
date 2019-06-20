@@ -20,7 +20,7 @@ public:
 
 	LoginRequestHandler* createLoginRequestHandler(); 
 	MenuRequestHandler* createMenuRequestHandler(const std::string& username);
-	RoomRequestHandler* createRoomRequestHandler(const std::string& username, Room& room, const bool is_admin);
+	RoomRequestHandler* createRoomRequestHandler(const std::string& username, Room* room, const bool is_admin);
 
 private:
 	RoomManager* _room_manager;

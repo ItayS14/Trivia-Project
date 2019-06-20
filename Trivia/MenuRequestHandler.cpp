@@ -31,27 +31,28 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		{
 			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"));
 			data = result_j.dump();
+			_room_manager->getRoom(result_j["room_id"])->addUser(_logged_user);
 			r._new_handler = _factory->createRoomRequestHandler(_logged_user, _room_manager->getRoom(result_j.at("room_id")), true);
 			break;
 		}
 		case JOIN_ROOM:
 		{
-			Room& room = _room_manager->getRoom(j.at("room_id"));
-			room.addUser(_logged_user);
+			Room* room = _room_manager->getRoom(j.at("room_id"));
+			room->addUser(_logged_user);
 			r._new_handler = _factory->createRoomRequestHandler(_logged_user, room, false);
 			break;
 		}
 		case GET_ROOMS:
 		{
-			for (Room& room : _room_manager->getRooms())
+			for (Room* room : _room_manager->getRooms())
 			{
 				json inner_j;
-				inner_j["room_id"] = room._id;
-				inner_j["room_name"] = room._name;
-				inner_j["max_players"] = room._max_players;
-				inner_j["logged_players"] = room.getNumberOfLoggedUsers();
-				inner_j["state"] = room._state;
-				inner_j["type"] = room._questions_type;
+				inner_j["room_id"] = room->_id;
+				inner_j["room_name"] = room->_name;
+				inner_j["max_players"] = room->_max_players;
+				inner_j["logged_players"] = room->getNumberOfLoggedUsers();
+				inner_j["state"] = room->_state;
+				inner_j["type"] = room->_questions_type;
 				result_j.push_back(inner_j);
 			}
 			data = result_j.dump();
@@ -60,7 +61,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		case GET_PLAYERS_IN_ROOM:
 		{
-			result_j = _room_manager->getRoom(j.at("room_id")).getAllUsers();
+			result_j = _room_manager->getRoom(j.at("room_id"))->getAllUsers();
 			data = result_j.dump();
 			r._new_handler = this;
 			break;

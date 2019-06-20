@@ -32,13 +32,13 @@ public:
 	const std::vector<std::string>& getAllUsers() { return _users; }
 	size_t getNumberOfLoggedUsers() { return _users.size(); }
 
-	unsigned int _id; // those members are public becuase it's useless to set them as private and set getters and setters for each one of them.
-	unsigned int _max_players;
-	unsigned int _time_per_question;
-	unsigned int _question_count;
-	unsigned int _questions_type;
+	const unsigned int _id; // those members are public becuase it's useless to set them as private and set getters and setters for each one of them.
+	const unsigned int _max_players;
+	const unsigned int _time_per_question;
+	const unsigned int _question_count;
+	const unsigned int _questions_type;
 	unsigned int _state;
-	std::string _name;
+	const std::string _name;
 
 private:
 	std::vector<std::string> _users;

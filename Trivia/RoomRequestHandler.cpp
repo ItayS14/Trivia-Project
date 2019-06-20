@@ -26,7 +26,7 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 			r._new_handler = _factory->createMenuRequestHandler(_logged_user);
 			break;
 		case START_GAME:
-			_room._state = IN_GAME;
+			_room->_state = IN_GAME;
 			r._new_handler = this; // change this later to be game handler
 			break;
 		}
@@ -48,9 +48,9 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 
 void RoomRequestHandler::leaveRoom()
 {
-	_room.removeUser(_logged_user);
+	_room->removeUser(_logged_user);
 	if (_is_admin)
-		_room_manager->deleteRoom(_room._id);
+		_room_manager->deleteRoom(_room->_id);
 }
 
 void RoomRequestHandler::handleSocketError()
