@@ -44,7 +44,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
 
@@ -67,7 +67,8 @@ namespace Client
                 {
                     foreach (Dictionary<string, object> dict in roomsJson)
                         rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
-                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"])));
+                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"]), Convert.ToInt32(dict["state"]), 
+                            Convert.ToInt32(dict["time_per_question"]), Convert.ToInt32(dict["question_count"])));
                 }
 
                 //Display all the rooms in the table
@@ -75,7 +76,7 @@ namespace Client
             }
             catch (Exception excep)
             {
-                socket.ShowErrorMessage(excep.Message);
+                Utlis.ShowErrorMessage(excep.Message);
             }
         }
 
@@ -101,20 +102,34 @@ namespace Client
         Geography
     }
 
+    public enum States
+    {
+        Joinable = 0,
+        In_Game = 1,
+        Finished = 2
+    }
+
+
     public class Room
     {
         public Room() { }
-        public Room(int id, string name, int type, int maxPlayers, int loggedPlayers)
+        public Room(int id, string name, int type, int maxPlayers, int loggedPlayers, int state, int timePerQuestion, int questionCount)
         {
             ID = id;
             Name = name;
             Players = loggedPlayers + "/" + maxPlayers;
             Type = Enum.GetName(typeof(Types), type).Replace('_', ' ');
+            State = Enum.GetName(typeof(States), state).Replace('_', ' ');
+            TimePerQuestion = timePerQuestion;
+            QuestionCount = questionCount;
         }
 
         public int ID { set; get; }
         public string Name { set; get; }
         public string Type { set; get; }
         public string Players { set; get; }
+        public string State { set; get; }
+        public int TimePerQuestion { set; get; }
+        public int QuestionCount { set; get; }
     }
 }
