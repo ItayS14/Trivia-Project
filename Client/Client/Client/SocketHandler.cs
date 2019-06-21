@@ -19,7 +19,7 @@ namespace Client
         CREATE_ROOM,
         JOIN_ROOM,
         GET_ROOMS,
-        GET_PLAYERS_IN_ROOM,
+        GET_ROOM_STATE,
         LEAVE_ROOM,
         START_GAME,
         SUCCESS = 200,
@@ -97,7 +97,7 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.GET_PLAYERS_IN_ROOM).ToString(), dict);
+            SendToServer(((int)Codes.GET_ROOM_STATE).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string,object>>(ReceiveFromServer());
         }
         public void LeaveRoom(int roomId)
@@ -111,7 +111,7 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.LOGIN).ToString(), dict);
+            SendToServer(((int)Codes.START_GAME).ToString(), dict);
             ReceiveFromServer();
         }
         private void SendToServer(string code, Dictionary<string, object> data)
