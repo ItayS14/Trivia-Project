@@ -38,10 +38,9 @@ public:
 	const unsigned int _questions_type;
 	unsigned int _state;
 	const std::string _name;
+	std::string _admin;
 
 private:
 	void setNewAdmin(); // The function will get a random new user for the room
-
-	std::string _admin;
 	std::vector<std::string> _users;
 };

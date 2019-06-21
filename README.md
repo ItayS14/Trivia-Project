@@ -86,13 +86,18 @@ response json:
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
-107 - leave (and close if admin) room
+107 - leave room
 {
 	"room_id" : *unsigned int*
 }
 
 108 - start game
 json:
+{
+	"room_id" : *unsigned int*
+}
+
+109 - close room (only admin can do it)
 {
 	"room_id" : *unsigned int*
 }
