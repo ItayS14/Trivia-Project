@@ -93,12 +93,12 @@ namespace Client
             return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(ReceiveFromServer());
         }
 
-        public List<string> GetPlayersInRoom(int roomId)
+        public Dictionary<string,object> GetRoomState(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
             SendToServer(((int)Codes.GET_PLAYERS_IN_ROOM).ToString(), dict);
-            return JsonConvert.DeserializeObject<List<string>>(ReceiveFromServer());
+            return JsonConvert.DeserializeObject<Dictionary<string,object>>(ReceiveFromServer());
         }
         public void LeaveRoom(int roomId)
         {

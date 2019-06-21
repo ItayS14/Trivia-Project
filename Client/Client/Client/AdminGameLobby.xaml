@@ -17,6 +17,9 @@
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for answer" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,50,0,0" TextWrapping="Wrap" Name="RoomTypeText" VerticalAlignment="Top" Width="334"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,152,0,0" TextWrapping="Wrap" Name="QuestionsNumberText" VerticalAlignment="Top" Width="334"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="AnswerTimeText" VerticalAlignment="Top" Width="334"/>
         </Grid>
     </Grid>
 </Page>

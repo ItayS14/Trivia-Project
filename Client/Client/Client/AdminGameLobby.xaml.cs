@@ -27,6 +27,8 @@ namespace Client
             InitializeComponent();
             this.socket = socket;
             this.room = room;
+            Dictionary<string, object> data = socket.GetRoomState(room.ID);
+            UpdateRoomData(data);
         }
 
         private void Start_Button_Click(object sender, RoutedEventArgs e)
@@ -52,6 +54,18 @@ namespace Client
             {
                 Utlis.ShowErrorMessage(excep.Message);
             }
+        }
+        private void UpdateRoomData(Dictionary<string, object> data)
+        {
+            //Show players in room
+            List<string> players = (List<string>)data["players"];
+            foreach (string player in players)
+                Players.Items.Add(player);
+
+            //Show room data
+            int type = Convert.ToInt32(data["type"]);
+            RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
+            //Need to add time for answer and question count (recieve the data from somewhere)
         }
     }
 }
