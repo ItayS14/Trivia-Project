@@ -13,17 +13,17 @@ namespace Client
 {
     public enum Codes
     {
-        SIGNUP = 100,
-        LOGIN,
-        LOGOUT,
-        CREATE_ROOM,
-        JOIN_ROOM,
-        GET_ROOMS,
-        GET_PLAYERS_IN_ROOM,
-        LEAVE_ROOM,
-        START_GAME,
-        SUCCESS = 200,
-        ERROR_MSG = 400
+        Signup = 100,
+        Login,
+        Logout,
+        Create_Room,
+        Join_Room,
+        Get_Rooms,
+        Get_Room_State,
+        Leave_Room,
+        Start_Game,
+        Success = 200,
+        Error_Msg = 400
     }
 
     public class SocketHandler
@@ -44,7 +44,7 @@ namespace Client
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("username", username);
             dict.Add("password", password);
-            SendToServer(((int)Codes.LOGIN).ToString(), dict);
+            SendToServer(((int)Codes.Login).ToString(), dict);
             //Irrelevant to return a string, 
             //If the function succeeds it has no meaning and if it fails it is caught in the exception
             ReceiveFromServer();
@@ -56,14 +56,14 @@ namespace Client
             dict.Add("username", username);
             dict.Add("password", password);
             dict.Add("email", email);
-            SendToServer(((int)Codes.SIGNUP).ToString(), dict);
+            SendToServer(((int)Codes.Signup).ToString(), dict);
             //Again, no point to return a string
             ReceiveFromServer();
         }
 
         public string SignOut()
         {
-            SendToServer(((int)Codes.LOGOUT).ToString(), null);
+            SendToServer(((int)Codes.Logout).ToString(), null);
             return ReceiveFromServer();
         }
 
@@ -75,7 +75,7 @@ namespace Client
             dict.Add("question_count", questionCount);
             dict.Add("time_per_question", timePerQuestion);
             dict.Add("type", type);
-            SendToServer(((int)Codes.CREATE_ROOM).ToString(), dict);
+            SendToServer(((int)Codes.Create_Room).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string, int>>(ReceiveFromServer())["room_id"];
         }
 
@@ -83,13 +83,13 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.JOIN_ROOM).ToString(), dict);
+            SendToServer(((int)Codes.Join_Room).ToString(), dict);
             ReceiveFromServer();
         }
 
         public List<Dictionary<string,object>> GetRooms()
         {
-            SendToServer(((int)Codes.GET_ROOMS).ToString(), null);
+            SendToServer(((int)Codes.Get_Rooms).ToString(), null);
             return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(ReceiveFromServer());
         }
 
@@ -97,21 +97,21 @@ namespace Client
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.GET_PLAYERS_IN_ROOM).ToString(), dict);
+            SendToServer(((int)Codes.Get_Room_State).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string,object>>(ReceiveFromServer());
         }
         public void LeaveRoom(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.LEAVE_ROOM).ToString(), dict);
+            SendToServer(((int)Codes.Leave_Room).ToString(), dict);
             ReceiveFromServer();
         }
         public void StartGame(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.LOGIN).ToString(), dict);
+            SendToServer(((int)Codes.Start_Game).ToString(), dict);
             ReceiveFromServer();
         }
         private void SendToServer(string code, Dictionary<string, object> data)
@@ -141,7 +141,7 @@ namespace Client
                 bytesRead += socket.Read(bytes, 0, bytes.Length);
                 msg = Encoding.Default.GetString(bytes);
             }
-            if (code == (int)Codes.ERROR_MSG) //If there's an error, throw an exception, if not, the code is 200 for sure, so we only need to return the message.
+            if (code == (int)Codes.Error_Msg) //If there's an error, throw an exception, if not, the code is 200 for sure, so we only need to return the message.
                 throw new Exception(msg);
             return msg == "null" ? "" : msg;
         }
