@@ -60,8 +60,7 @@ namespace Client
         }
         private void UpdateRoomData()
         {
-            Dictionary<string, object> data = null;
-            data = socket.GetRoomState(room.ID);
+            Dictionary<string, object> data = socket.GetRoomState(room.ID);
 
             Players.Items.Clear();
             //Show players in room
