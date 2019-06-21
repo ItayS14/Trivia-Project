@@ -22,6 +22,9 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
                     <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="Type" />
                     <GridViewColumn DisplayMemberBinding="{Binding Players}" Header="Players" />
+                    <GridViewColumn DisplayMemberBinding="{Binding QuestionCount}" Header="Question Count" />
+                    <GridViewColumn DisplayMemberBinding="{Binding TimePerQuestion}" Header="Time Per Question" />
+                    <GridViewColumn DisplayMemberBinding="{Binding State}" Header="State" />
                 </GridView>
             </ListView.View>
 
