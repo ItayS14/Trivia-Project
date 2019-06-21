@@ -47,7 +47,7 @@ namespace Client
             try
             {
                 socket.JoinRoom(room.ID);
-                NavigationService.Navigate(new GameLobby(socket, room));
+                NavigationService.Navigate(new GameLobby(socket, room.ID,false));
             }
             catch (Exception excep)
             {

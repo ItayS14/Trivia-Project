@@ -21,22 +21,22 @@ namespace Client
     public partial class GameLobby : Page
     {
         private SocketHandler socket;
-        private Room room;
-        public GameLobby(SocketHandler socket, Room room)
+        private int roomId;
+        private bool isAdmin;
+        public GameLobby(SocketHandler socket, int roomId, bool isAdmin)
         {
             InitializeComponent();
             this.socket = socket;
-            this.room = room;
-            Dictionary<string, object> data = socket.GetRoomState(room.ID);
-            UpdateRoomData(data);
-
+            this.roomId = roomId;
+            this.isAdmin = isAdmin;
+            UpdateRoomData();
         }
         
         private void Leave_Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                socket.LeaveRoom(room.ID);
+                socket.LeaveRoom(roomId);
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
             catch(Exception excep)
@@ -44,8 +44,21 @@ namespace Client
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private void UpdateRoomData(Dictionary<string,object> data)
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                socket.StartGame(roomId);
+            }
+            catch (Exception excep)
+            {
+                Utlis.ShowErrorMessage(excep.Message);
+            }
+        }
+        private void UpdateRoomData()
+        {
+            Dictionary<string, object> data = socket.GetRoomState(roomId);
+
             //Show players in room
             List<string> players = (List<string>)data["players"];
             foreach (string player in players)
@@ -54,7 +67,8 @@ namespace Client
             //Show room data
             int type = Convert.ToInt32(data["type"]);
             RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            //Need to add time for answer and question count (recieve the data from somewhere)
+            QuestionsNumberText.Text = Convert.ToString(data["question_count"]);
+            QuestionTimeText.Text = Convert.ToString(data["time_per_question"]);
         }
     }
 }
