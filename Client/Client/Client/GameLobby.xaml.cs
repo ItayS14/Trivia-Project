@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace Client
 {
@@ -21,13 +22,13 @@ namespace Client
     public partial class GameLobby : Page
     {
         private SocketHandler socket;
-        private int roomId;
+        private Room room;
         private bool isAdmin;
-        public GameLobby(SocketHandler socket, int roomId, bool isAdmin)
+        public GameLobby(SocketHandler socket, Room room, bool isAdmin)
         {
             InitializeComponent();
             this.socket = socket;
-            this.roomId = roomId;
+            this.room = room;
             this.isAdmin = isAdmin;
             UpdateRoomData();
         }
@@ -36,7 +37,7 @@ namespace Client
         {
             try
             {
-                socket.LeaveRoom(roomId);
+                socket.LeaveRoom(room.ID);
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
             catch(Exception excep)
@@ -48,7 +49,7 @@ namespace Client
         {
             try
             {
-                socket.StartGame(roomId);
+                socket.StartGame(room.ID);
             }
             catch (Exception excep)
             {
@@ -57,18 +58,20 @@ namespace Client
         }
         private void UpdateRoomData()
         {
-            Dictionary<string, object> data = socket.GetRoomState(roomId);
+            Dictionary<string, object> data = socket.GetRoomState(room.ID);
 
+            
             //Show players in room
-            List<string> players = (List<string>)data["players"];
+            List<string> players = JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]));
+            //List<string> players = new List<string>()
             foreach (string player in players)
                 Players.Items.Add(player);
 
             //Show room data
             int type = Convert.ToInt32(data["type"]);
             RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            QuestionsNumberText.Text = Convert.ToString(data["question_count"]);
-            QuestionTimeText.Text = Convert.ToString(data["time_per_question"]);
+            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
+            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
         }
     }
 }

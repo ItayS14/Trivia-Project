@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace Client
 {
@@ -32,7 +33,7 @@ namespace Client
             try
             {
                 Dictionary<string, object> data = socket.GetRoomState(room.ID);
-                foreach(string player in (List<string>)data["players"]) // Consider better way to insert into the listbox
+                foreach(string player in JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]))) // Consider better way to insert into the listbox
                     Players.Items.Add(player);
             }
             catch (Exception excep)
@@ -47,7 +48,7 @@ namespace Client
             try
             {
                 socket.JoinRoom(room.ID);
-                NavigationService.Navigate(new GameLobby(socket, room.ID,false));
+                NavigationService.Navigate(new GameLobby(socket, room,false));
             }
             catch (Exception excep)
             {
