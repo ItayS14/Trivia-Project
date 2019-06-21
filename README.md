@@ -64,6 +64,8 @@ inner dict:
 	"room_name" : *string*
 	"max_players" : *unsigned int*
 	"logged_players" : *unsigned int*
+	"question_count" : *unsigned int*
+	"time_per_question" : *unsigned int* (Seconds)
 	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1, Finished = 2]
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
@@ -79,6 +81,7 @@ response json:
 	"room_name" : *string*
 	"max_players" : *unsigned int*
 	"players" : *list of strings*
+	"admin_name" : *string* (username of the admin of the room)
 	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1, Finished = 2]
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }

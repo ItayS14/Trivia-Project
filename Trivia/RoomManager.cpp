@@ -5,9 +5,9 @@ RoomManager::~RoomManager()
 	for (auto& pair : _rooms)
 		delete pair.second;
 }
-int RoomManager::createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type)
+int RoomManager::createRoom(const std::string& name, const unsigned int max_players, const unsigned int time_per_question, const unsigned int question_count, const unsigned int questions_type, const std::string& admin)
 {
-	_rooms[_isn] = new Room(_isn, max_players, time_per_question, name, question_count, questions_type);
+	_rooms[_isn] = new Room(_isn, max_players, time_per_question, name, question_count, questions_type, admin);
 	return _isn++;
 }
 

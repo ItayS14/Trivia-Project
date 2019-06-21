@@ -29,9 +29,8 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		case CREATE_ROOM:
 		{
-			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"));
+			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"), _logged_user);
 			data = result_j.dump();
-			_room_manager->getRoom(result_j["room_id"])->addUser(_logged_user);
 			r._new_handler = _factory->createRoomRequestHandler(_logged_user, _room_manager->getRoom(result_j.at("room_id")), true);
 			break;
 		}
@@ -50,6 +49,8 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 				inner_j["room_id"] = room->_id;
 				inner_j["room_name"] = room->_name;
 				inner_j["max_players"] = room->_max_players;
+				inner_j["question_count"] = room->_question_count;
+				inner_j["time_per_question"] = room->_time_per_question;
 				inner_j["logged_players"] = room->getNumberOfLoggedUsers();
 				inner_j["state"] = room->_state;
 				inner_j["type"] = room->_questions_type;
@@ -61,7 +62,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		case GET_ROOM_STATE:
 		{
-			data = Helper::handleGetRoomStateRequest(_room_manager).dump();
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
 			r._new_handler = this;
 			break;
 		}

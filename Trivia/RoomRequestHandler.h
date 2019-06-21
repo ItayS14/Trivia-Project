@@ -16,8 +16,6 @@ public:
 	void handleSocketError() override;
 
 private:
-	void leaveRoom();
-
 	Room* _room;
 	RoomManager* _room_manager;
 	RequestHandlerFactory* _factory;

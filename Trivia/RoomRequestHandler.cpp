@@ -15,11 +15,12 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 	std::string r_msg = std::to_string(SUCCESS);
 	try
 	{
+		json j = json::parse(request._buffer);
 		std::string data;
 		switch (request._request_code)
 		{
 		case LEAVE_ROOM:
-			leaveRoom();
+			_room->removeUser(_logged_user);
 			r._new_handler = _factory->createMenuRequestHandler(_logged_user);
 			break;
 		case START_GAME:
@@ -27,7 +28,7 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 			r._new_handler = this; // change this later to be game handler
 			break;
 		case GET_ROOM_STATE:
-			data = Helper::handleGetRoomStateRequest(_room_manager).dump();
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
 			r._new_handler = this;
 		}
 		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);
@@ -47,16 +48,9 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 	return r;
 }
 
-void RoomRequestHandler::leaveRoom()
-{
-	_room->removeUser(_logged_user);
-	if (_is_admin)
-		_room_manager->deleteRoom(_room->_id);
-}
-
 void RoomRequestHandler::handleSocketError()
 {
-	leaveRoom();
+	_room->removeUser(_logged_user);
 	MenuRequestHandler* temp = _factory->createMenuRequestHandler(_logged_user);
 	temp->handleSocketError();
 	delete temp;
