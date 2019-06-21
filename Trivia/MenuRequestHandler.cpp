@@ -7,7 +7,7 @@ using json = nlohmann::json;
 bool MenuRequestHandler::isRequestRelevant(const Request& request)
 {
 	return request._request_code == LOGOUT || request._request_code == JOIN_ROOM || request._request_code == CREATE_ROOM ||
-		request._request_code == GET_PLAYERS_IN_ROOM || request._request_code == GET_ROOMS;
+		request._request_code == GET_ROOM_STATE || request._request_code == GET_ROOMS;
 }
 
 RequestResult MenuRequestHandler::handleRequest(const Request& request)
@@ -22,39 +22,52 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		switch (request._request_code)
 		{
 		case LOGOUT:
+		{
 			_login_manager->logout(_logged_user);
+			r._new_handler = _factory->createLoginRequestHandler();
 			break;
+		}
 		case CREATE_ROOM:
-			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"));
+		{
+			result_j["room_id"] = _room_manager->createRoom(j.at("room_name"), j.at("max_players"), j.at("time_per_question"), j.at("question_count"), j.at("type"), _logged_user);
 			data = result_j.dump();
+			r._new_handler = _factory->createRoomRequestHandler(_logged_user, _room_manager->getRoom(result_j.at("room_id")), true);
 			break;
+		}
 		case JOIN_ROOM:
-			_room_manager->getRoom(j.at("room_id")).addUser(_logged_user);
+		{
+			Room* room = _room_manager->getRoom(j.at("room_id"));
+			room->addUser(_logged_user);
+			r._new_handler = _factory->createRoomRequestHandler(_logged_user, room, false);
 			break;
+		}
 		case GET_ROOMS:
-			for (Room& room : _room_manager->getRooms())
+		{
+			for (Room* room : _room_manager->getRooms())
 			{
 				json inner_j;
-				inner_j["room_id"] = room._id;
-				inner_j["room_name"] = room._name;
-				inner_j["max_players"] = room._max_players;
-				inner_j["logged_players"] = room.getNumberOfLoggedUsers();
-				inner_j["state"] = room.getState();
-				inner_j["type"] = room._questions_type;
+				inner_j["room_id"] = room->_id;
+				inner_j["room_name"] = room->_name;
+				inner_j["max_players"] = room->_max_players;
+				inner_j["question_count"] = room->_question_count;
+				inner_j["time_per_question"] = room->_time_per_question;
+				inner_j["logged_players"] = room->getNumberOfLoggedUsers();
+				inner_j["state"] = room->_state;
+				inner_j["type"] = room->_questions_type;
 				result_j.push_back(inner_j);
 			}
 			data = result_j.dump();
-			break;
-		case GET_PLAYERS_IN_ROOM:
-			result_j = _room_manager->getRoom(j.at("room_id")).getAllUsers();
-			data = result_j.dump();
+			r._new_handler = this;
 			break;
 		}
+		case GET_ROOM_STATE:
+		{
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
+			r._new_handler = this;
+			break;
+		}
+		}
 		r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT) + data;
-		if (request._request_code == LOGOUT)
-			r._new_handler = _factory->createLoginRequestHandler();
-		else
-			r._new_handler = this; 
 	}
 	catch (const std::string& err)
 	{
