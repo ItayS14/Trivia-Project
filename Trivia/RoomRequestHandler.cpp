@@ -6,13 +6,13 @@ using json = nlohmann::json;
 
 bool RoomRequestHandler::isRequestRelevant(const Request& request)
 {
-	if (_room->_admin == _logged_user)
-		_is_admin = true;
 	return request._request_code == LEAVE_ROOM  || request._request_code == GET_ROOM_STATE || ((request._request_code == START_GAME || request._request_code == CLOSE_ROOM) && _is_admin);
 }
 
 RequestResult RoomRequestHandler::handleRequest(const Request& request)
 {
+	if (_room->_admin == _logged_user)
+		_is_admin = true;
 	RequestResult r;
 	std::string r_msg = std::to_string(SUCCESS);
 	try
@@ -23,15 +23,14 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 		{
 		case LEAVE_ROOM:
 			_room->removeUser(_logged_user);
+			if (_room->getNumberOfLoggedUsers() == 0)
+				_room_manager->deleteRoom(_room->_id);
 			r._new_handler = _factory->createMenuRequestHandler(_logged_user);
 			break;
 		case START_GAME:
 			_room->_state = IN_GAME;
 			r._new_handler = this; // change this later to be game handler
 			break;
-		case CLOSE_ROOM:
-			_room_manager->deleteRoom(_room->_id);
-			r._new_handler = _factory->createMenuRequestHandler(_logged_user);
 		case GET_ROOM_STATE:
 			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
 			r._new_handler = this;

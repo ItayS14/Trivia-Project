@@ -18,7 +18,6 @@ void Room::addUser(const std::string& name)
 void Room::removeUser(const std::string& name)
 {
 	auto iterator = std::find(_users.begin(), _users.end(), name);
-	//Do something when there is only one user
 	if (iterator == _users.end())
 		throw std::string("User is not logged to the room");
 	_users.erase(iterator);

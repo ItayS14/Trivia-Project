@@ -86,7 +86,7 @@ response json:
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
-107 - leave room
+107 - leave room (if 0 users will be logged to the room - the room would be closed)
 {
 	"room_id" : *unsigned int*
 }
@@ -97,9 +97,5 @@ json:
 	"room_id" : *unsigned int*
 }
 
-109 - close room (only admin can do it)
-{
-	"room_id" : *unsigned int*
-}
 
 
