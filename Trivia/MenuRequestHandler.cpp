@@ -7,7 +7,7 @@ using json = nlohmann::json;
 bool MenuRequestHandler::isRequestRelevant(const Request& request)
 {
 	return request._request_code == LOGOUT || request._request_code == JOIN_ROOM || request._request_code == CREATE_ROOM ||
-		request._request_code == GET_PLAYERS_IN_ROOM || request._request_code == GET_ROOMS;
+		request._request_code == GET_ROOM_STATE || request._request_code == GET_ROOMS;
 }
 
 RequestResult MenuRequestHandler::handleRequest(const Request& request)
@@ -59,10 +59,9 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 			r._new_handler = this;
 			break;
 		}
-		case GET_PLAYERS_IN_ROOM:
+		case GET_ROOM_STATE:
 		{
-			result_j = _room_manager->getRoom(j.at("room_id"))->getAllUsers();
-			data = result_j.dump();
+			data = Helper::handleGetRoomStateRequest(_room_manager).dump();
 			r._new_handler = this;
 			break;
 		}

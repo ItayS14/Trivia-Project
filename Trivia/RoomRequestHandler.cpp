@@ -6,19 +6,16 @@ using json = nlohmann::json;
 
 bool RoomRequestHandler::isRequestRelevant(const Request& request)
 {
-	return request._request_code == LEAVE_ROOM || (request._request_code == START_GAME && _is_admin);
+	return request._request_code == LEAVE_ROOM  || request._request_code == GET_ROOM_STATE || (request._request_code == START_GAME && _is_admin);
 }
 
 RequestResult RoomRequestHandler::handleRequest(const Request& request)
 {
 	RequestResult r;
-	std::string r_msg = std::to_string(SUCCESS) + Helper::getPaddedNumber(0, SIZE_DIGIT_COUNT);
+	std::string r_msg = std::to_string(SUCCESS);
 	try
 	{
-		json result_j;
-		json j = request._buffer.size() == 0 ? nullptr : json::parse(request._buffer);
 		std::string data;
-		
 		switch (request._request_code)
 		{
 		case LEAVE_ROOM:
@@ -29,7 +26,11 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 			_room->_state = IN_GAME;
 			r._new_handler = this; // change this later to be game handler
 			break;
+		case GET_ROOM_STATE:
+			data = Helper::handleGetRoomStateRequest(_room_manager).dump();
+			r._new_handler = this;
 		}
+		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);
 	}
 	catch (const std::string& err)
 	{

@@ -64,17 +64,24 @@ inner dict:
 	"room_name" : *string*
 	"max_players" : *unsigned int*
 	"logged_players" : *unsigned int*
-	"state" : *unsigned int*
+	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1, Finished = 2]
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 
-106 - get players in room
+106 - get room state
 json:
 {
 	"room_id" : *unsigned int*
 }
 response json:
-*list of strings*
+{
+	"room_id" : *unsigned int*
+	"room_name" : *string*
+	"max_players" : *unsigned int*
+	"players" : *list of strings*
+	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1, Finished = 2]
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
+}
 
 107 - leave (and close if admin) room
 {
