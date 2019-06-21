@@ -26,3 +26,8 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 {
 	return new LoginRequestHandler(_login_manager, this);
 }
+
+RoomRequestHandler* RequestHandlerFactory::createRoomRequestHandler(const std::string& username, Room* room, const bool is_admin)
+{
+	return new RoomRequestHandler(room, _room_manager, username, is_admin, this);
+}
