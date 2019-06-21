@@ -10,17 +10,19 @@
 
     <Grid Background="White">
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Lobby" VerticalAlignment="Top" Height="103" Width="520" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
-        <Button Content="Leave Room" FontSize="36" HorizontalAlignment="Left" Height="144" Margin="904,530,0,0" VerticalAlignment="Top" Width="334" Click="Leave_Button_Click"/>
+        <Button Content="Leave Room" FontSize="36" HorizontalAlignment="Left" Height="125" Margin="904,562,0,0" VerticalAlignment="Top" Width="334" Click="Leave_Button_Click"/>
+        <Button Content="Start Game" FontSize="36" HorizontalAlignment="Left" Height="125" Margin="904,387,0,0" VerticalAlignment="Top" Width="334" Click="Start_Button_Click"/>
         <ListBox x:Name="Players" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="763" Margin="36,134,0,0" FontSize="36">
         </ListBox>
         <Grid Margin="904,68,42,338">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for answer" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for question" VerticalAlignment="Top" Height="45" Width="324" FontSize="18" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0"/>
             <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,50,0,0" TextWrapping="Wrap" Name="RoomTypeText" VerticalAlignment="Top" Width="334"/>
             <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,152,0,0" TextWrapping="Wrap" Name="QuestionsNumberText" VerticalAlignment="Top" Width="334"/>
-            <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="AnswerTimeText" VerticalAlignment="Top" Width="334"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="18" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="QuestionTimeText" VerticalAlignment="Top" Width="334"/>
         </Grid>
+        
 
     </Grid>
 </Page>
