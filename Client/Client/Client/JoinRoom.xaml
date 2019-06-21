@@ -10,7 +10,7 @@
       Title="JoinRoom">
 
     <Grid Background="DimGray">
-        <Button Content="Join Room" HorizontalAlignment="Left" VerticalAlignment="Top" Width="154" RenderTransformOrigin="9.336,7.81" Margin="1055,570,0,0" Height="69" Click="JoinRoomButton"/>
+        <Button Content="Join Room" HorizontalAlignment="Left" VerticalAlignment="Top" Width="154" RenderTransformOrigin="9.336,7.81" Margin="1055,602,0,0" Height="69" Click="JoinRoomButton"/>
         <ListBox Name="Players" HorizontalAlignment="Left" Height="505" VerticalAlignment="Top" Width="763" Margin="36,134,0,0" FontSize="36"/>
         <Button VerticalAlignment="Top" Margin="1055,69,0,0" Height="60" Click="BackButton" RenderTransformOrigin="2.177,0.699" HorizontalAlignment="Left" Width="61">
             <materialDesign:PackIcon Kind="KeyboardBackspace" Height="33" Width="35" RenderTransformOrigin="3.559,1.302" />
@@ -19,5 +19,17 @@
             <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
         </Button>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Logged Players" VerticalAlignment="Top" Height="103" Width="520" Margin="33,26,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        <Grid Margin="875,220,71,186">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="97*"/>
+                <ColumnDefinition Width="237*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for question" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,50,0,0" TextWrapping="Wrap" Name="RoomTypeText" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,152,0,0" TextWrapping="Wrap" Name="QuestionsNumberText" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2"/>
+            <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="QuestionTimeText" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2"/>
+        </Grid>
     </Grid>
 </Page>

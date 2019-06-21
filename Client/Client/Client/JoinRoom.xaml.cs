@@ -34,6 +34,10 @@ namespace Client
                 Dictionary<string, object> data = socket.GetRoomState(room.ID);
                 foreach(string player in (List<string>)data["players"]) // Consider better way to insert into the listbox
                     Players.Items.Add(player);
+                int type = Convert.ToInt32(data["type"]);
+                RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
+                QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
+                QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
             }
             catch (Exception excep)
             {
