@@ -6,7 +6,7 @@ using json = nlohmann::json;
 
 bool RoomRequestHandler::isRequestRelevant(const Request& request)
 {
-	return request._request_code == LEAVE_ROOM  || request._request_code == GET_ROOM_STATE || ((request._request_code == START_GAME || request._request_code == CLOSE_ROOM) && _is_admin);
+	return request._request_code == LEAVE_ROOM  || request._request_code == GET_ROOM_STATE || (request._request_code == START_GAME && _is_admin);
 }
 
 RequestResult RoomRequestHandler::handleRequest(const Request& request)
