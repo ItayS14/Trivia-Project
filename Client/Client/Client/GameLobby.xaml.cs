@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace Client
 {
@@ -30,9 +31,10 @@ namespace Client
             this.socket = socket;
             this.room = room;
             this.isAdmin = isAdmin;
-            UpdateRoomData();
+            Thread thr = new Thread(new ThreadStart(ThreadUpdateRoomData));
+            thr.Start();
         }
-        
+
         private void Leave_Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -40,7 +42,7 @@ namespace Client
                 socket.LeaveRoom(room.ID);
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
-            catch(Exception excep)
+            catch (Exception excep)
             {
                 Utlis.ShowErrorMessage(excep.Message);
             }
@@ -60,7 +62,7 @@ namespace Client
         {
             Dictionary<string, object> data = socket.GetRoomState(room.ID);
 
-            
+            Players.Items.Clear();
             //Show players in room
             List<string> players = JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]));
             //List<string> players = new List<string>()
@@ -72,6 +74,24 @@ namespace Client
             RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
             QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
             QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
+        }
+        private void ThreadUpdateRoomData()
+        {
+            while (true)
+            {
+                this.Dispatcher.Invoke(() => //Weird syntax but the point is it lets the current thread change what appears on screen
+                {
+                    try
+                    {
+                        UpdateRoomData();
+                    }
+                    catch
+                    {
+                        return; //This signals the thread to shut down
+                    }
+                });
+                Thread.Sleep(5000);
+            }
         }
     }
 }
