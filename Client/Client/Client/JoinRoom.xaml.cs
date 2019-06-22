@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 
 namespace Client
 {
@@ -33,7 +32,9 @@ namespace Client
             try
             {
                 Dictionary<string, object> data = socket.GetRoomState(room.ID);
-                foreach(string player in JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]))) // Consider better way to insert into the listbox
+                List<string> players = Utlis.ObjectToStringList(data["players"]);
+                AdminTextBox.Text = players[0];
+                foreach(string player in players.Skip(1)) // Consider better way to insert into the listbox
                     Players.Items.Add(player);
                 int type = Convert.ToInt32(data["type"]);
                 RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');

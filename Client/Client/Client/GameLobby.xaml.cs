@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 using System.Threading;
 
 namespace Client
@@ -64,9 +63,10 @@ namespace Client
 
             Players.Items.Clear();
             //Show players in room
-            List<string> players = JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]));
+            List<string> players = Utlis.ObjectToStringList(data["players"]);
+            AdminTextBox.Text = players[0];
             //List<string> players = new List<string>()
-            foreach (string player in players)
+            foreach (string player in players.Skip(1)) //Start from second player
                 Players.Items.Add(player);
 
             //Show room data
