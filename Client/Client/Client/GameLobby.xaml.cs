@@ -65,7 +65,6 @@ namespace Client
             //Show players in room
             List<string> players = Utlis.ObjectToStringList(data["players"]);
             AdminTextBox.Text = players[0];
-            //List<string> players = new List<string>()
             foreach (string player in players.Skip(1)) //Start from second player
                 Players.Items.Add(player);
 
@@ -74,6 +73,10 @@ namespace Client
             RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
             QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
             QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
+
+            //Enable Start Game button if user is admin
+            if (Convert.ToBoolean(data["is_admin"]))
+                StartButton.IsEnabled = true;
         }
         private void ThreadUpdateRoomData()
         {
