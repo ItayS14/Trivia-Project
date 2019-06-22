@@ -15,5 +15,5 @@ public:
 	static std::string getPaddedNumber(int num, int digits);
 	
 	//this function is here to remove code duplication (get room state request is in 2 handlers)
-	static json handleGetRoomStateRequest(RoomManager* room_manager, int room_id);
+	static json handleGetRoomStateRequest(RoomManager* room_manager, const int room_id, const bool is_admin);
 };

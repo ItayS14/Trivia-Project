@@ -62,7 +62,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		case GET_ROOM_STATE:
 		{
-			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id"), false).dump();
 			r._new_handler = this;
 			break;
 		}

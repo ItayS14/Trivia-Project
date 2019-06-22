@@ -21,12 +21,6 @@ void Room::removeUser(const std::string& name)
 	if (iterator == _users.end())
 		throw std::string("User is not logged to the room");
 	_users.erase(iterator);
-	if (name == _admin && _users.size() > 0)
-		setNewAdmin();
-}
-
-void Room::setNewAdmin()
-{
-	int rand = std::rand() % _users.size(); // getting random index inside the vector
-	_admin = _users[rand];
+	if (name == _admin && _users.size() > 0) // new admin will be the first user in the list
+		_admin = _users[0];
 }

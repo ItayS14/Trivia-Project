@@ -41,6 +41,5 @@ public:
 	std::string _admin;
 
 private:
-	void setNewAdmin(); // The function will get a random new user for the room
 	std::vector<std::string> _users;
 };

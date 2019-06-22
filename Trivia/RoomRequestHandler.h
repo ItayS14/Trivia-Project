@@ -16,6 +16,8 @@ public:
 	void handleSocketError() override;
 
 private:
+	void leave(); // (if user leaves and there is no more users the room would be closed)
+
 	Room* _room;
 	RoomManager* _room_manager;
 	RequestHandlerFactory* _factory;
