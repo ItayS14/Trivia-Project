@@ -8,10 +8,14 @@
 class Game
 {
 public:
-	Game(std::vector<Question*> questions, std::map<std::string,double> players) : _questions(questions), _players(players) {}
+	Game(std::vector<Question*> questions, std::map<std::string,double> players, int id) : _questions(questions), _players(players), _id(id) {}
+	~Game();
+
 	void removePlayer(const std::string& name);
+	Question* getQuestionAt(int index); // throws exception if index is out of bounds
 
 private:
+	unsigned int _id;
 	std::vector<Question*> _questions;
 	std::map<std::string, double> _players; //string for player name, double for his/her score
 };

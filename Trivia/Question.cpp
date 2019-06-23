@@ -9,7 +9,6 @@ Question::Question(const std::string & question, const std::string & correct_ans
 	_answers.push_back(ans2);
 	_answers.push_back(ans3);
 	_answers.push_back(ans4);
-	std::srand(std::time(nullptr));
 	_correct_ans = std::rand() % NUM_OF_QUESTIONS;
 	_answers.insert(_answers.begin() + _correct_ans, correct_ans); //Insert the correct answer at a random place
 }
