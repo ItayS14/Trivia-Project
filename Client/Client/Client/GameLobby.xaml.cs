@@ -55,12 +55,14 @@ namespace Client
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private void Start_Button_Click(object sender, RoutedEventArgs e)
+        private async void Start_Button_Click(object sender, RoutedEventArgs e)
         {
             finished = true;
             try
             {
                 socket.StartGame(room.ID);
+                await Task.Delay(5000);
+                NavigationService.Navigate(new Game());
             }
             catch (Exception excep)
             {
@@ -84,6 +86,13 @@ namespace Client
                 //Enable Start Game button if user is admin
                 if (Convert.ToBoolean(data["is_admin"]))
                     StartButton.IsEnabled = true;
+
+                if (Convert.ToInt32(data["state"]) == (int)State.In_Game)
+                {
+                    await Task.Delay(Convert.ToInt32(data["start_in"]) * 1000);
+                    //display message that game is about to start
+                    NavigationService.Navigate(new Game());
+                }
 
                 await Task.Delay(5000); // waits for 5 seconds witout stalling the program
 

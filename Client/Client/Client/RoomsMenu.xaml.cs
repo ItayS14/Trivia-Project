@@ -108,7 +108,7 @@ namespace Client
         Geography
     }
 
-    public enum States
+    public enum State
     {
         Joinable = 0,
         In_Game = 1,
@@ -125,7 +125,7 @@ namespace Client
             Name = name;
             Players = loggedPlayers + "/" + maxPlayers;
             Type = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            State = Enum.GetName(typeof(States), state).Replace('_', ' ');
+            State = Enum.GetName(typeof(State), state).Replace('_', ' ');
             TimePerQuestion = timePerQuestion;
             QuestionCount = questionCount;
         }
