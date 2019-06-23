@@ -32,7 +32,7 @@ namespace Client
             try
             {
                 Dictionary<string, object> data = socket.GetRoomState(room.ID);
-                List<string> players = Utlis.ObjectToStringList(data["players"]);
+                List<string> players = Utlis.ObjectToList<string>(data["players"]);
                 AdminTextBox.Text = players[0];
                 foreach(string player in players.Skip(1)) 
                     Players.Items.Add(player);

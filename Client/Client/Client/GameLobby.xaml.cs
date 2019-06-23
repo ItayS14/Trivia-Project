@@ -62,7 +62,7 @@ namespace Client
             {
                 socket.StartGame(room.ID);
                 await Task.Delay(5000);
-                NavigationService.Navigate(new Game());
+                NavigationService.Navigate(new Game(socket,room));
             }
             catch (Exception excep)
             {
@@ -78,7 +78,7 @@ namespace Client
 
                 Players.Items.Clear();
                 //Show players in room
-                List<string> players = Utlis.ObjectToStringList(data["players"]);
+                List<string> players = Utlis.ObjectToList<string>(data["players"]);
                 AdminTextBox.Text = players[0];
                 foreach (string player in players.Skip(1)) //Start from second player
                     Players.Items.Add(player);
@@ -91,7 +91,7 @@ namespace Client
                 {
                     await Task.Delay(Convert.ToInt32(data["start_in"]) * 1000);
                     //display message that game is about to start
-                    NavigationService.Navigate(new Game());
+                    NavigationService.Navigate(new Game(socket,room));
                 }
 
                 await Task.Delay(5000); // waits for 5 seconds witout stalling the program

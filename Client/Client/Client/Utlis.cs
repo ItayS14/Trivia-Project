@@ -15,9 +15,9 @@ namespace Client
             string msg = "Error!\nInfo: " + info;
             MessageBox.Show(msg, "Error Message");
         }
-        static public List<string> ObjectToStringList(object data)
+        static public List<T> ObjectToList<T>(object data)
         {
-            return JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data));
+            return JsonConvert.DeserializeObject<List<T>>(Convert.ToString(data));
         }
     }
 }
