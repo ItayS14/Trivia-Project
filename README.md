@@ -87,15 +87,8 @@ response json:
 }
 
 107 - leave room (if 0 users will be logged to the room - the room would be closed)
-{
-	"room_id" : *unsigned int*
-}
 
 108 - start game
-json:
-{
-	"room_id" : *unsigned int*
-}
 
 109 - get question
 json:
@@ -120,9 +113,7 @@ response:
 }
 
 111 - leave game
-{
-    "game_id" : *unsigned int*
-}
+
 
 
 

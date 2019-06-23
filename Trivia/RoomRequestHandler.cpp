@@ -17,7 +17,7 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 	std::string r_msg = std::to_string(SUCCESS);
 	try
 	{
-		json j = json::parse(request._buffer);
+		json j = request._buffer.size() == 0 ? nullptr : json::parse(request._buffer);
 		std::string data;
 		switch (request._request_code)
 		{
