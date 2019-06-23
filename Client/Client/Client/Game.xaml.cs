@@ -26,18 +26,21 @@ namespace Client
         private int timePerQuestion;
         private int currQuestion;
         private int questionCount;
-        
-        public Game()
+        private int gameId;
+        private int index;
+
+        public Game(SocketHandler socket, Room room)
         {
             InitializeComponent();
-
+            this.socket = socket;
+            gameId = room.ID;
             timer = new DispatcherTimer();
             timer.Tick += TimerTickAsync;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
             currQuestion = 0;
-            timePerQuestion = 5;
-            questionCount = 4;
+            timePerQuestion = room.TimePerQuestion;
+            questionCount = room.QuestionCount;
             UpdateQuestionScreen();
         }
 
@@ -50,12 +53,14 @@ namespace Client
                 if (!IsAnswerPressed())
                 {
                     Utlis.ShowErrorMessage("No answer was pressed");
+                    index = 4;
                     foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
                         b.IsHitTestVisible = false;
                 }
                 await Task.Delay(2000);
                 if (questionCount == currQuestion)
                     Utlis.ShowErrorMessage("Finished");
+                SubmitAnswer();
                 UpdateQuestionScreen();
                 timer.Start();
             }
@@ -63,12 +68,18 @@ namespace Client
 
         private void AnswerButton(object sender, RoutedEventArgs e)
         {
+            int count = 0;
+            index = 0;
             foreach (Button b in Answers.Children.OfType<Button>())
             {
-                if (b == sender)
+                if (b == sender) //Will only occur once
+                {
                     b.IsHitTestVisible = false;
+                    index = count;
+                }
                 else
                     b.IsEnabled = false;
+                count++;
             }
         }
 
@@ -81,22 +92,36 @@ namespace Client
             }
             return false;
         }
+        private void SubmitAnswer()
+        {
+            Dictionary<string,object> data = socket.SubmitAnswer(index, currQuestion);
+            int correctAns = Convert.ToInt32(data["correct_ans"]);
+            int count = 0;
+            foreach (Button b in Answers.Children.OfType<Button>())
+                if (correctAns == count++)
+                { }//Temp   
+        }
+
         private void UpdateQuestionScreen() // the function updates the question screen to next question
         {
             TimerLabel.Text = timePerQuestion.ToString();
             Counter.Text = "Question: " + ++currQuestion;
+            Dictionary<string, object> data = socket.GetQuestion(currQuestion);
+            QuestionText.Text = Convert.ToString(data["question"]);
+            List<string> answers = Utlis.ObjectToList<string>(data["answers"]);
+            int count = 0;
             foreach (Button b in Answers.Children.OfType<Button>())
             {
+                b.Content = answers[count++];
                 b.IsEnabled = true;
                 b.IsHitTestVisible = true;
             }
 
-            //add code that gets next question
         }
 
         private void LeaveGameButton(object sender, RoutedEventArgs e)
         {
-            //leave game request
+            socket.LeaveGame(gameId);
             NavigationService.Navigate(new RoomsMenu(socket));
         }
     }

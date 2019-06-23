@@ -22,6 +22,10 @@ namespace Client
         Get_Room_State,
         Leave_Room,
         Start_Game,
+        Get_Question,
+        Submit_Answer,
+        Get_Statistics,
+        Leave_Game,
         Success = 200,
         Error_Msg = 400
     }
@@ -112,6 +116,28 @@ namespace Client
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("room_id", roomId);
             SendToServer(((int)Codes.Start_Game).ToString(), dict);
+            ReceiveFromServer();
+        }
+        public Dictionary<string,object> GetQuestion(int number)
+        {
+            Dictionary<string,object> dict = new Dictionary<string, object>();
+            dict.Add("number", number);
+            SendToServer(((int)Codes.Get_Question).ToString(), dict);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
+        }
+        public Dictionary<string,object> SubmitAnswer(int index, int number)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("index", index);
+            dict.Add("number", number);
+            SendToServer(((int)Codes.Submit_Answer).ToString(), dict);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
+        }
+        public void LeaveGame(int gameId)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("game_id", gameId);
+            SendToServer(((int)Codes.Leave_Game).ToString(), dict);
             ReceiveFromServer();
         }
         private void SendToServer(string code, Dictionary<string, object> data)
