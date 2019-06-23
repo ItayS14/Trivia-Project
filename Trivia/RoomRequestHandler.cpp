@@ -27,6 +27,7 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 			break;
 		case START_GAME:
 			_room->_state = IN_GAME;
+			_room->_start_time = request._recival_time + 5; //Start game in 5 secs
 			r._new_handler = this; // change this later to be game handler
 			break;
 		case GET_ROOM_STATE:

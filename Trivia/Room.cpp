@@ -1,7 +1,7 @@
 #include "Room.h"
 
 Room::Room(const unsigned int id, const unsigned int max_players, const unsigned int time_per_question, const std::string& name, unsigned int question_count, const unsigned int questions_type, const std::string& admin) 
-	: _id(id), _max_players(max_players), _time_per_question(time_per_question), _name(name), _question_count(question_count), _state(JOINABLE), _questions_type(questions_type), _admin(admin)
+	: _id(id), _max_players(max_players), _time_per_question(time_per_question), _name(name), _question_count(question_count), _state(JOINABLE), _questions_type(questions_type), _admin(admin), _start_time(0)
 {
 	_users.push_back(admin);
 }

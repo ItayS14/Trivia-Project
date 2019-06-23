@@ -39,6 +39,7 @@ public:
 	unsigned int _state;
 	const std::string _name;
 	std::string _admin;
+	time_t _start_time;
 
 private:
 	std::vector<std::string> _users;

@@ -20,5 +20,7 @@ json Helper::handleGetRoomStateRequest(RoomManager* room_manager, const int room
 	result_j["is_admin"] = is_admin;
 	result_j["state"] = room->_state;
 	result_j["type"] = room->_questions_type;
+	if (room->_state == IN_GAME)
+		result_j["start_in"] = room->_start_time - std::time(nullptr);
 	return result_j;
 }
