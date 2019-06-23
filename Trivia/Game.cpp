@@ -17,3 +17,8 @@ Question* Game::getQuestionAt(int index)
 		throw std::string("Index out of boundaries");
 	return _questions[index];
 }
+
+double Game::getScore(const std::string& player)
+{
+	return _players[player];
+}

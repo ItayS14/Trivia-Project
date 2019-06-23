@@ -100,6 +100,7 @@ response:
     "question" : *string*
     "answers" : *list of strings*
 }
+
 110 - submit answer
 json:
 {
@@ -109,10 +110,16 @@ json:
 response:
 {
     "correct_ans" : *unsigned int* (index of correct answer)
-    "statistics" : *list of int* (how many submitted each answer)
+	"score" : *double* (total score of the user after that question)
 }
 
-111 - leave game
+111 - get statistics
+response json:
+{
+     *list of int* (how many submitted each answer)
+}
+
+112 - leave game
 
 
 

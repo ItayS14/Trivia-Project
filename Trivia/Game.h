@@ -13,6 +13,7 @@ public:
 
 	void removePlayer(const std::string& name);
 	Question* getQuestionAt(int index); // throws exception if index is out of bounds
+	double getScore(const std::string& player);
 
 private:
 	unsigned int _id;

@@ -8,5 +8,5 @@ struct Question
 
 	std::string _question;
 	std::vector<std::string> _answers;
-	int _correct_ans; //index of correct answer
+	unsigned int _correct_ans; //index of correct answer
 };
