@@ -23,8 +23,8 @@ namespace Client
     {
         DispatcherTimer timer;
         int timePerQuestion;
+        int currQuestion;
         int questionCount;
-
         public Game()
         {
             InitializeComponent();
@@ -33,8 +33,9 @@ namespace Client
             timer.Tick += TimerTick;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
-            questionCount = 0;
+            currQuestion = 0;
             timePerQuestion = 5;
+            questionCount = 4;
             UpdateQuestionScreen();
         }
 
@@ -44,7 +45,15 @@ namespace Client
             if (TimerLabel.Text == "-1") // add a function that checks if user clicked on an answer
             {
                 timer.Stop();
-                System.Threading.Thread.Sleep(3000);
+                if (!IsAnswerPressed())
+                {
+                    Utlis.ShowErrorMessage("No answer was pressed");
+                    foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
+                        b.IsHitTestVisible = false;
+                }
+                    System.Threading.Thread.Sleep(3000);
+                if (questionCount == currQuestion)
+                    Utlis.ShowErrorMessage("Finished");
                 UpdateQuestionScreen();
                 timer.Start();
             }
@@ -54,19 +63,32 @@ namespace Client
         {
             foreach (Button b in Answers.Children.OfType<Button>())
             {
-                if (b != sender)
+                if (b == sender)
+                    b.IsHitTestVisible = false;
+                else
                     b.IsEnabled = false;
             }
         }
 
+        private bool IsAnswerPressed()
+        {
+            foreach (Button b in Answers.Children.OfType<Button>())
+            {
+                if (!b.IsHitTestVisible) // this field would be false if a button is pressed
+                    return true;
+            }
+            return false;
+        }
         private void UpdateQuestionScreen() // the function updates the question screen to next question
         {
             TimerLabel.Text = timePerQuestion.ToString();
-            questionCount++;
-            Counter.Text = "Question: " + questionCount;
+            Counter.Text = "Question: " + ++currQuestion;
             foreach (Button b in Answers.Children.OfType<Button>())
-                    b.IsEnabled = true;
-            
+            {
+                b.IsEnabled = true;
+                b.IsHitTestVisible = true;
+            }
+
             //add code that gets next question
         }
     }
