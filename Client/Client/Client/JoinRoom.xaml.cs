@@ -34,7 +34,7 @@ namespace Client
                 Dictionary<string, object> data = socket.GetRoomState(room.ID);
                 List<string> players = Utlis.ObjectToStringList(data["players"]);
                 AdminTextBox.Text = players[0];
-                foreach(string player in players.Skip(1)) // Consider better way to insert into the listbox
+                foreach(string player in players.Skip(1)) 
                     Players.Items.Add(player);
                 int type = Convert.ToInt32(data["type"]);
                 RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');

@@ -24,18 +24,27 @@ namespace Client
         private SocketHandler socket;
         private Room room;
         private bool isAdmin;
+        private bool finished;
+
         public GameLobby(SocketHandler socket, Room room, bool isAdmin)
         {
             InitializeComponent();
             this.socket = socket;
             this.room = room;
             this.isAdmin = isAdmin;
-            Thread thr = new Thread(new ThreadStart(ThreadUpdateRoomData));
-            thr.Start();
+            finished = false;
+
+            //Show room data
+            RoomTypeText.Text = room.Type;
+            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
+            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
+
+            UpdateRoomData();
         }
 
         private void Leave_Button_Click(object sender, RoutedEventArgs e)
         {
+            finished = true;
             try
             {
                 socket.LeaveRoom(room.ID);
@@ -48,6 +57,7 @@ namespace Client
         }
         private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
+            finished = true;
             try
             {
                 socket.StartGame(room.ID);
@@ -57,44 +67,28 @@ namespace Client
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private void UpdateRoomData()
+
+        private async void UpdateRoomData()
         {
-            Dictionary<string, object> data = socket.GetRoomState(room.ID);
-
-            Players.Items.Clear();
-            //Show players in room
-            List<string> players = Utlis.ObjectToStringList(data["players"]);
-            AdminTextBox.Text = players[0];
-            foreach (string player in players.Skip(1)) //Start from second player
-                Players.Items.Add(player);
-
-            //Show room data
-            int type = Convert.ToInt32(data["type"]);
-            RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
-            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
-
-            //Enable Start Game button if user is admin
-            if (Convert.ToBoolean(data["is_admin"]))
-                StartButton.IsEnabled = true;
-        }
-        private void ThreadUpdateRoomData()
-        {
-            while (true)
+            while (!finished)
             {
-                this.Dispatcher.Invoke(() => //Weird syntax but the point is it lets the current thread change what appears on screen
-                {
-                    try
-                    {
-                        UpdateRoomData();
-                    }
-                    catch
-                    {
-                        return; //This signals the thread to shut down
-                    }
-                });
-                Thread.Sleep(5000);
+                Dictionary<string, object> data = socket.GetRoomState(room.ID);
+
+                Players.Items.Clear();
+                //Show players in room
+                List<string> players = Utlis.ObjectToStringList(data["players"]);
+                AdminTextBox.Text = players[0];
+                foreach (string player in players.Skip(1)) //Start from second player
+                    Players.Items.Add(player);
+
+                //Enable Start Game button if user is admin
+                if (Convert.ToBoolean(data["is_admin"]))
+                    StartButton.IsEnabled = true;
+
+                await Task.Delay(5000); // waits for 5 seconds witout stalling the program
+
             }
+
         }
     }
 }

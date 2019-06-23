@@ -21,16 +21,18 @@ namespace Client
     /// </summary>
     public partial class Game : Page
     {
-        DispatcherTimer timer;
-        int timePerQuestion;
-        int currQuestion;
-        int questionCount;
+        private SocketHandler socket;
+        private DispatcherTimer timer;
+        private int timePerQuestion;
+        private int currQuestion;
+        private int questionCount;
+        
         public Game()
         {
             InitializeComponent();
 
             timer = new DispatcherTimer();
-            timer.Tick += TimerTick;
+            timer.Tick += TimerTickAsync;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
             currQuestion = 0;
@@ -39,10 +41,10 @@ namespace Client
             UpdateQuestionScreen();
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private async void TimerTickAsync(object sender, EventArgs e)
         {
             TimerLabel.Text = (int.Parse(TimerLabel.Text) - 1).ToString();
-            if (TimerLabel.Text == "-1") // add a function that checks if user clicked on an answer
+            if (TimerLabel.Text == "0") // add a function that checks if user clicked on an answer
             {
                 timer.Stop();
                 if (!IsAnswerPressed())
@@ -51,7 +53,7 @@ namespace Client
                     foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
                         b.IsHitTestVisible = false;
                 }
-                    System.Threading.Thread.Sleep(3000);
+                await Task.Delay(2000);
                 if (questionCount == currQuestion)
                     Utlis.ShowErrorMessage("Finished");
                 UpdateQuestionScreen();
@@ -90,6 +92,12 @@ namespace Client
             }
 
             //add code that gets next question
+        }
+
+        private void LeaveGameButton(object sender, RoutedEventArgs e)
+        {
+            //leave game request
+            NavigationService.Navigate(new RoomsMenu(socket));
         }
     }
 }

@@ -26,5 +26,6 @@
             <Button Content="D" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="649,145,0,0" Background="#FF3DFF00" BorderBrush="{x:Null}" Click="AnswerButton"/>
             <Button Content="B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="22,10,0,0" Background="Red" BorderBrush="{x:Null}" Click="AnswerButton"/>
         </Grid>
+        <Button Content="Leave Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="119" Margin="22,69,0,0" Height="54" Click="LeaveGameButton"/>
     </Grid>
 </Page>
