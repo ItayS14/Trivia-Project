@@ -97,5 +97,48 @@ json:
 	"room_id" : *unsigned int*
 }
 
+109 - get question
+json:
+{
+    "number" : *unsigned int* (number of question)
+}
+response:
+{
+    "question" : *string*
+    "answers" : *list of strings*
+}
+110 - submit answer
+json:
+{
+    "index" : *unsigned int*
+    "number" : *unsigned int* (number of question)
+}
+response:
+{
+    "correct_ans" : *unsigned int* (index of correct answer)
+    "statistics" : *list of int* (how many submitted each answer)
+}
+
+111 - leave game
+{
+    "game_id" : *unsigned int*
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
