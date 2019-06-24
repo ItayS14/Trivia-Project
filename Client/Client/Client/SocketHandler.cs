@@ -22,6 +22,11 @@ namespace Client
         Get_Room_State,
         Leave_Room,
         Start_Game,
+        Get_Question,
+        Submit_Answer,
+        Get_Statistics,
+        Get_Leaderboard,
+        Leave_Game,
         Success = 200,
         Error_Msg = 400
     }
@@ -107,11 +112,36 @@ namespace Client
             SendToServer(((int)Codes.Leave_Room).ToString(), dict);
             ReceiveFromServer();
         }
-        public void StartGame(int roomId)
+        public void StartGame()
+        {
+            SendToServer(((int)Codes.Start_Game).ToString(), null);
+            ReceiveFromServer();
+        }
+        public Dictionary<string,object> GetQuestion()
+        {
+            SendToServer(((int)Codes.Get_Question).ToString(), null);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
+        }
+        public Dictionary<string,object> SubmitAnswer(int index)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.Start_Game).ToString(), dict);
+            dict.Add("index", index);
+            SendToServer(((int)Codes.Submit_Answer).ToString(), dict);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
+        }
+        public List<int> GetStatistics()
+        {
+            SendToServer(((int)Codes.Get_Statistics).ToString(), null);
+            return JsonConvert.DeserializeObject<List<int>>(ReceiveFromServer());
+        }
+        public Dictionary<string,double> GetLeaderboard()
+        {
+            SendToServer(((int)Codes.Get_Leaderboard).ToString(), null);
+            return JsonConvert.DeserializeObject<Dictionary<string,double>>(ReceiveFromServer());
+        }
+        public void LeaveGame()
+        {
+            SendToServer(((int)Codes.Leave_Game).ToString(),null);
             ReceiveFromServer();
         }
         private void SendToServer(string code, Dictionary<string, object> data)

@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 
 namespace Client
 {
@@ -32,13 +31,7 @@ namespace Client
             this.room = room;
             try
             {
-                Dictionary<string, object> data = socket.GetRoomState(room.ID);
-                foreach(string player in JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]))) // Consider better way to insert into the listbox
-                    Players.Items.Add(player);
-                int type = Convert.ToInt32(data["type"]);
-                RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-                QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
-                QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
+                UpdateRoomData();
             }
             catch (Exception excep)
             {
@@ -47,7 +40,7 @@ namespace Client
             InitializeComponent();
         }
 
-        private void JoinRoomButton(object sender, RoutedEventArgs e)
+        private void JoinRoomClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -76,6 +69,25 @@ namespace Client
             {
                 Utlis.ShowErrorMessage(excep.Message);
             }
+        }
+        private void UpdateRoomData()
+        {
+            
+            Dictionary<string, object> data = socket.GetRoomState(room.ID);
+            
+            List<string> players = Utlis.ObjectToList<string>(data["players"]);
+            // Disable the button if the room is full or running
+            if (Convert.ToInt32(data["state"]) != (int)State.Joinable || players.Count == Convert.ToInt32(data["max_players"]))
+                JoinRoomButton.IsEnabled = false;
+            else
+                JoinRoomButton.IsEnabled = true;
+            AdminTextBox.Text = players[0];
+            foreach (string player in players.Skip(1))
+                Players.Items.Add(player);
+            int type = Convert.ToInt32(data["type"]);
+            RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
+            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
+            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
         }
     }
 }

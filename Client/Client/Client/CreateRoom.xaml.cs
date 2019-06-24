@@ -25,7 +25,7 @@ namespace Client
         public CreateRoom(SocketHandler socket)
         {
             InitializeComponent();
-            for (int i = 1; i < 6; i++) // check for a better way to init the combo box
+            for (int i = 2; i < 6; i++)
                 MaxPlayers.Items.Add(i);
             for (int i = 5; i <= 20; i++)
                 QuestionCount.Items.Add(i);
@@ -47,7 +47,7 @@ namespace Client
                 int timePerQuestion = int.Parse(TimePerQuestion.SelectedItem.ToString());
                 int roomId = socket.CreateRoom(name, maxPlayers, questionCount, timePerQuestion, (int)type);
 
-                NavigationService.Navigate(new GameLobby(socket, new Room(roomId,name,(int)type,maxPlayers,1,(int)States.Joinable,timePerQuestion,questionCount),true));
+                NavigationService.Navigate(new GameLobby(socket, new Room(roomId,name,(int)type,maxPlayers,1,(int)State.Joinable,timePerQuestion,questionCount),true));
             }
             catch (Exception excep)
             {

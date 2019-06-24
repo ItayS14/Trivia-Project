@@ -22,21 +22,26 @@ namespace Client
     {
         private SocketHandler socket;
 
+        bool finished;
+
         public RoomsMenu(SocketHandler socket)
         {
             InitializeComponent();
+            finished = false;
             this.socket = socket;
             UpdateRoomsList();
         }
 
         private void NewRoomButton(object sender, RoutedEventArgs e)
-        { 
+        {
+            finished = true;
            NavigationService.Navigate(new CreateRoom(socket));
         }
         
   
         private void LogoutButton(object sender, RoutedEventArgs e)
         {
+            finished = true;
             try
             {
                 socket.SignOut();
@@ -50,44 +55,45 @@ namespace Client
 
         private void DoubleClickHandler(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            finished = true;
             NavigationService.Navigate(new JoinRoom(socket, (Room)Rooms.SelectedItem));
         }
 
         //The function will update the list of rooms by sending request to the server
-        private void UpdateRoomsList()
+        private async void UpdateRoomsList()
         {
-            try
+            while (!finished)
             {
-                //Get the list in JSON
-                List<Dictionary<string, object>> roomsJson = socket.GetRooms();
-
-                //Convert the JSON to a list of rooms
-                List<Room> rooms = new List<Room>();
-                if (roomsJson != null)
+                try
                 {
-                    foreach (Dictionary<string, object> dict in roomsJson)
-                        rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
-                            Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"]), Convert.ToInt32(dict["state"]), 
-                            Convert.ToInt32(dict["time_per_question"]), Convert.ToInt32(dict["question_count"])));
-                }
+                    //Get the list in JSON
+                    List<Dictionary<string, object>> roomsJson = socket.GetRooms();
 
-                //Display all the rooms in the table
-                Rooms.ItemsSource = rooms;
+                    //Convert the JSON to a list of rooms
+                    List<Room> rooms = new List<Room>();
+                    if (roomsJson != null)
+                    {
+                        foreach (Dictionary<string, object> dict in roomsJson)
+                            rooms.Add(new Room(Convert.ToInt32(dict["room_id"]), Convert.ToString(dict["room_name"]), Convert.ToInt32(dict["type"]),
+                                Convert.ToInt32(dict["max_players"]), Convert.ToInt32(dict["logged_players"]), Convert.ToInt32(dict["state"]),
+                                Convert.ToInt32(dict["time_per_question"]), Convert.ToInt32(dict["question_count"])));
+                    }
+
+                    //Display all the rooms in the table
+                    Rooms.ItemsSource = rooms;
+                }
+                catch (Exception excep)
+                {
+                    Utlis.ShowErrorMessage(excep.Message);
+                }
+                await Task.Delay(3000);
             }
-            catch (Exception excep)
-            {
-                Utlis.ShowErrorMessage(excep.Message);
-            }
+
         }
 
         private void ListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        private void RefreshButton(object sender, RoutedEventArgs e)
-        {
-            UpdateRoomsList();
         }
     }
 
@@ -102,11 +108,10 @@ namespace Client
         Geography
     }
 
-    public enum States
+    public enum State
     {
         Joinable = 0,
-        In_Game = 1,
-        Finished = 2
+        In_Game
     }
 
 
@@ -119,7 +124,7 @@ namespace Client
             Name = name;
             Players = loggedPlayers + "/" + maxPlayers;
             Type = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            State = Enum.GetName(typeof(States), state).Replace('_', ' ');
+            State = Enum.GetName(typeof(State), state).Replace('_', ' ');
             TimePerQuestion = timePerQuestion;
             QuestionCount = questionCount;
         }

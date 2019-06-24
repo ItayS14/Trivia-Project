@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Newtonsoft.Json;
 using System.Threading;
 
 namespace Client
@@ -25,18 +24,27 @@ namespace Client
         private SocketHandler socket;
         private Room room;
         private bool isAdmin;
+        private bool finished;
+
         public GameLobby(SocketHandler socket, Room room, bool isAdmin)
         {
             InitializeComponent();
             this.socket = socket;
             this.room = room;
             this.isAdmin = isAdmin;
-            Thread thr = new Thread(new ThreadStart(ThreadUpdateRoomData));
-            thr.Start();
+            finished = false;
+
+            //Show room data
+            RoomTypeText.Text = room.Type;
+            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
+            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
+
+            UpdateRoomData();
         }
 
         private void Leave_Button_Click(object sender, RoutedEventArgs e)
         {
+            finished = true;
             try
             {
                 socket.LeaveRoom(room.ID);
@@ -47,51 +55,49 @@ namespace Client
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private void Start_Button_Click(object sender, RoutedEventArgs e)
+        private async void Start_Button_Click(object sender, RoutedEventArgs e)
         {
+            finished = true;
             try
             {
-                socket.StartGame(room.ID);
+                socket.StartGame();
+                await Task.Delay(5000);
+                NavigationService.Navigate(new Game(socket,room));
             }
             catch (Exception excep)
             {
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private void UpdateRoomData()
-        {
-            Dictionary<string, object> data = socket.GetRoomState(room.ID);
 
-            Players.Items.Clear();
-            //Show players in room
-            List<string> players = JsonConvert.DeserializeObject<List<string>>(Convert.ToString(data["players"]));
-            //List<string> players = new List<string>()
-            foreach (string player in players)
-                Players.Items.Add(player);
-
-            //Show room data
-            int type = Convert.ToInt32(data["type"]);
-            RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
-            QuestionsNumberText.Text = Convert.ToString(room.QuestionCount);
-            QuestionTimeText.Text = Convert.ToString(room.TimePerQuestion);
-        }
-        private void ThreadUpdateRoomData()
+        private async void UpdateRoomData()
         {
-            while (true)
+            while (!finished)
             {
-                this.Dispatcher.Invoke(() => //Weird syntax but the point is it lets the current thread change what appears on screen
+                Dictionary<string, object> data = socket.GetRoomState(room.ID);
+
+                Players.Items.Clear();
+                //Show players in room
+                List<string> players = Utlis.ObjectToList<string>(data["players"]);
+                AdminTextBox.Text = players[0];
+                foreach (string player in players.Skip(1)) //Start from second player
+                    Players.Items.Add(player);
+
+                //Enable Start Game button if user is admin
+                if (Convert.ToBoolean(data["is_admin"]))
+                    StartButton.IsEnabled = true;
+
+                if (Convert.ToInt32(data["state"]) == (int)State.In_Game)
                 {
-                    try
-                    {
-                        UpdateRoomData();
-                    }
-                    catch
-                    {
-                        return; //This signals the thread to shut down
-                    }
-                });
-                Thread.Sleep(5000);
+                    await Task.Delay(Convert.ToInt32(data["start_in"]) * 1000);
+                    //display message that game is about to start
+                    NavigationService.Navigate(new Game(socket,room));
+                }
+
+                await Task.Delay(5000); // waits for 5 seconds witout stalling the program
+
             }
+
         }
     }
 }
