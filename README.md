@@ -100,7 +100,7 @@ response:
 110 - submit answer
 json:
 {
-    "index" : *unsigned int*
+    "index" : *unsigned int* (index of selected ans)
 }
 response:
 {
@@ -117,7 +117,7 @@ response json:
 112 - get leaderboard
 response:
 {
-	"name_of_player" : *double* (name of each player and his/her score)
+	*name_of_player (string)* : *double* (name of each player and his/her score)
 }
 
 113 - leave game
