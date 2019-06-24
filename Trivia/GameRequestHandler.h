@@ -4,10 +4,10 @@
 #include "RequestHandlerFactory.h"
 #include "GameManager.h"
 
-class GameRequestHandler : IRequestHandler
+class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(Game* game, GameManager* game_manager, Room* room, const std::string& logged_user, RequestHandlerFactory* factory) :
+	GameRequestHandler(const std::string& logged_user, Game* game,  Room* room, GameManager* game_manager, RequestHandlerFactory* factory) :
 		_game(game), _game_manager(game_manager), _factory(factory), _logged_user(logged_user), _room(room) {}
 
 	bool isRequestRelevant(const Request& request) override;
