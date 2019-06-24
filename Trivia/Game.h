@@ -16,6 +16,7 @@ public:
 	double getScore(const std::string& player);
 	size_t getNumberOfLoggedPlayers();
 	unsigned int getId();
+	void addScore(const std::string& player, const int index_of_answer);
 
 private:
 	unsigned int _id;

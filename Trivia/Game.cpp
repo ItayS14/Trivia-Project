@@ -36,8 +36,8 @@ unsigned int Game::getId()
 	return _id;
 }
 
-void Game::addScore(const std::string & player, const int index_of_question)
+void Game::addScore(const std::string & player, const int index_of_answer)
 {
-	if (_questions[_curr_question]->_correct_ans == index_of_question)
+	if (_questions[_curr_question]->_correct_ans == index_of_answer)
 		_players[player] += 5;
 }
