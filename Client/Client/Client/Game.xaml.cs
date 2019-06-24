@@ -21,26 +21,33 @@ namespace Client
     /// </summary>
     public partial class Game : Page
     {
+        static int NO_ANSWER_PRESSED = 4; 
+
         private SocketHandler socket;
         private DispatcherTimer timer;
-        private int timePerQuestion;
+        private Room room;
         private int currQuestion;
-        private int questionCount;
-        private int gameId;
         private int index;
+
+        private Button[] answersButtons;
 
         public Game(SocketHandler socket, Room room)
         {
             InitializeComponent();
+
             this.socket = socket;
-            gameId = room.ID;
+            this.room = room;
+            currQuestion = 0;
+            answersButtons = new Button[4];
+            int count = 0;
+            foreach (Button b in Answers.Children.OfType<Button>())
+                answersButtons[count++] = b;
+
             timer = new DispatcherTimer();
             timer.Tick += TimerTickAsync;
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Start();
-            currQuestion = 0;
-            timePerQuestion = room.TimePerQuestion;
-            questionCount = room.QuestionCount;
+
             UpdateQuestionScreen();
         }
 
@@ -50,17 +57,16 @@ namespace Client
             if (TimerLabel.Text == "0") // add a function that checks if user clicked on an answer
             {
                 timer.Stop();
-                if (!IsAnswerPressed())
+                SubmitAnswer();
+                if (index == NO_ANSWER_PRESSED)
                 {
                     Utlis.ShowErrorMessage("No answer was pressed");
-                    index = 4;
                     foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
                         b.IsHitTestVisible = false;
                 }
                 await Task.Delay(2000);
-                if (questionCount == currQuestion)
-                    Utlis.ShowErrorMessage("Finished");
-                SubmitAnswer();
+                if (room.QuestionCount == currQuestion)
+                    Utlis.ShowErrorMessage("Finished"); // later would navigate to high screen
                 UpdateQuestionScreen();
                 timer.Start();
             }
@@ -68,60 +74,49 @@ namespace Client
 
         private void AnswerButton(object sender, RoutedEventArgs e)
         {
-            int count = 0;
-            index = 0;
-            foreach (Button b in Answers.Children.OfType<Button>())
+            index = NO_ANSWER_PRESSED; 
+            for (int i = 0; i < answersButtons.Length; i++)
             {
-                if (b == sender) //Will only occur once
+                answersButtons[i].IsHitTestVisible = false;
+                if (answersButtons[i] == sender)
                 {
-                    b.IsHitTestVisible = false;
-                    index = count;
+                    answersButtons[i].BorderBrush = System.Windows.Media.Brushes.Black;
+                    index = i;
                 }
-                else
-                    b.IsEnabled = false;
-                count++;
             }
         }
 
-        private bool IsAnswerPressed()
-        {
-            foreach (Button b in Answers.Children.OfType<Button>())
-            {
-                if (!b.IsHitTestVisible) // this field would be false if a button is pressed
-                    return true;
-            }
-            return false;
-        }
         private void SubmitAnswer()
         {
             Dictionary<string,object> data = socket.SubmitAnswer(index, currQuestion);
             int correctAns = Convert.ToInt32(data["correct_ans"]);
-            int count = 0;
-            foreach (Button b in Answers.Children.OfType<Button>())
-                if (correctAns == count++)
-                { }//Temp   
+            for(int i = 0; i <answersButtons.Length; i++)
+            {
+                if (i != correctAns)
+                    answersButtons[i].IsEnabled = false;
+            }
         }
 
         private void UpdateQuestionScreen() // the function updates the question screen to next question
         {
-            TimerLabel.Text = timePerQuestion.ToString();
+            TimerLabel.Text = room.TimePerQuestion.ToString();
             Counter.Text = "Question: " + ++currQuestion;
+            
             Dictionary<string, object> data = socket.GetQuestion(currQuestion);
             QuestionText.Text = Convert.ToString(data["question"]);
-            List<string> answers = Utlis.ObjectToList<string>(data["answers"]);
-            int count = 0;
-            foreach (Button b in Answers.Children.OfType<Button>())
+            List<string> answers = Utlis.ObjectToList<string>(data["answersButtons"]);
+            for (int i = 0; i < answersButtons.Length; i++)
             {
-                b.Content = answers[count++];
-                b.IsEnabled = true;
-                b.IsHitTestVisible = true;
+                answersButtons[i].Content = answers[i];
+                answersButtons[i].IsEnabled = true;
+                answersButtons[i].IsHitTestVisible = true;
+                answersButtons[i].BorderBrush = null;
             }
-
         }
 
         private void LeaveGameButton(object sender, RoutedEventArgs e)
         {
-            socket.LeaveGame(gameId);
+            socket.LeaveGame(room.ID);
             NavigationService.Navigate(new RoomsMenu(socket));
         }
     }
