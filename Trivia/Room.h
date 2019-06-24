@@ -29,8 +29,8 @@ public:
 	void addUser(const std::string& name);
 	void removeUser(const std::string& name);
 
-	const std::vector<std::string>& getAllUsers() { return _users; }
-	size_t getNumberOfLoggedUsers() { return _users.size(); }
+	const std::vector<std::string>& getAllUsers();
+	size_t getNumberOfLoggedUsers();
 	
 	unsigned int getState(); // the reason there is getters and setters for state is to defend it with mutex
 	void setState(const unsigned int state);

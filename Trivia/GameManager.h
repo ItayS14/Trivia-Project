@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Room.h"
 #include <map>
+#include <mutex>
 
 class GameManager
 {
@@ -18,4 +19,5 @@ public:
 private:
 	IDatabase* _db;
 	std::map<unsigned int, Game*> _games;
+	std::mutex _mtx;
 };
