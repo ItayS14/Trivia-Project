@@ -36,5 +36,5 @@ RoomRequestHandler* RequestHandlerFactory::createRoomRequestHandler(const std::s
 
 GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(const std::string& username, Game* game, Room* room)
 {
-	return new GameRequestHandler(username, game, room, _game_manager ,this);
+	return new GameRequestHandler(username, game, _room_manager, _game_manager ,this);
 }
