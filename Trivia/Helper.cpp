@@ -9,7 +9,7 @@ std::string Helper::getPaddedNumber(int num, int digits)
 	return ostr.str();
 }
 
-json Helper::handleGetRoomStateRequest(RoomManager* room_manager, int room_id)
+json Helper::handleGetRoomStateRequest(RoomManager* room_manager, const int room_id, const bool is_admin)
 {
 	json result_j;
 	Room* room = room_manager->getRoom(room_id);
@@ -17,7 +17,10 @@ json Helper::handleGetRoomStateRequest(RoomManager* room_manager, int room_id)
 	result_j["room_name"] = room->_name;
 	result_j["max_players"] = room->_max_players;
 	result_j["players"] = room->getAllUsers();
-	result_j["state"] = room->_state;
+	result_j["is_admin"] = is_admin;
+	result_j["state"] = room->getState();
 	result_j["type"] = room->_questions_type;
+	if (room->getState() == IN_GAME)
+		result_j["start_in"] = room->_start_time - std::time(nullptr);
 	return result_j;
 }

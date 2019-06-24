@@ -52,7 +52,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 				inner_j["question_count"] = room->_question_count;
 				inner_j["time_per_question"] = room->_time_per_question;
 				inner_j["logged_players"] = room->getNumberOfLoggedUsers();
-				inner_j["state"] = room->_state;
+				inner_j["state"] = room->getState();
 				inner_j["type"] = room->_questions_type;
 				result_j.push_back(inner_j);
 			}
@@ -62,7 +62,7 @@ RequestResult MenuRequestHandler::handleRequest(const Request& request)
 		}
 		case GET_ROOM_STATE:
 		{
-			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id")).dump();
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id"), false).dump();
 			r._new_handler = this;
 			break;
 		}

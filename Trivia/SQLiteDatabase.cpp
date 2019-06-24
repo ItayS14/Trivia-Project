@@ -3,6 +3,7 @@
 #include "SQLiteDatabase.h"
 
 #define NAME "Trivia.sqlite"
+#define NUM_OF_QUESTIONS 4
 
 std::string SQLiteDatabase::default_error_msg = "Error accessing database!";
 
@@ -32,6 +33,14 @@ void SQLiteDatabase::addUser(const std::string& username, const std::string& pas
 	executeSQL(command, "Username: '" + username + "' already used!");
 }
 
+std::vector<Question*> SQLiteDatabase::getQuestions(const int& question_count, const int& type)
+{
+	std::string command = "SELECT question,correct_ans,ans2,ans3,ans4 FROM questions WHERE type = " + std::to_string(type) + " ORDER BY RANDOM() LIMIT " + std::to_string(question_count) + "; ";
+	std::vector<Question*> questions;
+	executeSQL(command, default_error_msg,getQuestionsCallback,&questions);
+	return questions;
+}
+
 //Create the tables and check that the database was created successfully
 void SQLiteDatabase::initNewDatabase()
 {
@@ -45,6 +54,15 @@ void SQLiteDatabase::initNewDatabase()
 int SQLiteDatabase::objectExistsCallBack(void* data, int argc, char** argv, char** azColName)
 {
 	*(bool*)data = true;
+	return 0;
+}
+
+int SQLiteDatabase::getQuestionsCallback(void * data, int argc, char ** argv, char ** azColName)
+{
+	std::vector<std::string> answers = { argv[2],argv[3],argv[4] };
+	int correct_ans = std::rand() % NUM_OF_QUESTIONS;
+	answers.insert(answers.begin() + correct_ans, argv[1]);
+	((std::vector<Question*>*)data)->push_back(new Question(argv[0],answers,correct_ans));
 	return 0;
 }
 

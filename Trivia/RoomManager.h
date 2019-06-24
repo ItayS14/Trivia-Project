@@ -2,6 +2,7 @@
 
 #include "Room.h"
 #include <map>
+#include <mutex>
 
 #define MAX_ISN 1000
 #define MIN_ISN 10000
@@ -21,4 +22,5 @@ public:
 private:
 	unsigned int _isn; // Number that states the id that will be for a new created room (Inited as random number)
 	std::map<unsigned int, Room*> _rooms;
+	std::mutex _mtx;
 };

@@ -9,12 +9,14 @@ RequestHandlerFactory::RequestHandlerFactory(IDatabase* database)
 
 	_login_manager = new LoginManager(database);
 	_room_manager = new RoomManager(std::rand() % MAX_ISN_VAL + MIN_ISN_VAL);
+	_game_manager = new GameManager(database);
 }
 
 RequestHandlerFactory::~RequestHandlerFactory()
 {
 	delete _room_manager;
 	delete _login_manager;
+	delete _game_manager;
 }
 
 MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(const std::string& username)
@@ -29,5 +31,10 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 
 RoomRequestHandler* RequestHandlerFactory::createRoomRequestHandler(const std::string& username, Room* room, const bool is_admin)
 {
-	return new RoomRequestHandler(room, _room_manager, username, is_admin, this);
+	return new RoomRequestHandler(room, _room_manager, username, is_admin, _game_manager, this);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(const std::string& username, Game* game, Room* room)
+{
+	return new GameRequestHandler(username, game, _room_manager, _game_manager ,this);
 }
