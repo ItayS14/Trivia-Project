@@ -3,6 +3,7 @@
 #include "SQLiteDatabase.h"
 
 #define NAME "Trivia.sqlite"
+#define NUM_OF_QUESTIONS 4
 
 std::string SQLiteDatabase::default_error_msg = "Error accessing database!";
 
@@ -58,7 +59,10 @@ int SQLiteDatabase::objectExistsCallBack(void* data, int argc, char** argv, char
 
 int SQLiteDatabase::getQuestionsCallback(void * data, int argc, char ** argv, char ** azColName)
 {
-	((std::vector<Question*>*)data)->push_back(new Question(argv[0], argv[1], argv[2], argv[3], argv[4]));
+	std::vector<std::string> answers = { argv[2],argv[3],argv[4] };
+	int correct_ans = std::rand() % NUM_OF_QUESTIONS;
+	answers.insert(answers.begin() + correct_ans, argv[1]);
+	((std::vector<Question*>*)data)->push_back(new Question(argv[0],answers,correct_ans));
 	return 0;
 }
 
