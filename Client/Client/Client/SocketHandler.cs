@@ -25,6 +25,7 @@ namespace Client
         Get_Question,
         Submit_Answer,
         Get_Statistics,
+        Get_Leaderboard,
         Leave_Game,
         Success = 200,
         Error_Msg = 400
@@ -137,6 +138,11 @@ namespace Client
         {
             SendToServer(((int)Codes.Get_Statistics).ToString(), null);
             return JsonConvert.DeserializeObject<List<int>>(ReceiveFromServer());
+        }
+        public Dictionary<string,double> GetLeaderboard()
+        {
+            SendToServer(((int)Codes.Get_Leaderboard).ToString(), null);
+            return JsonConvert.DeserializeObject<Dictionary<string,double>>(ReceiveFromServer());
         }
         public void LeaveGame(int gameId)
         {
