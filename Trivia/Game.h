@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "Question.h"
+#include <mutex>
 
 class Game
 {
@@ -22,4 +23,5 @@ private:
 	unsigned int _id;
 	std::vector<Question*> _questions;
 	std::map<std::string, double> _players; //string for player name, double for his/her score
+	std::mutex _mtx;
 };

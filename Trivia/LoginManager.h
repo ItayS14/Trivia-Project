@@ -2,6 +2,7 @@
 
 #include "IDatabase.h"
 #include <vector>
+#include <mutex>
 
 class LoginManager
 {
@@ -16,4 +17,5 @@ public:
 private:
 	IDatabase* _database;
 	std::vector<std::string> _logged_users; // decided to create vector of strings instead of struct that only holds a string
+	std::mutex _mtx;
 };
