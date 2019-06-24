@@ -28,11 +28,15 @@ RequestResult RoomRequestHandler::handleRequest(const Request& request)
 		case START_GAME:
 			_room->_state = IN_GAME;
 			_room->_start_time = request._recival_time + 5; //Start game in 5 secs
-			r._new_handler = this; // change this later to be game handler
+			_game_manager->createGame(_room);
+			r._new_handler = _factory->createGameRequestHandler(_logged_user, _game_manager->getGame(_room->_id), _room);
 			break;
 		case GET_ROOM_STATE:
-			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id"), _is_admin).dump();
 			r._new_handler = this;
+			data = Helper::handleGetRoomStateRequest(_room_manager, j.at("room_id"), _is_admin).dump();
+			if (_room->_state == IN_GAME)
+				r._new_handler = _factory->createGameRequestHandler(_logged_user, _game_manager->getGame(_room->_id), _room);
+			break;
 		}
 		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);
 		r_msg += data;
