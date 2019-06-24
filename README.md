@@ -114,7 +114,13 @@ response json:
      *list of int* (how many submitted each answer)
 }
 
-112 - leave game
+112 - get leaderboard
+response:
+{
+	"name_of_player" : *double* (name of each player and his/her score)
+}
+
+113 - leave game
 
 
 
