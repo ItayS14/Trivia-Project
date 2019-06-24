@@ -11,14 +11,11 @@ void Game::removePlayer(const std::string& name)
 	_players.erase(name);
 }
 
-Question* Game::getQuestion()
+Question* Game::getQuestionAt(const int index)
 {
-	if (++_request_counter == _players.size())
-	{
-		_request_counter = 0;
-		return _questions[_curr_question++];
-	}
-	return _questions[_curr_question];
+	if (index > _questions.size())
+		throw std::string("There are no more questions");
+	return _questions[index];
 }
 
 double Game::getScore(const std::string& player)
@@ -36,8 +33,8 @@ unsigned int Game::getId()
 	return _id;
 }
 
-void Game::addScore(const std::string & player, const int index_of_answer)
+void Game::addScore(const std::string & player, const int question, const int index_of_answer)
 {
-	if (_questions[_curr_question]->_correct_ans == index_of_answer)
+	if (_questions[question]->_correct_ans == index_of_answer)
 		_players[player] += 5;
 }

@@ -19,12 +19,14 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		switch (request._request_code)
 		{
 		case LEAVE_GAME:
+		{
 			leave();
 			r._new_handler = _factory->createMenuRequestHandler(_logged_user);
 			break;
+		}
 		case GET_QUESTION:
 		{
-			Question* question = _game->getQuestion();
+			Question* question = _game->getQuestionAt(_question++);
 			result_j["question"] = question->_question;
 			result_j["answers"] = question->_answers;
 			data = result_j.dump();
@@ -32,14 +34,18 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 			break;
 		}
 		case SUBMIT_ANSWER:
-			_game->addScore(_logged_user, j.at("index"));
-			result_j["correct_ans"] = _game->getQuestion()->_correct_ans;
+		{
+			_game->addScore(_logged_user, _question, j.at("index"));
+			result_j["correct_ans"] = _game->getQuestionAt(_question)->_correct_ans;
 			result_j["score"] = _game->getScore(_logged_user);
 			data = result_j.dump();
 			r._new_handler = this;
 			break;
+		}
 		case GET_STATISTICS:
+		{
 			break;
+		}
 		}
 		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);
 		r_msg += data;

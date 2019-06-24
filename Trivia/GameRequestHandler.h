@@ -8,7 +8,7 @@ class GameRequestHandler : public IRequestHandler
 {
 public:
 	GameRequestHandler(const std::string& logged_user, Game* game,  Room* room, GameManager* game_manager, RequestHandlerFactory* factory) :
-		_game(game), _game_manager(game_manager), _factory(factory), _logged_user(logged_user), _room(room) {}
+		_game(game), _game_manager(game_manager), _factory(factory), _logged_user(logged_user), _room(room), _question(0) {}
 
 	bool isRequestRelevant(const Request& request) override;
 	RequestResult handleRequest(const Request& request) override;
@@ -22,4 +22,5 @@ private:
 	GameManager* _game_manager;
 	RequestHandlerFactory* _factory;
 	std::string _logged_user;
+	int _question; // counter for current question
 };

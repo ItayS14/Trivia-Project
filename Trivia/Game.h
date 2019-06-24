@@ -12,16 +12,14 @@ public:
 	~Game();
 
 	void removePlayer(const std::string& name);
-	Question* getQuestion();
+	Question* getQuestionAt(const int index);
 	double getScore(const std::string& player);
 	size_t getNumberOfLoggedPlayers();
 	unsigned int getId();
-	void addScore(const std::string& player, const int index_of_answer);
+	void addScore(const std::string& player, const int question, const int index_of_answer);
 
 private:
 	unsigned int _id;
-	unsigned int _request_counter; //counts how many players asked for the next question
-	unsigned int _curr_question;
 	std::vector<Question*> _questions;
 	std::map<std::string, double> _players; //string for player name, double for his/her score
 };
