@@ -60,7 +60,7 @@ namespace Client
             finished = true;
             try
             {
-                socket.StartGame(room.ID);
+                socket.StartGame();
                 await Task.Delay(5000);
                 NavigationService.Navigate(new Game(socket,room));
             }

@@ -40,7 +40,7 @@ namespace Client
         }
         private void LeaveGameButton(object sender, RoutedEventArgs e)
         {
-            socket.LeaveGame(gameId);
+            socket.LeaveGame();
             NavigationService.Navigate(new RoomsMenu(socket));
         }
     }

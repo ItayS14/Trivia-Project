@@ -112,25 +112,20 @@ namespace Client
             SendToServer(((int)Codes.Leave_Room).ToString(), dict);
             ReceiveFromServer();
         }
-        public void StartGame(int roomId)
+        public void StartGame()
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("room_id", roomId);
-            SendToServer(((int)Codes.Start_Game).ToString(), dict);
+            SendToServer(((int)Codes.Start_Game).ToString(), null);
             ReceiveFromServer();
         }
-        public Dictionary<string,object> GetQuestion(int number)
+        public Dictionary<string,object> GetQuestion()
         {
-            Dictionary<string,object> dict = new Dictionary<string, object>();
-            dict.Add("number", number);
-            SendToServer(((int)Codes.Get_Question).ToString(), dict);
+            SendToServer(((int)Codes.Get_Question).ToString(), null);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
         }
-        public Dictionary<string,object> SubmitAnswer(int index, int number)
+        public Dictionary<string,object> SubmitAnswer(int index)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("index", index);
-            dict.Add("number", number);
             SendToServer(((int)Codes.Submit_Answer).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
         }
@@ -144,11 +139,9 @@ namespace Client
             SendToServer(((int)Codes.Get_Leaderboard).ToString(), null);
             return JsonConvert.DeserializeObject<Dictionary<string,double>>(ReceiveFromServer());
         }
-        public void LeaveGame(int gameId)
+        public void LeaveGame()
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            dict.Add("game_id", gameId);
-            SendToServer(((int)Codes.Leave_Game).ToString(), dict);
+            SendToServer(((int)Codes.Leave_Game).ToString(),null);
             ReceiveFromServer();
         }
         private void SendToServer(string code, Dictionary<string, object> data)
