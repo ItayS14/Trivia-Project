@@ -25,7 +25,7 @@ namespace Client
         public CreateRoom(SocketHandler socket)
         {
             InitializeComponent();
-            for (int i = 1; i < 6; i++) // check for a better way to init the combo box
+            for (int i = 2; i < 6; i++)
                 MaxPlayers.Items.Add(i);
             for (int i = 5; i <= 20; i++)
                 QuestionCount.Items.Add(i);

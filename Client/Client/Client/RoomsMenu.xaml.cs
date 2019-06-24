@@ -111,8 +111,7 @@ namespace Client
     public enum State
     {
         Joinable = 0,
-        In_Game = 1,
-        Finished = 2
+        In_Game
     }
 
 
