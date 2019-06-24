@@ -29,6 +29,8 @@ namespace Client
         private Room room;
         private int currQuestion;
         private int index;
+        private int correctAns;
+        bool finished;
 
         private Button[] answersButtons;
 
@@ -40,6 +42,7 @@ namespace Client
             this.room = room;
             currQuestion = 0;
             answersButtons = new Button[4];
+            finished = false;
             int count = 0;
             foreach (Button b in Answers.Children.OfType<Button>())
                 answersButtons[count++] = b;
@@ -58,29 +61,36 @@ namespace Client
             if (TimerLabel.Text == "0") // add a function that checks if user clicked on an answer
             {
                 timer.Stop();
-                SubmitAnswer();
-                if (index == NO_ANSWER_PRESSED)
-                {
-                    Utlis.ShowErrorMessage("No answer was pressed");
-                    foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
-                        b.IsHitTestVisible = false;
-                }
 
 
                 //update statistics
-                Statistics.Visibility = Visibility.Visible;
-                List<KeyValuePair<string, int>> statistics = new List<KeyValuePair<string, int>>();
-                foreach (int count in socket.GetStatistics())
-                    statistics.Add(new KeyValuePair<string, int>("Answer", count));
-                ((ColumnSeries)Statistics.Series[0]).ItemsSource = statistics;
+                //Statistics.Visibility = Visibility.Visible;
+                //List<KeyValuePair<string, int>> statistics = new List<KeyValuePair<string, int>>();
+                //foreach (int count in socket.GetStatistics())
+                //  statistics.Add(new KeyValuePair<string, int>("Answer", count));
+                //((ColumnSeries)Statistics.Series[0]).ItemsSource = statistics;
+
+                if (index == NO_ANSWER_PRESSED)
+                    SubmitAnswer();
+
+                for (int i = 0; i < answersButtons.Length; i++)
+                    if (i != correctAns)
+                        answersButtons[i].IsEnabled = false;
 
                 await Task.Delay(2000);
 
                 //disable statistics
-                Statistics.Visibility = Visibility.Hidden;
+                //Statistics.Visibility = Visibility.Hidden;
+
+                if (finished)
+                    return;
 
                 if (room.QuestionCount == currQuestion)
+                {
+                    finished = true;
                     NavigationService.Navigate(new GameResults(socket, room.ID)); //room id is the same as game id
+                    return;
+                }
 
                 UpdateQuestionScreen();
                 timer.Start();
@@ -89,7 +99,6 @@ namespace Client
 
         private void AnswerButton(object sender, RoutedEventArgs e)
         {
-            index = NO_ANSWER_PRESSED; 
             for (int i = 0; i < answersButtons.Length; i++)
             {
                 answersButtons[i].IsHitTestVisible = false;
@@ -99,27 +108,26 @@ namespace Client
                     index = i;
                 }
             }
+            SubmitAnswer();
         }
 
         private void SubmitAnswer()
         {
-            Dictionary<string,object> data = socket.SubmitAnswer(index, currQuestion);
-            int correctAns = Convert.ToInt32(data["correct_ans"]);
-            for(int i = 0; i <answersButtons.Length; i++)
-            {
-                if (i != correctAns)
-                    answersButtons[i].IsEnabled = false;
-            }
+            Dictionary<string,object> data = socket.SubmitAnswer(index);
+            correctAns = Convert.ToInt32(data["correct_ans"]);
+
         }
 
         private void UpdateQuestionScreen() // the function updates the question screen to next question
         {
+            index = NO_ANSWER_PRESSED;
+
             TimerLabel.Text = room.TimePerQuestion.ToString();
             Counter.Text = "Question: " + ++currQuestion;
             
-            Dictionary<string, object> data = socket.GetQuestion(currQuestion);
+            Dictionary<string, object> data = socket.GetQuestion();
             QuestionText.Text = Convert.ToString(data["question"]);
-            List<string> answers = Utlis.ObjectToList<string>(data["answersButtons"]);
+            List<string> answers = Utlis.ObjectToList<string>(data["answers"]);
             for (int i = 0; i < answersButtons.Length; i++)
             {
                 answersButtons[i].Content = answers[i];
@@ -131,7 +139,9 @@ namespace Client
 
         private void LeaveGameButton(object sender, RoutedEventArgs e)
         {
-            socket.LeaveGame(room.ID);
+            finished = true;
+            socket.LeaveGame();
+            timer.Stop();
             NavigationService.Navigate(new RoomsMenu(socket));
         }
     }
