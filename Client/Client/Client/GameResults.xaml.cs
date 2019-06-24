@@ -33,8 +33,7 @@ namespace Client
             var list = players.ToList();
             list.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
 
-            foreach (var item in list)
-                Players.Items.Add(item.Key + ": " + item.Value.ToString());
+            Players.ItemsSource = list;
 
             //Maybe add start time and end time
         }
@@ -43,5 +42,6 @@ namespace Client
             socket.LeaveGame();
             NavigationService.Navigate(new RoomsMenu(socket));
         }
+
     }
 }
