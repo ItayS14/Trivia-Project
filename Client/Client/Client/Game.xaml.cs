@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -64,9 +65,23 @@ namespace Client
                     foreach (Button b in Answers.Children.OfType<Button>()) // make the buttons unclickable during the sleep
                         b.IsHitTestVisible = false;
                 }
+
+
+                //update statistics
+                Statistics.Visibility = Visibility.Visible;
+                List<KeyValuePair<string, int>> statistics = new List<KeyValuePair<string, int>>();
+                foreach (int count in socket.GetStatistics())
+                    statistics.Add(new KeyValuePair<string, int>("Answer", count));
+                ((ColumnSeries)Statistics.Series[0]).ItemsSource = statistics;
+
                 await Task.Delay(2000);
+
+                //disable statistics
+                Statistics.Visibility = Visibility.Hidden;
+
                 if (room.QuestionCount == currQuestion)
-                    Utlis.ShowErrorMessage("Finished"); // later would navigate to high screen
+                    NavigationService.Navigate(new GameResults(socket, room.ID)); //room id is the same as game id
+
                 UpdateQuestionScreen();
                 timer.Start();
             }
