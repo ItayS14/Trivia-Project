@@ -12,9 +12,14 @@ void Game::removePlayer(const std::string& name)
 	_players.erase(name);
 }
 
+
+std::map<std::string, double> Game::getLeaderBoard()
+{
+	return _players;
+}
 Question* Game::getQuestionAt(const int index)
 {
-	if (index > _questions.size())
+	if (index >= _questions.size())
 		throw std::string("There are no more questions");
 	return _questions[index];
 }
@@ -37,6 +42,8 @@ unsigned int Game::getId()
 
 void Game::addScore(const std::string & player, const int question, const int index_of_answer) // no need for mutex here becuase addScore and getScore for a user would never be at the same time (They are called in a row)
 {
+	if (question >= _questions.size())
+		throw std::string("There are no more questions");
 	if (_questions[question]->_correct_ans == index_of_answer)
 		_players[player] += 5;
 }

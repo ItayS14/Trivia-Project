@@ -82,7 +82,7 @@ response json:
 	"max_players" : *unsigned int*
 	"players" : *list of strings*
 	"is_admin" : *bool* (is the current user admin)
-	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1, Finished = 2]
+	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1]
 	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
 }
 

@@ -1,10 +1,9 @@
 #include "GameRequestHandler.h"
 #include "Helper.h"
-#include "RoomRequestHandler.h"
 
 bool GameRequestHandler::isRequestRelevant(const Request& request)
 {
-	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_STATISTICS;
+	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_STATISTICS || request._request_code == GET_LEADERBOARD;
 }
 
 RequestResult GameRequestHandler::handleRequest(const Request& request)
@@ -26,7 +25,7 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		}
 		case GET_QUESTION:
 		{
-			Question* question = _game->getQuestionAt(_question++);
+			Question* question = _game->getQuestionAt(_question);
 			result_j["question"] = question->_question;
 			result_j["answers"] = question->_answers;
 			data = result_j.dump();
@@ -36,11 +35,17 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		case SUBMIT_ANSWER:
 		{
 			_game->addScore(_logged_user, _question, j.at("index"));
-			result_j["correct_ans"] = _game->getQuestionAt(_question)->_correct_ans;
+			result_j["correct_ans"] = _game->getQuestionAt(_question++)->_correct_ans;
 			result_j["score"] = _game->getScore(_logged_user);
 			data = result_j.dump();
 			r._new_handler = this;
 			break;
+		}
+		case GET_LEADERBOARD:
+		{
+			result_j = _game->getLeaderBoard();
+			data = result_j.dump();
+			r._new_handler = this;
 		}
 		case GET_STATISTICS:
 		{
@@ -68,14 +73,19 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 void GameRequestHandler::leave()
 {
 	_game->removePlayer(_logged_user);
+	_room_manager->getRoom(_game->getId())->removeUser(_logged_user);
 	if (_game->getNumberOfLoggedPlayers() == 0)
+	{
+		_room_manager->deleteRoom(_game->getId());
 		_game_manager->deleteGame(_game->getId());
+	}
 }
 
 void GameRequestHandler::handleSocketError()
 {
 	leave();
-	RoomRequestHandler* temp = _factory->createRoomRequestHandler(_logged_user, _room, false);
+
+	MenuRequestHandler* temp = _factory->createMenuRequestHandler(_logged_user); // no need for RoomRequestHandler becuase the game handeles also the room socket error
 	temp->handleSocketError();
 	delete temp;
 }

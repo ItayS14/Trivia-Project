@@ -7,7 +7,6 @@ enum RoomStates
 {
 	JOINABLE = 0,
 	IN_GAME,
-	FINISHED
 };
 
 enum QuestionType

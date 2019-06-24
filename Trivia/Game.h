@@ -14,8 +14,12 @@ public:
 
 	void removePlayer(const std::string& name);
 	Question* getQuestionAt(const int index);
+	
 	double getScore(const std::string& player);
+	
+	std::map<std::string, double> getLeaderBoard();
 	size_t getNumberOfLoggedPlayers();
+	
 	unsigned int getId();
 	void addScore(const std::string& player, const int question, const int index_of_answer);
 
