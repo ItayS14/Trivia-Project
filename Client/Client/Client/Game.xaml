@@ -21,11 +21,11 @@
             <TextBlock Name="TimerLabel" VerticalAlignment="Center" HorizontalAlignment="Center" Text="20" Foreground="White" FontSize="48" FontWeight="Bold"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="288" VerticalAlignment="Top" Width="1260" Margin="10,422,0,0" Grid.ColumnSpan="2" x:Name="Answers">
-            <Button Name="Button1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="22,10,0,0" Background="Red" BorderBrush="{x:Null}" Click="AnswerButton"/>
-            <Button Name="Button2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="649,10,0,0" Background="#FF00A8FF" BorderBrush="{x:Null}" Click="AnswerButton"/>
-            <Button Name="Button3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="22,145,0,0" Background="#FFF5F610" BorderBrush="{x:Null}" Click="AnswerButton"/>
-            <Button Name="Button4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="649,145,0,0" Background="#FF3DFF00" BorderBrush="{x:Null}" Click="AnswerButton"/>
-            
+            <Button Name="Ans1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="22,10,0,0" Background="Red" BorderBrush="{x:Null}" BorderThickness="5" Click="AnswerButton"/>
+            <Button Name="Ans2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="649,10,0,0" Background="#FF00A8FF" Click="AnswerButton"  BorderThickness="5" BorderBrush="{x:Null}"/>
+            <Button Name="Ans3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="22,145,0,0" Background="#FFF5F610" BorderBrush="{x:Null}" BorderThickness="5" Click="AnswerButton"/>
+            <Button Name="Ans4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="601" Height="105" Margin="649,145,0,0" Background="#FF3DFF00" BorderBrush="{x:Null}" BorderThickness="5" Click="AnswerButton"/>
+
         </Grid>
         <Button Content="Leave Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="119" Margin="22,69,0,0" Height="54" Click="LeaveGameButton"/>
     </Grid>
