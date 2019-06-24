@@ -133,6 +133,11 @@ namespace Client
             SendToServer(((int)Codes.Submit_Answer).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
         }
+        public List<int> GetStatistics()
+        {
+            SendToServer(((int)Codes.Get_Statistics).ToString(), null);
+            return JsonConvert.DeserializeObject<List<int>>(ReceiveFromServer());
+        }
         public void LeaveGame(int gameId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
