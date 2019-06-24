@@ -11,11 +11,14 @@ void Game::removePlayer(const std::string& name)
 	_players.erase(name);
 }
 
-Question* Game::getQuestionAt(int index)
+Question* Game::getQuestion()
 {
-	if (index < 0 || _questions.size() < -index)
-		throw std::string("Index out of boundaries");
-	return _questions[index];
+	if (++_request_counter == _players.size())
+	{
+		_request_counter = 0;
+		return _questions[_curr_question++];
+	}
+	return _questions[_curr_question];
 }
 
 double Game::getScore(const std::string& player)
@@ -31,4 +34,10 @@ size_t Game::getNumberOfLoggedPlayers()
 unsigned int Game::getId()
 {
 	return _id;
+}
+
+void Game::addScore(const std::string & player, const int index_of_question)
+{
+	if (_questions[_curr_question]->_correct_ans == index_of_question)
+		_players[player] += 5;
 }

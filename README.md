@@ -91,10 +91,6 @@ response json:
 108 - start game
 
 109 - get question
-json:
-{
-    "number" : *unsigned int* (number of question)
-}
 response:
 {
     "question" : *string*
@@ -105,7 +101,6 @@ response:
 json:
 {
     "index" : *unsigned int*
-    "number" : *unsigned int* (number of question)
 }
 response:
 {

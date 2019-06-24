@@ -12,13 +12,15 @@ public:
 	~Game();
 
 	void removePlayer(const std::string& name);
-	Question* getQuestionAt(int index); // throws exception if index is out of bounds
+	Question* getQuestion();
 	double getScore(const std::string& player);
 	size_t getNumberOfLoggedPlayers();
 	unsigned int getId();
 
 private:
 	unsigned int _id;
+	unsigned int _request_counter; //counts how many players asked for the next question
+	unsigned int _curr_question;
 	std::vector<Question*> _questions;
 	std::map<std::string, double> _players; //string for player name, double for his/her score
 };
