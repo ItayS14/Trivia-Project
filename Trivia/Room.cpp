@@ -21,10 +21,12 @@ size_t Room::getNumberOfLoggedUsers()
 void Room::addUser(const std::string& name)
 {
 	std::lock_guard<std::mutex> lck(_users_mtx);
+	if (_users.size() == _max_players)
+		throw std::string("Room is full! Cannot join.");
 	if (std::find(_users.begin(), _users.end(), name) != _users.end())
-		throw std::string("User is already logged to the room");
+		throw std::string("User is already logged to the room.");
 	if (_users.size() > _max_players)
-		throw std::string("Room is full");
+		throw std::string("Room is full.");
 	_users.push_back(name);
 }
 
@@ -33,7 +35,7 @@ void Room::removeUser(const std::string& name)
 	std::lock_guard<std::mutex> lck(_users_mtx);
 	auto iterator = std::find(_users.begin(), _users.end(), name);
 	if (iterator == _users.end())
-		throw std::string("User is not logged to the room");
+		throw std::string("User is not logged to the room.");
 	_users.erase(iterator);
 	if (name == _admin && _users.size() > 0) // new admin will be the first user in the list
 		_admin = _users[0];
