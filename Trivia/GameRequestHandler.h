@@ -7,8 +7,8 @@
 class GameRequestHandler : IRequestHandler
 {
 public:
-	GameRequestHandler(Game* game, GameManager* game_manager, const std::string& logged_user, RequestHandlerFactory* factory) :
-		_game(game), _game_manager(game_manager), _factory(factory), _logged_user(logged_user), {}
+	GameRequestHandler(Game* game, GameManager* game_manager, Room* room, const std::string& logged_user, RequestHandlerFactory* factory) :
+		_game(game), _game_manager(game_manager), _factory(factory), _logged_user(logged_user), _room(room) {}
 
 	bool isRequestRelevant(const Request& request) override;
 	RequestResult handleRequest(const Request& request) override;
@@ -18,6 +18,7 @@ private:
 	void leave(); // (if user leaves and there is no more users the game would be closed)
 
 	Game* _game;
+	Room* _room; // room of the game (here to handle socket erros)
 	GameManager* _game_manager;
 	RequestHandlerFactory* _factory;
 	std::string _logged_user;

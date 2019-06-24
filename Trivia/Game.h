@@ -14,6 +14,8 @@ public:
 	void removePlayer(const std::string& name);
 	Question* getQuestionAt(int index); // throws exception if index is out of bounds
 	double getScore(const std::string& player);
+	size_t getNumberOfLoggedPlayers();
+	unsigned int getId();
 
 private:
 	unsigned int _id;

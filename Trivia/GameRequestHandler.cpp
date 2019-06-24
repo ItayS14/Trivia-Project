@@ -1,5 +1,7 @@
 #include "GameRequestHandler.h"
 #include "Helper.h"
+#include "RoomRequestHandler.h"
+
 bool GameRequestHandler::isRequestRelevant(const Request& request)
 {
 	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_STATISTICS;
@@ -51,4 +53,19 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 
 	r._buffer = std::vector<std::uint8_t>(r_msg.begin(), r_msg.end());
 	return r;
+}
+
+void GameRequestHandler::leave()
+{
+	_game->removePlayer(_logged_user);
+	if (_game->getNumberOfLoggedPlayers() == 0)
+		_game_manager->deleteGame(_game->getId());
+}
+
+void GameRequestHandler::handleSocketError()
+{
+	leave();
+	RoomRequestHandler* temp = _factory->createRoomRequestHandler(_logged_user, _room, false);
+	temp->handleSocketError();
+	delete temp;
 }

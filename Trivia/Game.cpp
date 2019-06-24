@@ -22,3 +22,13 @@ double Game::getScore(const std::string& player)
 {
 	return _players[player];
 }
+
+size_t Game::getNumberOfLoggedPlayers()
+{
+	return _players.size();
+}
+
+unsigned int Game::getId()
+{
+	return _id;
+}
