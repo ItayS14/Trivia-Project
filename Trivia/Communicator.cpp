@@ -9,8 +9,7 @@
 
 Communicator::~Communicator()
 {
-	if (!_is_closed)
-		closesocket(_client_soc);
+	closesocket(_client_soc);
 }
 
 int Communicator::getIntPartFromSocket(int bytes_num)
@@ -39,8 +38,6 @@ void Communicator::handleRequests()
 		{
 			std::cerr << "Socket error" << std::endl;
 			_state->handleSocketError();
-			closesocket(_client_soc);
-			_is_closed = true;
 			return;
 		}
 		
@@ -66,7 +63,6 @@ void Communicator::handleRequests()
 		{
 			std::cerr << "Error while sending to user!" << std::endl;
 			_state->handleSocketError();
-			closesocket(_client_soc);
 			return;
 		}		
 	}
