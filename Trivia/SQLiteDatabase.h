@@ -22,4 +22,5 @@ private:
 	//Callbacks must be static for some reason
 	static int objectExistsCallBack(void* data, int argc, char** argv, char** azColName);
 	static int getQuestionsCallback(void* data, int argc, char** argv, char** azColName);
+	bool isEmailValid(const std::string& email);
 };
