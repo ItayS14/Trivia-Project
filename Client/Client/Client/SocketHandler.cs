@@ -24,7 +24,6 @@ namespace Client
         Start_Game,
         Get_Question,
         Submit_Answer,
-        Get_Statistics,
         Get_Leaderboard,
         Leave_Game,
         Success = 200,
@@ -39,8 +38,8 @@ namespace Client
         public SocketHandler(string serverAddress, int serverPort)
         {
             TcpClient client = new TcpClient();
-            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(serverAddress), serverPort);
-            client.Connect(serverEndPoint);
+            if (!client.ConnectAsync(IPAddress.Parse(serverAddress), serverPort).Wait(1000))
+                throw new Exception("Couldn't connect to server!");
             socket = client.GetStream();
         }
 
@@ -105,6 +104,7 @@ namespace Client
             SendToServer(((int)Codes.Get_Room_State).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string,object>>(ReceiveFromServer());
         }
+
         public void LeaveRoom(int roomId)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -112,16 +112,19 @@ namespace Client
             SendToServer(((int)Codes.Leave_Room).ToString(), dict);
             ReceiveFromServer();
         }
+
         public void StartGame()
         {
             SendToServer(((int)Codes.Start_Game).ToString(), null);
             ReceiveFromServer();
         }
+
         public Dictionary<string,object> GetQuestion()
         {
             SendToServer(((int)Codes.Get_Question).ToString(), null);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
         }
+
         public Dictionary<string,object> SubmitAnswer(int index)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -129,11 +132,7 @@ namespace Client
             SendToServer(((int)Codes.Submit_Answer).ToString(), dict);
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(ReceiveFromServer());
         }
-        public List<int> GetStatistics()
-        {
-            SendToServer(((int)Codes.Get_Statistics).ToString(), null);
-            return JsonConvert.DeserializeObject<List<int>>(ReceiveFromServer());
-        }
+
         public Dictionary<string,double> GetLeaderboard()
         {
             SendToServer(((int)Codes.Get_Leaderboard).ToString(), null);

@@ -24,7 +24,7 @@ namespace Client
         {
             InitializeComponent();
             SocketHandler socket;
-            string ipAddress = "172.19.4.139";
+            string ipAddress = "10.0.0.32";
             int port = 4422;
             try
             {
@@ -35,7 +35,7 @@ namespace Client
             catch(Exception excep)
             {
                 //Can't use the ShowErrorMessage function in the SocketHandler class because socket isn't initialized
-                Utlis.ShowErrorMessage("Error!\nInfo: Couldn't connect to server at " + ipAddress + " at port " + port);
+                Utlis.ShowErrorMessage(excep.Message);
                 //Don't continue to use the program because the user isn't connected
                 Close();
                 return;

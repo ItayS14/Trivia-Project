@@ -34,7 +34,7 @@ namespace Client
 
         private void NewRoomButton(object sender, RoutedEventArgs e)
         {
-            finished = true;
+           finished = true;
            NavigationService.Navigate(new CreateRoom(socket));
         }
         

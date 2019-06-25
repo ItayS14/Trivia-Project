@@ -35,9 +35,14 @@ namespace Client
         {
             try
             {
-                socket.SignUp(UsernameTextBox.Text, PasswordBox.Password, EmailTextBox.Text);
+                string password = PasswordBox.Password;
+                if (PasswordUtlis.IsTooWeak(password)) //Check that password is strong enough
+                    throw new Exception("Password isn't strong enough!"); 
+                else
+                    password = Utlis.GetHashString(password); //Encrypt the password with SHA-256 before sending     
+                socket.SignUp(UsernameTextBox.Text, password, EmailTextBox.Text);
                 //Sign in after the sign up automatically
-                socket.SignIn(UsernameTextBox.Text, PasswordBox.Password);
+                socket.SignIn(UsernameTextBox.Text, password);
                 //Go to rooms menu after sign up is successful
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
@@ -50,7 +55,14 @@ namespace Client
         }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+           
+        }
 
+        private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordUtlis.PasswordStrength passwordStrength = PasswordUtlis.GetPasswordStrength(PasswordBox.Password);
+            PasswordStrengthBar.Value = (int)passwordStrength;
+            PasswordStrengthTextBox.Text = passwordStrength.ToString().Replace('_',' ');
         }
     }
 }

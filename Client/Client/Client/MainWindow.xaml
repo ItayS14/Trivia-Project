@@ -4,9 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Trivia Project" Height="720" Width="1280" ResizeMode="CanMinimize" Closing ="Window_Closing">
     <Grid>
+        <materialDesign:DialogHost Name="ErrorDialog" Background="Black">   
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="50">
+                    <TextBlock Text="Error!" HorizontalAlignment="Center" FontSize="36" FontFamily="Old English Text MT" Foreground="Teal" FontWeight="Bold"/>
+                    <TextBlock Name="ErrorMessageText" FontWeight="Bold" FontStyle="Italic" FontSize="24"/>
+                    <Button VerticalAlignment="Center" FontSize="24" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Content="Accept" Style="{DynamicResource MaterialDesignFlatButton}"/>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
         <Frame x:Name="Main" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

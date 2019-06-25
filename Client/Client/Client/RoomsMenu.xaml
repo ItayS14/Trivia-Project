@@ -8,14 +8,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="Rooms">
-    <Grid Margin="2,0,-2.4,-0.4" Background="DimGray">
+    <Grid Margin="2,0,-2.4,-0.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="53*"/>
             <ColumnDefinition Width="1160*"/>
             <ColumnDefinition Width="51*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <ListView Name ="Rooms" MouseDoubleClick="DoubleClickHandler"  Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="#DDFFFFFF" Background="#FF169917" Grid.ColumnSpan="4">
+        <ListView Name ="Rooms" MouseDoubleClick="DoubleClickHandler"  Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="#DD000000" Background="#FF169917" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID" />

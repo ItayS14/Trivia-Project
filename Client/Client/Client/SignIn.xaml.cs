@@ -35,7 +35,8 @@ namespace Client
         {
             try
             {
-                socket.SignIn(UsernameTextBox.Text, PasswordBox.Password);
+                string password = Utlis.GetHashString(PasswordBox.Password); //Encrypt the password with SHA-256 before sending
+                socket.SignIn(UsernameTextBox.Text, password);
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
             catch(Exception excep)

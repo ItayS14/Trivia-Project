@@ -9,13 +9,16 @@
       Title="SignUp">
 
     <Grid>
-        <Button Content="SIGN UP" HorizontalAlignment="Left" Margin="985,547,0,0" VerticalAlignment="Top" Width="240" Height="57" FontSize="20" Name="SignInButton" Click="SignUpButton_Click"/>
+        <Button Content="SIGN UP" HorizontalAlignment="Left" Margin="985,605,0,0" VerticalAlignment="Top" Width="240" Height="57" FontSize="20" Name="SignInButton" Click="SignUpButton_Click"/>
         <TextBox HorizontalAlignment="Left" Height="49" Margin="985,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="UsernameTextBox"/>
         <TextBlock HorizontalAlignment="Left" Height="62" Margin="985,31,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36"/>
         <TextBlock HorizontalAlignment="Left" Height="55" Margin="985,322,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="240" FontSize="36"/>
-        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="985,398,0,0" Width="240" Height="49" Name="PasswordBox"/>
+        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="985,398,0,0" Width="240" Height="49" Name="PasswordBox" PasswordChanged="PasswordBoxPasswordChanged"/>
         <Line X1="900" X2="900" Y1="0" Y2="720" StrokeThickness="1" Stroke="Black"></Line>
         <TextBox HorizontalAlignment="Left" Height="49" Margin="985,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="EmailTextBox"/>
         <TextBlock HorizontalAlignment="Left" Height="62" Margin="985,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" FontSize="36"><Span><Run FlowDirection="RightToLeft" Text="E"/></Span><Span><Run Text="mail"/></Span></TextBlock>
+        <ProgressBar Name="PasswordStrengthBar" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="240" Margin="985,478,0,0" Minimum="0" Maximum="5" Background="LightBlue" Foreground="Gray"/>
+        <TextBlock HorizontalAlignment="Left" Name="PasswordStrengthTextBox" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="985,540,0,0" Height="42" Width="240"/>
+        <Image HorizontalAlignment="Left" Stretch="Fill" Height="720" VerticalAlignment="Top" Width="900" Source="/Image/trivia.jpg"/>
     </Grid>
 </Page>

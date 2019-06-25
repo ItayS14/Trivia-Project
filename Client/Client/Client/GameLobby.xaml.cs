@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Windows.Threading;
+using MaterialDesignThemes.Wpf;
 
 namespace Client
 {
@@ -25,6 +27,7 @@ namespace Client
         private Room room;
         private bool isAdmin;
         private bool finished;
+        private DispatcherTimer timer;
 
         public GameLobby(SocketHandler socket, Room room, bool isAdmin)
         {
@@ -44,10 +47,10 @@ namespace Client
 
         private void Leave_Button_Click(object sender, RoutedEventArgs e)
         {
-            finished = true;
             try
             {
                 socket.LeaveRoom(room.ID);
+                finished = true;
                 NavigationService.Navigate(new RoomsMenu(socket));
             }
             catch (Exception excep)
@@ -55,14 +58,14 @@ namespace Client
                 Utlis.ShowErrorMessage(excep.Message);
             }
         }
-        private async void Start_Button_Click(object sender, RoutedEventArgs e)
+
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
-            finished = true;
             try
             {
                 socket.StartGame();
-                await Task.Delay(5000);
-                NavigationService.Navigate(new Game(socket,room));
+                finished = true;
+                OpenStartGameDialog(5);
             }
             catch (Exception excep)
             {
@@ -79,8 +82,7 @@ namespace Client
                 Players.Items.Clear();
                 //Show players in room
                 List<string> players = Utlis.ObjectToList<string>(data["players"]);
-                AdminTextBox.Text = players[0];
-                foreach (string player in players.Skip(1)) //Start from second player
+                foreach (string player in players) 
                     Players.Items.Add(player);
 
                 //Enable Start Game button if user is admin
@@ -89,15 +91,34 @@ namespace Client
 
                 if (Convert.ToInt32(data["state"]) == (int)State.In_Game)
                 {
-                    await Task.Delay(Convert.ToInt32(data["start_in"]) * 1000);
-                    //display message that game is about to start
-                    NavigationService.Navigate(new Game(socket,room));
+                    OpenStartGameDialog(Convert.ToInt32(data["start_in"]));
+                    finished = true;
                 }
 
                 await Task.Delay(5000); // waits for 5 seconds witout stalling the program
-
             }
+        }
+        
+        private void OpenStartGameDialog(int timeToStart) // will open the dialog and after timeToStart will navigate to the game
+        {
+            timer = new DispatcherTimer();
+            timer.Tick += DialogTimer;
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Start();
+            DialogTimerText.Text = timeToStart.ToString();
+            StartGameDialog.IsOpen = true;
+        }
 
+        private void DialogTimer(object sender, EventArgs e)
+        {
+            if (DialogTimerText.Text == "0")
+            {
+                StartGameDialog.IsOpen = false;
+                timer.Stop();
+                NavigationService.Navigate(new Game(socket, room));
+            }
+            else
+                DialogTimerText.Text = (int.Parse(DialogTimerText.Text) - 1).ToString();
         }
     }
 }
