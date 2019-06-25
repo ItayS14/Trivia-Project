@@ -30,6 +30,8 @@ namespace Client
         private int currQuestion;
         private int index;
         private int correctAns;
+        private double score;
+
         bool finished;
 
         private Button[] answersButtons;
@@ -76,7 +78,7 @@ namespace Client
                 for (int i = 0; i < answersButtons.Length; i++)
                     if (i != correctAns)
                         answersButtons[i].IsEnabled = false;
-
+                Score.Content = score.ToString();
                 await Task.Delay(2000);
 
                 //disable statistics
@@ -115,7 +117,7 @@ namespace Client
         {
             Dictionary<string,object> data = socket.SubmitAnswer(index);
             correctAns = Convert.ToInt32(data["correct_ans"]);
-
+            score = Convert.ToDouble(data["score"]);
         }
 
         private void UpdateQuestionScreen() // the function updates the question screen to next question
