@@ -37,7 +37,10 @@ namespace Client
             if (HasSpecialChar(password)) score++;
             return (PasswordStrength)score;
         }
-
+        public static bool IsTooWeak(string password)
+        {
+            return (int)GetPasswordStrength(password) < (int)PasswordStrength.Weak;
+        }
         private static bool HasMinimumLength(string password, int minLength)
         {
             return password.Length >= minLength;

@@ -36,10 +36,10 @@ namespace Client
             try
             {
                 string password = PasswordBox.Password;
-                if (Utlis.CheckPassword(password))
-                    password = Utlis.GetHashString(password); //Encrypt the password with SHA-256 before sending  
+                if (PasswordUtlis.IsTooWeak(password)) //Check that password is strong enough
+                    throw new Exception("Password isn't strong enough!"); 
                 else
-                    throw new Exception("Password does not fit limitations!");
+                    password = Utlis.GetHashString(password); //Encrypt the password with SHA-256 before sending     
                 socket.SignUp(UsernameTextBox.Text, password, EmailTextBox.Text);
                 //Sign in after the sign up automatically
                 socket.SignIn(UsernameTextBox.Text, password);
