@@ -26,6 +26,7 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		case GET_QUESTION:
 		{
 			Question* question = _game->getQuestionAt(_question);
+			time = std::time(nullptr); //Question started
 			result_j["question"] = question->_question;
 			result_j["answers"] = question->_answers;
 			data = result_j.dump();
@@ -34,7 +35,7 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		}
 		case SUBMIT_ANSWER:
 		{
-			_game->addScore(_logged_user, _question, j.at("index"));
+			_game->addScore(_logged_user, _question, j.at("index"), _room_manager->getRoom(_game->getId())->_time_per_question - (std::time(nullptr) - time));
 			result_j["correct_ans"] = _game->getQuestionAt(_question++)->_correct_ans;
 			result_j["score"] = _game->getScore(_logged_user);
 			data = result_j.dump();

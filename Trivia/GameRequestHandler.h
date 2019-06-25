@@ -23,4 +23,5 @@ private:
 	RequestHandlerFactory* _factory;
 	std::string _logged_user;
 	int _question; // counter for current question
+	time_t time;
 };
