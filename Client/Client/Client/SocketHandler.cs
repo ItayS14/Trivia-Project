@@ -38,8 +38,8 @@ namespace Client
         public SocketHandler(string serverAddress, int serverPort)
         {
             TcpClient client = new TcpClient();
-            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(serverAddress), serverPort);
-            client.Connect(serverEndPoint);
+            if (!client.ConnectAsync(IPAddress.Parse(serverAddress), serverPort).Wait(1000))
+                throw new Exception("Couldn't connect to server!");
             socket = client.GetStream();
         }
 

@@ -12,7 +12,7 @@
     <Grid>
         <materialDesign:DialogHost Name="StartGameDialog" Background="Black">   
             <materialDesign:DialogHost.DialogContent>
-                <StackPanel Width="400" Height="200">
+                <StackPanel Margin="100">
                     <TextBlock Text="Game will start in" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
                     <TextBlock Name="DialogTimerText" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
                 </StackPanel>
