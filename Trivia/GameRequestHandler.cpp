@@ -3,7 +3,7 @@
 
 bool GameRequestHandler::isRequestRelevant(const Request& request)
 {
-	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_STATISTICS || request._request_code == GET_LEADERBOARD;
+	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_LEADERBOARD;
 }
 
 RequestResult GameRequestHandler::handleRequest(const Request& request)
@@ -46,10 +46,6 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 			result_j = _game->getLeaderBoard();
 			data = result_j.dump();
 			r._new_handler = this;
-		}
-		case GET_STATISTICS:
-		{
-			break;
 		}
 		}
 		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);
