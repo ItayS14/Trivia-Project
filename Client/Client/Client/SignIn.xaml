@@ -8,7 +8,7 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="SignIn" >
 
-    <Grid>
+    <Grid Background="White">
         <Button Content="SIGN IN" HorizontalAlignment="Left" Margin="985,467,0,0" VerticalAlignment="Top" Width="240" Height="57" FontSize="20" Name="SignInButton" Click="SignInButton_Click"/>
         <TextBox HorizontalAlignment="Left" Height="49" Margin="985,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="UsernameTextBox"/>
         <TextBlock HorizontalAlignment="Left" Height="62" Margin="985,31,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36"/>
@@ -18,5 +18,6 @@
             <Hyperlink Click="Hyperlink_Click">Don't have an account?</Hyperlink>
         </TextBlock>
         <Line X1="900" X2="900" Y1="0" Y2="720" StrokeThickness="1" Stroke="Black"></Line>
+        <Image HorizontalAlignment="Left" Stretch="Fill" Height="720" VerticalAlignment="Top" Width="900" Source="/Image/trivia.jpg"/>
     </Grid>
 </Page>
