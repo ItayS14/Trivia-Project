@@ -3,7 +3,7 @@
 
 bool GameRequestHandler::isRequestRelevant(const Request& request)
 {
-	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_STATISTICS || request._request_code == GET_LEADERBOARD;
+	return request._request_code == LEAVE_GAME || request._request_code == GET_QUESTION || request._request_code == SUBMIT_ANSWER || request._request_code == GET_LEADERBOARD;
 }
 
 RequestResult GameRequestHandler::handleRequest(const Request& request)
@@ -26,6 +26,7 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		case GET_QUESTION:
 		{
 			Question* question = _game->getQuestionAt(_question);
+			time = std::time(nullptr); //Question started
 			result_j["question"] = question->_question;
 			result_j["answers"] = question->_answers;
 			data = result_j.dump();
@@ -34,7 +35,7 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 		}
 		case SUBMIT_ANSWER:
 		{
-			_game->addScore(_logged_user, _question, j.at("index"));
+			_game->addScore(_logged_user, _question, j.at("index"), _room_manager->getRoom(_game->getId())->_time_per_question - (std::time(nullptr) - time));
 			result_j["correct_ans"] = _game->getQuestionAt(_question++)->_correct_ans;
 			result_j["score"] = _game->getScore(_logged_user);
 			data = result_j.dump();
@@ -46,10 +47,6 @@ RequestResult GameRequestHandler::handleRequest(const Request& request)
 			result_j = _game->getLeaderBoard();
 			data = result_j.dump();
 			r._new_handler = this;
-		}
-		case GET_STATISTICS:
-		{
-			break;
 		}
 		}
 		r_msg += Helper::getPaddedNumber(data.length(), SIZE_DIGIT_COUNT);

@@ -83,7 +83,7 @@ response json:
 	"players" : *list of strings*
 	"is_admin" : *bool* (is the current user admin)
 	"state" : *unsigned int* [Options: Joinable = 0, In Game = 1]
-	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, math = 3, tv = 4, geography = 5]
+	"type" : *unsigned int* [Options: all = 0, sport = 1, general = 2, history = 3, tv = 4, geography = 5]
 }
 
 107 - leave room (if 0 users will be logged to the room - the room would be closed)
@@ -108,19 +108,13 @@ response:
 	"score" : *double* (total score of the user after that question)
 }
 
-111 - get statistics
-response json:
-{
-     *list of int* (how many submitted each answer)
-}
-
-112 - get leaderboard
+111 - get leaderboard
 response:
 {
 	*name_of_player (string)* : *double* (name of each player and his/her score)
 }
 
-113 - leave game
+112 - leave game
 
 
 

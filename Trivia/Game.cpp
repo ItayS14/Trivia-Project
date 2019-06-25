@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#define SCORE 5
+
 Game::~Game()
 {
 	for (Question* q : _questions)
@@ -40,10 +42,10 @@ unsigned int Game::getId()
 	return _id;
 }
 
-void Game::addScore(const std::string & player, const int question, const int index_of_answer) // no need for mutex here becuase addScore and getScore for a user would never be at the same time (They are called in a row)
+void Game::addScore(const std::string & player, const int question, const int index_of_answer,time_t delta_time) // no need for mutex here becuase addScore and getScore for a user would never be at the same time (They are called in a row)
 {
 	if (question >= _questions.size())
 		throw std::string("There are no more questions");
 	if (_questions[question]->_correct_ans == index_of_answer)
-		_players[player] += 5;
+		delta_time == 0 ? SCORE/2 :_players[player] += SCORE * delta_time; //Sometimes if the user answers in the last second the server doesn't add score because the delta time is calculated using ints
 }

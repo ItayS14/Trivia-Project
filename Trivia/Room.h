@@ -14,7 +14,7 @@ enum QuestionType
 	ALL = 0,
 	SPORT,
 	GENERAL,
-	MATH,
+	HISTORY,
 	TV,
 	GEOGRAPHY
 };

@@ -14,7 +14,7 @@ public:
 	void bindAndListen(int port);
 
 private:
-	void startThreadForNewClient();
+	void startThreadForNewClient(SOCKET client_socket);
 
 	SOCKET _server_socket;
 	std::vector<Communicator*> _clients;

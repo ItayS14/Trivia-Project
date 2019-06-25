@@ -11,7 +11,7 @@
 class Communicator
 {
 public:
-	Communicator(SOCKET client_soc, IRequestHandler* state) : _is_closed(false), _client_soc(client_soc), _state(state) {}
+	Communicator(SOCKET client_soc, IRequestHandler* state) : _client_soc(client_soc), _state(state) {}
 	~Communicator();
 	void handleRequests();
 
@@ -20,7 +20,6 @@ public:
 private:
 	SOCKET _client_soc;
 	IRequestHandler* _state; // will always be login handler at start
-	bool _is_closed;
 
 	std::string getPartFromSocket(int bytes_num);
 	int getIntPartFromSocket(int bytes_num);

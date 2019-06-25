@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include "SQLiteDatabase.h"
 
 #define NAME "Trivia.sqlite"
@@ -22,13 +23,15 @@ bool SQLiteDatabase::doesUserExist(const std::string& username, const std::strin
 {
 	std::string command = "SELECT * FROM users WHERE username = \"" + username + "\" AND password = \"" + password + "\"";
 	bool b = false;
-	executeSQL(command,default_error_msg, objectExistsCallBack, &b);
+	executeSQL(command, default_error_msg, objectExistsCallBack, &b);
 	return b;
 }
 
 //Signup function
 void SQLiteDatabase::addUser(const std::string& username, const std::string& password, const std::string& email)
 {
+	if (!isEmailValid(email))
+		throw std::string("Email is not valid!");
 	std::string command = "INSERT INTO users VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\");";
 	executeSQL(command, "Username: '" + username + "' already used!");
 }
@@ -37,7 +40,7 @@ std::vector<Question*> SQLiteDatabase::getQuestions(const int& question_count, c
 {
 	std::string command = "SELECT question,correct_ans,ans2,ans3,ans4 FROM questions WHERE type = " + std::to_string(type) + " ORDER BY RANDOM() LIMIT " + std::to_string(question_count) + "; ";
 	std::vector<Question*> questions;
-	executeSQL(command, default_error_msg,getQuestionsCallback,&questions);
+	executeSQL(command, default_error_msg, getQuestionsCallback, &questions);
 	return questions;
 }
 
@@ -62,8 +65,19 @@ int SQLiteDatabase::getQuestionsCallback(void * data, int argc, char ** argv, ch
 	std::vector<std::string> answers = { argv[2],argv[3],argv[4] };
 	int correct_ans = std::rand() % NUM_OF_QUESTIONS;
 	answers.insert(answers.begin() + correct_ans, argv[1]);
-	((std::vector<Question*>*)data)->push_back(new Question(argv[0],answers,correct_ans));
+	((std::vector<Question*>*)data)->push_back(new Question(argv[0], answers, correct_ans));
 	return 0;
+}
+
+bool SQLiteDatabase::isEmailValid(const std::string & email)
+{
+	//Credit to: https://stackoverflow.com/questions/36903985/email-validation-in-c
+	// define a regular expression
+	const std::regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+
+	// try to match the string with the regular expression
+	return std::regex_match(email, pattern);
+
 }
 
 void SQLiteDatabase::executeSQL(const std::string& sql_code, const std::string& error_msg, int(handler)(void*, int, char**, char**), void* argument_for_handler)

@@ -2,6 +2,7 @@
 #include "LoginRequestHandler.h"
 #include <iostream>
 #include <thread>
+#include <algorithm>
 
 Server::Server(IDatabase * db)
 {
@@ -33,23 +34,24 @@ void Server::bindAndListen(int port)
 		throw std::exception("Couldn't start listening to socket!");
 	while (true)
 	{
-		try
+		SOCKET client_socket = accept(_server_socket, NULL, NULL);
+		if (client_socket == INVALID_SOCKET)
+			std::cerr << __FUNCTION__;
+		else
 		{
-			startThreadForNewClient();
+			std::thread t(&Server::startThreadForNewClient, this, client_socket); //Creating a thread above the thread that runs the communicator 
+			t.detach();															  //so we can clear the communicator's memory when the client disconnects
 		}
-		catch (const std::string& err)
-		{
-			std::cerr << err;
-		}
+
 	}
 }
 
-void Server::startThreadForNewClient()
+void Server::startThreadForNewClient(SOCKET client_socket)
 {
-	SOCKET client_socket = accept(_server_socket, NULL, NULL);
-	if (client_socket == INVALID_SOCKET)
-		throw std::exception(__FUNCTION__);
-	_clients.push_back(new Communicator(client_socket, _factory->createLoginRequestHandler()));
+	Communicator* c = new Communicator(client_socket, _factory->createLoginRequestHandler());
+	_clients.push_back(c);
 	std::thread t(&Communicator::handleRequests, _clients.back());
-	t.detach();
+	t.join();
+	_clients.erase(std::find(_clients.begin(), _clients.end(), c));
+	delete c;
 }
