@@ -35,9 +35,14 @@ namespace Client
         {
             try
             {
-                socket.SignUp(UsernameTextBox.Text, PasswordBox.Password, EmailTextBox.Text);
+                string password = PasswordBox.Password;
+                if (Utlis.CheckPassword(password))
+                    password = Utlis.GetHashString(password); //Encrypt the password with SHA-256 before sending  
+                else
+                    throw new Exception("Password does not fit limitations!");
+                socket.SignUp(UsernameTextBox.Text, password, EmailTextBox.Text);
                 //Sign in after the sign up automatically
-                socket.SignIn(UsernameTextBox.Text, PasswordBox.Password);
+                socket.SignIn(UsernameTextBox.Text, password);
                 //Go to rooms menu after sign up is successful
                 NavigationService.Navigate(new RoomsMenu(socket));
             }

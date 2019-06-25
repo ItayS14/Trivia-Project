@@ -43,5 +43,9 @@ namespace Client
             NavigationService.Navigate(new RoomsMenu(socket));
         }
 
+        private void Players_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
