@@ -82,8 +82,7 @@ namespace Client
                 Players.Items.Clear();
                 //Show players in room
                 List<string> players = Utlis.ObjectToList<string>(data["players"]);
-                AdminTextBox.Text = players[0];
-                foreach (string player in players.Skip(1)) //Start from second player
+                foreach (string player in players) 
                     Players.Items.Add(player);
 
                 //Enable Start Game button if user is admin

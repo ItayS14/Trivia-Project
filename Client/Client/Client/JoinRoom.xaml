@@ -11,11 +11,11 @@
 
     <Grid Background="DimGray">
         <Button Name="JoinRoomButton" Content="Join Room" HorizontalAlignment="Left" VerticalAlignment="Top" Width="154" RenderTransformOrigin="9.336,7.81" Margin="1055,602,0,0" Height="69" Click="JoinRoomClick"/>
-        <ListBox Name="Players" HorizontalAlignment="Left" Height="418" VerticalAlignment="Top" Width="763" Margin="33,253,0,0" FontSize="36"/>
+        <ListBox Name="Players" HorizontalAlignment="Left" Height="537" VerticalAlignment="Top" Width="763" Margin="33,134,0,0" FontSize="36"/>
         <Button VerticalAlignment="Top" Margin="1055,69,0,0" Height="60" Click="BackButton" RenderTransformOrigin="2.177,0.699" HorizontalAlignment="Left" Width="61">
             <materialDesign:PackIcon Kind="KeyboardBackspace" Height="33" Width="35" RenderTransformOrigin="3.559,1.302" />
         </Button>
-        
+
         <Button HorizontalAlignment="Left" Width="84" Margin="1125,69,0,591" Height="Auto" Click= "LogoutButton">
             <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
         </Button>
@@ -32,6 +32,5 @@
             <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,152,0,0" TextWrapping="Wrap" Name="QuestionsNumberText" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2"/>
             <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="QuestionTimeText" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2"/>
         </Grid>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Name="AdminTextBox" FontSize="36" FontWeight="Bold" VerticalAlignment="Top" Height="34" Width="763" Margin="33,182,0,0"/>
     </Grid>
 </Page>

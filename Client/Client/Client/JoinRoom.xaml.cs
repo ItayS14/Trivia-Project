@@ -86,8 +86,7 @@ namespace Client
                     JoinRoomButton.IsEnabled = false;
                 else
                     JoinRoomButton.IsEnabled = true;
-                AdminTextBox.Text = players[0];
-                foreach (string player in players.Skip(1))
+                foreach (string player in players)
                     Players.Items.Add(player);
                 int type = Convert.ToInt32(data["type"]);
                 RoomTypeText.Text = Enum.GetName(typeof(Types), type).Replace('_', ' ');
