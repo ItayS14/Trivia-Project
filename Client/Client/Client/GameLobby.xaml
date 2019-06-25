@@ -9,7 +9,7 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="GameLobby">
 
-    <Grid Background="White">
+    <Grid>
         <materialDesign:DialogHost Name="StartGameDialog" Background="Black">   
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Width="400" Height="200">

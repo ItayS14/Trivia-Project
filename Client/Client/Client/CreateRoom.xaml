@@ -9,7 +9,7 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="CreateRoom">
 
-    <Grid Background="DimGray">
+    <Grid>
         <Button Content="Create" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" RenderTransformOrigin="9.336,7.81" Margin="1014,516,0,0" Height="55" Click="CreateButton"/>
         <ComboBox materialDesign:HintAssist.Hint="Room Type" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Height="60" Margin="39,237,968,423" RenderTransformOrigin="0.568,1.753" FontSize="24" Name="RoomType">
             <ComboBoxItem>All</ComboBoxItem>

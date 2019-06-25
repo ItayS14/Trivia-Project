@@ -78,7 +78,17 @@ namespace Client
         {        
             while (!finished)
             {
-                Dictionary<string, object> data = socket.GetRoomState(room.ID);
+                Dictionary<string, object> data = null;
+                try
+                {
+                   data = socket.GetRoomState(room.ID);
+
+                }
+                catch (Exception excep)
+                {
+                    JoinRoomButton.IsEnabled = false;
+                    return;
+                }
 
                 List<string> players = Utlis.ObjectToList<string>(data["players"]);
                 // Disable the button if the room is full or running

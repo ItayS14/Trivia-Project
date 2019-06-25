@@ -32,7 +32,7 @@ namespace Client
             //Change dictionary to list of pairs so we can sort it
             var list = players.ToList();
             list.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
-
+            list.Reverse();
             Players.ItemsSource = list;
 
             //Maybe add start time and end time

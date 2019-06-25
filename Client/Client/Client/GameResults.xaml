@@ -8,7 +8,7 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="GameResults">
 
-    <Grid Background="White">
+    <Grid>
         <Button Content="Leave Game" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Width="180" Margin="1026,599,0,0" Height="88" Click="LeaveGameButton"/>
         <ListView x:Name="Players" HorizontalAlignment="Left" Height="552" VerticalAlignment="Top" Width="623" Margin="33,135,0,0" FontSize="24" SelectionChanged="Players_SelectionChanged">
             <ListView.View>
