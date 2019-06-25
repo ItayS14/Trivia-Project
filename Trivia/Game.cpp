@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#define SCORE 5
+
 Game::~Game()
 {
 	for (Question* q : _questions)
@@ -45,5 +47,5 @@ void Game::addScore(const std::string & player, const int question, const int in
 	if (question >= _questions.size())
 		throw std::string("There are no more questions");
 	if (_questions[question]->_correct_ans == index_of_answer)
-		_players[player] += 5 * delta_time;
+		delta_time == 0 ? SCORE/2 :_players[player] += SCORE * delta_time; //Sometimes if the user answers in the last second the server doesn't add score because the delta time is calculated using ints
 }
