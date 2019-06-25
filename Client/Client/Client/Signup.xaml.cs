@@ -55,7 +55,14 @@ namespace Client
         }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+           
+        }
 
+        private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordUtlis.PasswordStrength passwordStrength = PasswordUtlis.GetPasswordStrength(PasswordBox.Password);
+            PasswordStrengthBar.Value = (int)passwordStrength;
+            PasswordStrengthTextBox.Text = passwordStrength.ToString().Replace('_',' ');
         }
     }
 }
