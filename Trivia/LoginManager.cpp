@@ -1,15 +1,16 @@
 #include "LoginManager.h"
 #include <algorithm>
+#include <functional>
 
 void LoginManager::signup(const std::string& username, const std::string& password, const std::string& email)
 {
 	std::lock_guard<std::mutex> lck(_mtx);
-	_database->addUser(username, password, email);
+	_database->addUser(username, std::to_string(std::hash<std::string>{}(password)), email); //Hash the passwords
 }
 
 void LoginManager::login(const std::string& username, const std::string& password)
 {
-	if (!_database->doesUserExist(username, password)) // isCorrectPassword also checks if there is a user with the specified username
+	if (!_database->doesUserExist(username, std::to_string(std::hash<std::string>{}(password)))) // isCorrectPassword also checks if there is a user with the specified username
 		throw std::string("Invalid username or password");
 	std::lock_guard<std::mutex> lck(_mtx);
 	if (std::find(_logged_users.begin(), _logged_users.end(), username) != _logged_users.end())
