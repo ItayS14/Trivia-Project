@@ -29,7 +29,7 @@
             </ListView.View>
 
         </ListView>
-        <Button  Style="{StaticResource MaterialDesignRaisedDarkButton}" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="1002,615,26,37.4" Height="Auto" Content="New Room" Click="NewRoomButton" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button  Style="{StaticResource MaterialDesignRaisedDarkButton}" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="990,610,38,44.4" Height="Auto" Content="New Room" Click="NewRoomButton" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Button HorizontalAlignment="Left" Width="84" Margin="1095,54,0,611.4" Height="Auto" Click= "LogoutButton" Grid.Column="1" Grid.ColumnSpan="2">
             <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
         </Button>

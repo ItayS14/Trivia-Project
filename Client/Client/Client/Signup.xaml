@@ -1,24 +1,28 @@
-﻿<Page x:Class="Client.SignUp"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Client"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Client.SignUp"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="SignUp">
 
     <Grid>
-        <Button Content="SIGN UP" HorizontalAlignment="Left" Margin="985,605,0,0" VerticalAlignment="Top" Width="240" Height="57" FontSize="20" Name="SignInButton" Click="SignUpButton_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="49" Margin="985,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="UsernameTextBox"/>
-        <TextBlock HorizontalAlignment="Left" Height="62" Margin="985,31,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36"/>
-        <TextBlock HorizontalAlignment="Left" Height="55" Margin="985,322,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="240" FontSize="36"/>
-        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="985,398,0,0" Width="240" Height="49" Name="PasswordBox" PasswordChanged="PasswordBoxPasswordChanged"/>
-        <Line X1="900" X2="900" Y1="0" Y2="720" StrokeThickness="1" Stroke="Black"></Line>
-        <TextBox HorizontalAlignment="Left" Height="49" Margin="985,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="EmailTextBox"/>
-        <TextBlock HorizontalAlignment="Left" Height="62" Margin="985,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" FontSize="36"><Span><Run FlowDirection="RightToLeft" Text="E"/></Span><Span><Run Text="mail"/></Span></TextBlock>
-        <ProgressBar Name="PasswordStrengthBar" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="240" Margin="985,478,0,0" Minimum="0" Maximum="5" Background="LightBlue" Foreground="Gray"/>
-        <TextBlock HorizontalAlignment="Left" Name="PasswordStrengthTextBox" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="985,540,0,0" Height="42" Width="240"/>
+        <Button Content="SIGN UP" HorizontalAlignment="Left" Margin="970,594,0,0" VerticalAlignment="Top" Width="240" Height="57" FontSize="20" x:Name="SignInButton" Click="SignUpButton_Click"/>
+        <TextBox HorizontalAlignment="Left" Height="49" Margin="970,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" x:Name="UsernameTextBox"/>
+        <TextBlock HorizontalAlignment="Left" Height="62" Margin="970,48,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal"/>
+        <TextBlock HorizontalAlignment="Left" Height="55" Margin="970,339,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal"/>
+        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="970,415,0,0" Width="240" Height="49" x:Name="PasswordBox" PasswordChanged="PasswordBoxPasswordChanged"/>
+        <Line X1="900" X2="900" Y1="0" Y2="720" StrokeThickness="1" Stroke="Black"/>
+        <TextBox HorizontalAlignment="Left" Height="49" Margin="970,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" x:Name="EmailTextBox"/>
+        <TextBlock HorizontalAlignment="Left" Height="62" Margin="970,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal"><Span><Run FlowDirection="RightToLeft" Text="E"/></Span><Span><Run Text="mail"/></Span></TextBlock>
+        <ProgressBar x:Name="PasswordStrengthBar" HorizontalAlignment="Left" Height="14" VerticalAlignment="Top" Width="240" Margin="970,495,0,0" Minimum="0" Maximum="5" Background="White" Foreground="Gray"/>
+        <TextBlock HorizontalAlignment="Left" x:Name="PasswordStrengthTextBox" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Margin="970,509,0,0" Height="42" Width="240"/>
         <Image HorizontalAlignment="Left" Stretch="Fill" Height="720" VerticalAlignment="Top" Width="900" Source="/Image/trivia.jpg"/>
+        <Button VerticalAlignment="Top" Margin="24,28,0,0" Height="60" Click="BackButton" RenderTransformOrigin="2.177,0.699" HorizontalAlignment="Left" Width="62">
+            <materialDesign:PackIcon Kind="KeyboardBackspace" Height="33" Width="35" RenderTransformOrigin="3.559,1.302" />
+        </Button>
     </Grid>
 </Page>

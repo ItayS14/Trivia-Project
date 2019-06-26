@@ -63,5 +63,10 @@ namespace Client
             PasswordStrengthBar.Value = (int)passwordStrength;
             PasswordStrengthTextBox.Text = passwordStrength.ToString().Replace('_',' ');
         }
+
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new SignIn(socket));
+        }
     }
 }
