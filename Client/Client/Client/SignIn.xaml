@@ -8,16 +8,15 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="SignIn" >
     <Grid>
-        <Button Content="SIGN IN" HorizontalAlignment="Left" Margin="974,470,0,0" VerticalAlignment="Top" Width="240" Height="56" FontSize="20" Name="SignInButton" Click="SignInButton_Click"/>
-        <TextBox HorizontalAlignment="Left" Height="48" Margin="974,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="UsernameTextBox"/>
-        <TextBlock HorizontalAlignment="Left" Height="62" Margin="974,72,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal" FontWeight="Bold" FontStyle="Italic"/>
-        <TextBlock HorizontalAlignment="Left" Height="54" Margin="974,262,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal" FontWeight="Bold" FontStyle="Italic"/>
-        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="974,338,0,0" Width="240" Height="48" Name="PasswordBox"/>
-        <Line X1="900" X2="900" Y1="0" Y2="720" StrokeThickness="1" Stroke="Black"></Line>
+        <Button Content="SIGN IN" HorizontalAlignment="Left" Margin="1016,481,0,0" VerticalAlignment="Top" Width="240" Height="56" FontSize="20" Name="SignInButton" Click="SignInButton_Click"/>
+        <TextBox HorizontalAlignment="Left" Height="48" Margin="1016,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" TextChanged="TextBox_TextChanged" Name="UsernameTextBox"/>
+        <TextBlock HorizontalAlignment="Left" Height="62" Margin="1016,83,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal" FontWeight="Bold" FontStyle="Italic"/>
+        <TextBlock HorizontalAlignment="Left" Height="54" Margin="1016,274,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="240" FontSize="36" Foreground="Teal" FontWeight="Bold" FontStyle="Italic"/>
+        <PasswordBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1016,349,0,0" Width="240" Height="48" Name="PasswordBox"/>
 
-        <TextBlock Margin="974,560,10,92" FontSize="24">
+        <TextBlock Margin="1016,571,-32,81" FontSize="24">
             <Hyperlink Click="Hyperlink_Click">Don't have an account?</Hyperlink>
         </TextBlock>
-        <Image HorizontalAlignment="Left" Stretch="Fill" Height="720" VerticalAlignment="Top" Width="900" Source="/Image/trivia.jpg"/>
+        <Image HorizontalAlignment="Left" Stretch="Fill" Height="720" VerticalAlignment="Top" Width="993" Source="/trivia.jpg"/>
     </Grid>
 </Page>

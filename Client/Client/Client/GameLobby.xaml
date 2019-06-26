@@ -17,8 +17,8 @@
         <materialDesign:DialogHost Name="StartGameDialog" Background="Black" Grid.ColumnSpan="2">   
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="100">
-                    <TextBlock Text="Game will start in" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
-                    <TextBlock Name="DialogTimerText" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
+                    <TextBlock Text="Game will start in" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36" FontFamily="Snap ITC" Foreground="Teal"/>
+                    <TextBlock Name="DialogTimerText" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36" FontFamily="Snap ITC" Foreground="Teal"/>
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
