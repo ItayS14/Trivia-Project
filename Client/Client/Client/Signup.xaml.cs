@@ -39,7 +39,6 @@ namespace Client
                 if (PasswordUtlis.IsTooWeak(password)) //Check that password is strong enough
                     throw new Exception("Password isn't strong enough!"); 
                 else
-                    password = Utlis.GetHashString(password); //Encrypt the password with SHA-256 before sending     
                 socket.SignUp(UsernameTextBox.Text, password, EmailTextBox.Text);
                 //Sign in after the sign up automatically
                 socket.SignIn(UsernameTextBox.Text, password);
@@ -63,6 +62,11 @@ namespace Client
             PasswordUtlis.PasswordStrength passwordStrength = PasswordUtlis.GetPasswordStrength(PasswordBox.Password);
             PasswordStrengthBar.Value = (int)passwordStrength;
             PasswordStrengthTextBox.Text = passwordStrength.ToString().Replace('_',' ');
+        }
+
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new SignIn(socket));
         }
     }
 }

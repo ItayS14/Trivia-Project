@@ -26,7 +26,7 @@
         <Button VerticalAlignment="Top" Margin="1014,69,0,0" Height="60" Click="BackButton" RenderTransformOrigin="2.177,0.699" HorizontalAlignment="Left" Width="61">
             <materialDesign:PackIcon Kind="KeyboardBackspace" Height="33" Width="35" RenderTransformOrigin="3.559,1.302" />
         </Button>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Create Room" VerticalAlignment="Top" Height="76" Width="510" Margin="39,53,0,0" FontSize="48" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Create Room" VerticalAlignment="Top" Height="76" Width="510" Margin="39,53,0,0" FontSize="48" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Foreground="Teal"/>
         <Button HorizontalAlignment="Left" Width="84" Margin="1083,69,0,591" Height="Auto" Click= "LogoutButton">
             <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
         </Button>

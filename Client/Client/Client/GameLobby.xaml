@@ -10,23 +10,27 @@
       Title="GameLobby">
 
     <Grid>
-        <materialDesign:DialogHost Name="StartGameDialog" Background="Black">   
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="182*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <materialDesign:DialogHost Name="StartGameDialog" Background="Black" Grid.ColumnSpan="2">   
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="100">
-                    <TextBlock Text="Game will start in" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
-                    <TextBlock Name="DialogTimerText" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36"/>
+                    <TextBlock Text="Game will start in" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36" FontFamily="Snap ITC" Foreground="Teal"/>
+                    <TextBlock Name="DialogTimerText" HorizontalAlignment="Center" FontWeight="Bold" FontStyle="Italic" FontSize="36" FontFamily="Snap ITC" Foreground="Teal"/>
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Lobby" VerticalAlignment="Top" Height="103" Width="520" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
-        <Button Content="Leave Room" FontSize="36" HorizontalAlignment="Left" Height="125" Margin="904,562,0,0" VerticalAlignment="Top" Width="334" Click="Leave_Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Lobby" VerticalAlignment="Top" Height="103" Width="520" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Foreground="Teal"/>
+        <Button Content="Leave Room" FontSize="36" HorizontalAlignment="Left" Height="125" Margin="904,542,0,0" VerticalAlignment="Top" Width="334" Click="Leave_Button_Click"/>
         <Button Content="Start Game" IsEnabled="False" Name="StartButton" FontSize="36" HorizontalAlignment="Left" Height="125" Margin="904,387,0,0" VerticalAlignment="Top" Width="334" Click="Start_Button_Click"/>
         <ListBox x:Name="Players" HorizontalAlignment="Left" Height="547" VerticalAlignment="Top" Width="763" Margin="36,140,0,0" FontSize="36">
         </ListBox>
-        <Grid Margin="904,68,42,338">
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for question" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0"/>
+        <Grid Margin="904,68,35.5,338">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Room Type" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Foreground="Teal"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Number of Questions" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,98,0,0" Foreground="Teal"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Time for question" VerticalAlignment="Top" Height="45" Width="324" FontSize="20" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Margin="0,206,0,0" Foreground="Teal"/>
             <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,50,0,0" TextWrapping="Wrap" Name="RoomTypeText" VerticalAlignment="Top" Width="334"/>
             <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,152,0,0" TextWrapping="Wrap" Name="QuestionsNumberText" VerticalAlignment="Top" Width="334"/>
             <TextBlock HorizontalAlignment="Left" FontSize="20" Height="43" Margin="0,252,0,0" TextWrapping="Wrap" Name="QuestionTimeText" VerticalAlignment="Top" Width="334"/>
