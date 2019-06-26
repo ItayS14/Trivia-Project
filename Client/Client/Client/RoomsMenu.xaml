@@ -15,10 +15,10 @@
             <ColumnDefinition Width="51*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <ListView Name ="Rooms" MouseDoubleClick="DoubleClickHandler"  Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="#DD000000" Background="#FF169917" Grid.ColumnSpan="4">
+        <ListView Name ="Rooms" MouseDoubleClick="DoubleClickHandler"  Margin="0,120,0,110.4" FontWeight="Bold" SelectionChanged="ListView_SelectionChanged_2" Foreground="Teal" Background="#FF169917" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="ID"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
                     <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="Type" />
                     <GridViewColumn DisplayMemberBinding="{Binding Players}" Header="Players" />
@@ -29,11 +29,11 @@
             </ListView.View>
 
         </ListView>
-        <Button  Style="{StaticResource MaterialDesignRaisedDarkButton}" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="990,610,38,44.4" Height="Auto" Content="New Room" Click="NewRoomButton" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Button  Style="{StaticResource MaterialDesignRaisedDarkButton}" ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Margin="990,576,38,44.4" Height="Auto" Content="New Room" Click="NewRoomButton" Grid.Column="1" Grid.ColumnSpan="2"/>
         <Button HorizontalAlignment="Left" Width="84" Margin="1095,54,0,611.4" Height="Auto" Click= "LogoutButton" Grid.Column="1" Grid.ColumnSpan="2">
             <materialDesign:PackIcon Kind="Logout" Height="38" Width="39" RenderTransformOrigin="2.363,0.474" MouseDown="LogoutButton"/>
         </Button>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Rooms Menu" VerticalAlignment="Top" Height="76" Width="510" Margin="23,33,0,0" FontSize="48" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Grid.ColumnSpan="2"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Rooms Menu" VerticalAlignment="Top" Height="76" Width="510" Margin="23,33,0,0" FontSize="48" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Grid.ColumnSpan="2" Foreground="Teal"/>
     </Grid>
 
 </Page>

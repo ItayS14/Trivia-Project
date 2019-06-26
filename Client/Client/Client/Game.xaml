@@ -15,7 +15,7 @@
             <ColumnDefinition Width="919*"/>
             <ColumnDefinition Width="361*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Name="Counter" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Question 1" VerticalAlignment="Top" Margin="550,42,194,0" Height="36" Width="175" FontSize="24" FontWeight="Bold" FontStyle="Italic"/>
+        <TextBlock Name="Counter" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Question 1" VerticalAlignment="Top" Margin="550,42,194,0" Height="36" Width="175" FontSize="24" FontWeight="Bold" FontStyle="Italic" Foreground="Teal"/>
         <TextBlock Name ="QuestionText" TextWrapping="Wrap" VerticalAlignment="Top" Height="230" Margin="0,146,0,0" TextAlignment="Center" FontSize="36" FontWeight="Bold" Grid.ColumnSpan="2"><Run FlowDirection="RightToLeft"/><LineBreak/><Run FlowDirection="RightToLeft"/></TextBlock>
         <Grid HorizontalAlignment="Left" Height="106" VerticalAlignment="Top" Width="106" Margin="233.8,17,0,0" Grid.Column="1">
             <Ellipse HorizontalAlignment="Left" Height="106" Stroke="Black" VerticalAlignment="Top" Width="106" Grid.Column="1"  Fill="Teal" StrokeThickness="0"/>

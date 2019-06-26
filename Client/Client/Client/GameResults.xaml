@@ -18,6 +18,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Leaderboard" VerticalAlignment="Top" Height="103" Width="766" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Leaderboard" VerticalAlignment="Top" Height="103" Width="766" Margin="33,32,0,0" FontSize="72" FontWeight="Bold" TextDecorations="{x:Null}" FontStyle="Italic" Foreground="Teal"/>
     </Grid>
 </Page>
